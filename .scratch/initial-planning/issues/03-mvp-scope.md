@@ -13,8 +13,8 @@ as there is a build system, a window, and the bet-on libraries are exercised.)
 **"Plop & Export"** — the smallest executable that *proves the two risky libraries*:
 
 1. **Plop dots** — click on the SVG canvas to place a term-dot (`<circle>`).
-2. **Math label** — a text input; its contents are typeset by **KaTeX** and placed on the
-   canvas (proves math-into-SVG).
+2. **Math label** — a text input; its contents are typeset by **MathJax** to SVG `<path>`s and
+   placed on the canvas (proves math-into-SVG, as real geometry — no `<foreignObject>`).
 3. **Export SVG** — a button serializes the canvas `<svg>` to a standalone, valid `.svg` file
    and downloads it (proves the vector-output pipeline).
 

@@ -16,7 +16,7 @@ hand-built.
 
 The decisive win is the **editor experience plus on-screen math**. The web/SVG world has by far
 the richest ecosystem for *interactive* vector editing (drag, hit-test, marquee-select), and
-**KaTeX** gives LaTeX-quality on-screen labels for free. SVG doubles as the immediate screen /
+**MathJax** gives LaTeX-quality on-screen labels for free (rendered to SVG `<path>`s). SVG doubles as the immediate screen /
 web vector output. In a pure-native toolkit all of that is hand-built.
 
 Options weighed:
@@ -36,7 +36,7 @@ wrapper can reintroduce a Rust shell without disturbing this decision.
 > **Superseded rationale — see [output formats, ticket 07](./07-output-formats.md).** This
 > ticket originally rested on "vector *export* is free, because SVG = serialize the DOM." Ticket
 > 07 retired that leg: paper-grade vector output is a dedicated **TikZ** backend (serialized
-> DOM-SVG + KaTeX is only *close* to paper typography), and emitting TikZ is plain code-gen —
+> DOM-SVG + MathJax is only *close* to paper typography), and emitting TikZ is plain code-gen —
 > equally easy from any language, so it does **not** favor TS over Rust. The decision therefore
 > stands on the *editor + on-screen-math* ecosystem alone, and the model stays
 > render-backend-agnostic so SVG (screen) and TikZ (paper) both emit from it.

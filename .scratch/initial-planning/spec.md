@@ -2,7 +2,7 @@
 
 The first executable for the **HoTT Diagram Editor**. Deliberately tiny: it exists to stand up
 the build system and a window, and to **prove the two libraries that carry real risk** —
-KaTeX (math into SVG) and SVG serialization (clean vector export). Everything else is deferred.
+MathJax (LaTeX math → SVG paths) and SVG serialization (clean vector export). Everything else is deferred.
 
 Parent effort: [./map.md](./map.md) · Decisions: [01](./issues/01-rendering-layer.md) ·
 [02](./issues/02-mvp-stack.md) · [03](./issues/03-mvp-scope.md) ·
@@ -15,7 +15,7 @@ Parent effort: [./map.md](./map.md) · Decisions: [01](./issues/01-rendering-lay
 - **Package manager / toolchain:** **pnpm**, pinned with **mise** (`mise.toml`).
 - **Build / dev server:** Vite
 - **Rendering:** SVG in the DOM (no canvas, no UI framework)
-- **Math:** KaTeX
+- **Math:** MathJax (SVG output, `fontCache: 'none'`) — LaTeX in, glyph `<path>`s out
 - **Lint / format / test / hooks:** oxlint · Prettier · Vitest · Lefthook.
 - **Run:** `pnpm dev` → a browser tab (the "window"); `pnpm build` (= `tsc --noEmit &&
   vite build`) → static bundle.
@@ -31,9 +31,9 @@ Parent effort: [./map.md](./map.md) · Decisions: [01](./issues/01-rendering-lay
 2. **Plop dots.** Clicking empty canvas places a term-dot — an SVG `<circle>` — at the click
    point. Dots accumulate.
 3. **A math label.** A text input takes LaTeX source (e.g. `\Sigma_{(x:A)} P(x)`). On submit,
-   KaTeX typesets it and the result is placed on the canvas. This proves math renders *into*
-   the SVG we will export.
-4. **Export SVG.** A button serializes the canvas `<svg>` — including the KaTeX output — to a
+   MathJax typesets it to SVG `<path>`s, dropped onto the canvas as a `<g>`. This proves math
+   renders *into* the SVG we will export — as real geometry, no `<foreignObject>`.
+4. **Export SVG.** A button serializes the canvas `<svg>` — including the MathJax path output — to a
    standalone, valid `.svg` file and triggers a download.
 
 ## Acceptance
@@ -50,9 +50,9 @@ Parent effort: [./map.md](./map.md) · Decisions: [01](./issues/01-rendering-lay
 Arrows & role-colors · selection / move / drag · undo/redo · the theorem-highlight ·
 saving/loading diagrams · any UI framework · Tauri desktop packaging.
 
-## Known build-time detail to settle during implementation
+## Math → paths (settled)
 
-KaTeX renders to HTML(+MathML) by default. To live *inside* exported SVG it must be embedded
-via `<foreignObject>` (simplest) or rendered to SVG paths. Pick during the build — it's an
-implementation detail, not a design decision, and it is the one thing worth verifying early
-because it's the crux of "does the whole pipeline hold together."
+MathJax's **SVG output** (`fontCache: 'none'`) renders each glyph as an inline `<path>`, so a
+label goes onto the canvas as real geometry — **never `<foreignObject>`**. That makes the
+exported `.svg` truly standalone (identical in a browser, Inkscape, or a PDF converter) and
+retires the one pipeline risk KaTeX would have carried.

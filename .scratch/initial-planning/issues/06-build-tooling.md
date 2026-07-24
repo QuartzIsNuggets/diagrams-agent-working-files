@@ -18,7 +18,7 @@ Locked toolchain (2026):
 | Toolchain pinning  | **mise** (`mise.toml` pins Node + pnpm)                             |
 | Build / dev server | **Vite** (stable/Rollup; rolldown-vite flippable later)             |
 | Language           | **TypeScript**, pure **ESM**, bundler resolution                    |
-| Math               | **KaTeX**                                                           |
+| Math               | **MathJax** (SVG output → glyph `<path>`s)                          |
 | Lint               | **oxlint** (Rust; fast)                                             |
 | Format             | **Prettier** (no oxlint/Prettier conflict — one lints, one formats) |
 | Test               | **Vitest**                                                          |
@@ -55,10 +55,9 @@ pnpm = "10"   # pin exact e.g. "10.6.0"
     "prepare": "lefthook install"
   },
   "dependencies": {
-    "katex": "^0"
+    "@mathjax/src": "^4"
   },
   "devDependencies": {
-    "@types/katex": "^0",
     "lefthook": "^1",
     "oxlint": "^1",
     "prettier": "^3",
@@ -69,7 +68,25 @@ pnpm = "10"   # pin exact e.g. "10.6.0"
 }
 ```
 (No `packageManager`/corepack field — mise owns the toolchain. Pin exact ^-ranges after first
-install from `pnpm-lock.yaml`.)
+install from `pnpm-lock.yaml`. `@mathjax/src` ships its own type declarations — no `@types`
+package needed.)
+
+**Math font (v4 = `@mathjax/src`, verified 4.1.3):** v4 is required for font choice — v3's SVG
+output is locked to one TeX font. The **default** font `@mathjax/mathjax-newcm-font` (New
+Computer Modern ≈ modern LaTeX) is pulled in automatically by `@mathjax/src`. For a
+**different** font, `pnpm add @mathjax/mathjax-<name>-font` and pass its font **class** (not a
+string) to the SVG jax's `fontData` option:
+
+```ts
+import { SVG } from "@mathjax/src/js/output/svg.js";
+import { MathJaxStix2Font } from "@mathjax/mathjax-stix2-font/js/svg.js";
+const svg = new SVG({ fontData: MathJaxStix2Font, fontCache: "none" });
+```
+
+Fonts: newcm (default), tex, stix2, modern, fira, schola, bonum, pagella, termes, asana, dejavu.
+Governs on-screen + SVG export only — paper output is TikZ, re-typeset by the document. Full
+wiring (async `loadDynamicFiles()`, `<svg>` extraction) + citations:
+[research/mathjax-v4-svg-font.md](../research/mathjax-v4-svg-font.md).
 
 **`tsconfig.json`** — the "module style" block + Agda-brain strictness, self-contained:
 ```jsonc
@@ -156,7 +173,7 @@ diagrams/
 └── src/
     ├── main.ts                # app entry / wiring
     ├── canvas.ts              # the <svg> canvas + plop-a-dot
-    ├── katex-label.ts         # LaTeX → KaTeX → SVG-embeddable node
+    ├── mathjax-label.ts       # LaTeX → MathJax SVG (paths) → canvas <g>
     └── export-svg.ts          # serialize <svg> → standalone .svg download
 ```
 

@@ -20,9 +20,10 @@ below; the rest is fog for future sessions.
   - `refl` has **no special glyph** — it's a black self-path (loop) labelled "refl" (may change);
   - **≈** = a **homotopy**;
   - **purple** currently marks *what a theorem proves* — a weak convention, to be redesigned.
-- **Standing tech decision (locked):** TypeScript + SVG (DOM) + Vite + KaTeX. Rendering in
-  SVG makes the two hard requirements — *vector export* and *dense math labels* — **free**.
-  Rust was preferred by the user but consciously set aside for simplicity (see ticket 01).
+- **Standing tech decision (locked):** TypeScript + SVG (DOM) + Vite + **MathJax** (SVG output
+  → glyph `<path>`s). The web/SVG world gives the interactive editor + on-screen math cheaply;
+  MathJax renders LaTeX labels to real paths, so they embed in the canvas and in exports with
+  no `<foreignObject>`. Rust was preferred but set aside for simplicity (see ticket 01).
 - **Skills to consult each session:** `/grilling` + `/domain-modeling` (default);
   `/prototype` for "how should it look / behave" questions; `/research` for external facts.
 - **Delivery:** browser tab now; Tauri-wrappable to a native desktop window later, ≈free.
@@ -35,13 +36,13 @@ below; the rest is fog for future sessions.
 
 - [Rendering layer & language → TS + SVG (web)](./issues/01-rendering-layer.md) — chose
   TypeScript + SVG over Rust-native / Rust-WASM for the richest *interactive-editing* ecosystem
-  and free on-screen KaTeX math; Rust set aside for simplicity. (Vector *export* is no longer a
+  and free on-screen MathJax math; Rust set aside for simplicity. (Vector *export* is no longer a
   reason — paper output is TikZ, ticket 07, and language-neutral.)
-- [MVP stack → Vite + KaTeX, no framework yet](./issues/02-mvp-stack.md) — Vite for
-  build + dev-server, KaTeX for math labels, plain TS with no UI framework until
-  toolbars/undo demand one.
+- [MVP stack → Vite + MathJax, no framework yet](./issues/02-mvp-stack.md) — Vite for
+  build + dev-server, MathJax (SVG output → paths) for math labels, plain TS with no UI
+  framework until toolbars/undo demand one.
 - [MVP scope → "Plop & Export"](./issues/03-mvp-scope.md) — click to plop term-dots · a
-  KaTeX-typeset label · an Export-SVG button: the smallest executable that proves the two
+  MathJax-typeset label · an Export-SVG button: the smallest executable that proves the two
   risky libraries. Full build spec: [./spec.md](./spec.md).
 - [Build system & tooling](./issues/06-build-tooling.md) — pnpm + mise · Vite · pure-ESM
   bundler-resolution TS with max-strict tsconfig · oxlint + Prettier · Vitest · Lefthook.
