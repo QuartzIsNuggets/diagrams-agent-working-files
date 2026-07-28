@@ -13,6 +13,22 @@ Rule of thumb: **read and change code in `../`; write every agent artifact here.
 
 Paths in the config files below (`.scratch/`, `docs/adr/`, `CONTEXT.md`, …) are relative to **this submodule root**, since this is where agent output is versioned.
 
+## Licensing — the code project is REUSE-compliant
+
+The code project in `../` is MIT-licensed to Alexis Ronez and follows the [REUSE](https://reuse.software) spec. **This submodule is deliberately not covered** — don't add licence headers here.
+
+When you add a file to `../`, give it an SPDX header in a comment:
+
+```
+SPDX-FileCopyrightText: <year> Alexis Ronez <alexis.ronez@mailfence.com>
+
+SPDX-License-Identifier: MIT
+```
+
+Use a `.license` sidecar **only** where comments are impossible — currently `package.json`, `.prettierrc.json` and `pnpm-lock.yaml`. Don't assume `.json` means no comments: `tsconfig.json` and `.oxlintrc.json` are JSONC and carry inline headers.
+
+Run `reuse lint` from `../` to check.
+
 ## Agent skills
 
 ### Issue tracker
