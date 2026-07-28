@@ -25,3 +25,5 @@ we will later export, as vector paths. Settled technical constraints (see planni
 - [ ] The rendered label is glyph `<path>`s — no `<foreignObject>`, no HTML/MathML leaked into the canvas
 - [ ] `fontCache: 'none'` is set, so glyph geometry is self-contained (verified in the DOM output)
 - [ ] Async MathJax initialisation is awaited so the first submit renders reliably
+
+## Choices

@@ -15,3 +15,5 @@ there's real content (dots + math paths) to export.
 - [ ] The serialized output is a valid, self-contained SVG document (correct `xmlns`, no external references)
 - [ ] Opened standalone, the file renders the **dots and** the typeset label as vector graphics
 - [ ] The exported math matches on-screen (glyph paths carried over intact; no missing `<defs>`/glyphs from font caching)
+
+## Choices

@@ -15,10 +15,10 @@ verify. `tsc` type-checks only; Vite transpiles.
 
 **Blocked by:** None — can start immediately.
 
-**Status:** ready-for-agent
+**Status:** resolved — implemented on branch `session-00` (2026-07-24).
 
-- [ ] All config files from planning ticket 06 exist in `../` and `mise install && pnpm install` reproduces the toolchain
-- [ ] `pnpm dev` opens a browser tab with a **visible, full-viewport `<svg>`** filling the window
-- [ ] `pnpm build` succeeds (type-check + bundle)
-- [ ] `pnpm lint` is clean
-- [ ] Lefthook pre-commit hook is installed (format + lint + typecheck run on commit)
+- [x] All config files from planning ticket 06 exist in `../` and `mise install && pnpm install` reproduces the toolchain
+- [x] `pnpm dev` opens a browser tab with a **visible, full-viewport `<svg>`** filling the window — dev server serves the wired page and `<svg class="canvas">` is appended at runtime; verified structurally and in the built bundle. Pixels not screenshotted (no headless browser here) — the one open item behind `ready-for-human`.
+- [x] `pnpm build` succeeds (type-check + bundle)
+- [x] `pnpm lint` is clean
+- [x] Lefthook pre-commit hook is installed (format + lint + typecheck run on commit)

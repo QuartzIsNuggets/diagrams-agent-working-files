@@ -31,9 +31,10 @@ Locked toolchain (2026):
 
 **`mise.toml`** — pin exact versions once, `mise install` reproduces them:
 ```toml
+# Versions pinned exact for a reproducible toolchain (bump deliberately).
 [tools]
-node = "24"   # current LTS; pin exact e.g. "24.4.1" for full reproducibility
-pnpm = "10"   # pin exact e.g. "10.6.0"
+node = "24.18.0"
+pnpm = "10.34.5"
 ```
 
 **`package.json`**:
@@ -54,6 +55,11 @@ pnpm = "10"   # pin exact e.g. "10.6.0"
     "test": "vitest",
     "prepare": "lefthook install"
   },
+  // Caret-major only (^N). The committed lockfile pins exact installs, so the range only sets
+  // pnpm-update latitude; a tighter floor (^<resolved>) is inert (highest satisfying version wins
+  // and upstream never rolls back) and would only matter under a peer/co-dependency upper bound —
+  // none today. Revisit if a peer constraint appears. In the real (strict-JSON) package.json this
+  // lives as a tool-ignored "//dependencies" key.
   "dependencies": {
     "@mathjax/src": "^4"
   },
@@ -67,9 +73,10 @@ pnpm = "10"   # pin exact e.g. "10.6.0"
   }
 }
 ```
-(No `packageManager`/corepack field — mise owns the toolchain. Pin exact ^-ranges after first
-install from `pnpm-lock.yaml`. `@mathjax/src` ships its own type declarations — no `@types`
-package needed.)
+(No `packageManager`/corepack field — mise owns the toolchain. Ranges stay **caret-major** (`^N`):
+the committed `pnpm-lock.yaml` already pins exact installs, so tightening the floor to `^<resolved>`
+is inert unless a peer/co-dependency upper bound appears — see the `//dependencies` note in the
+block above. `@mathjax/src` ships its own type declarations — no `@types` package needed.)
 
 **Math font (v4 = `@mathjax/src`, verified 4.1.3):** v4 is required for font choice — v3's SVG
 output is locked to one TeX font. The **default** font `@mathjax/mathjax-newcm-font` (New

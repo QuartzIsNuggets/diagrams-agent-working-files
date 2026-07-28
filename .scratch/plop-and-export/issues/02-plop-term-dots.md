@@ -11,3 +11,5 @@ visible on screen. No selection, moving, or removal — just plop-and-persist.
 - [ ] Clicking empty canvas places a `<circle>` centred at the click point
 - [ ] Multiple clicks accumulate multiple dots; earlier dots persist
 - [ ] Dots survive as real SVG children of the canvas (present in the DOM, not redrawn imperatively each frame)
+
+## Choices
