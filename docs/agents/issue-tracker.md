@@ -7,8 +7,15 @@ Issues and specs (you may know a spec as a PRD) live as markdown files in `.scra
 - One feature per directory: `.scratch/<feature-slug>/`
 - The spec is `.scratch/<feature-slug>/spec.md`
 - Implementation issues are one file per ticket at `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01` — never a single combined tickets file
-- Triage state is recorded as a `Status:` line near the top of each issue file (see `triage-labels.md` for the role strings)
+- State is recorded as a `Status:` line near the top of each issue file (see Lifecycle below)
+- Forks taken while implementing are recorded under a `## Choices` heading, after the acceptance criteria and before any comments
 - Comments and conversation history append to the bottom of the file under a `## Comments` heading
+
+## Lifecycle
+
+The `Status:` line of an implementation ticket moves `ready-for-agent` → `claimed` → `resolved`, driven by `/implement`. Before implementation starts, the same line carries a triage role from `triage-labels.md`.
+
+A `Blocked by:` line clears only when every file it names reads `resolved`. `ready-for-human` is a **hold** — work that landed but still wants the maintainer — so it leaves the tickets downstream blocked until a human looks.
 
 ## When a skill says "publish to the issue tracker"
 
