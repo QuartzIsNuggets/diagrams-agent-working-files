@@ -13,6 +13,7 @@ there's real content (dots + math paths) to export.
 
 - [ ] A visible Export button serializes the live canvas `<svg>` and downloads it as a `.svg` file
 - [ ] The serialized output is a valid, self-contained SVG document (correct `xmlns`, no external references)
+- [ ] The serialized output carries its own `width`, `height` **and `viewBox`** — the live canvas has none, so a bare `outerHTML` is a document with no dimensions at all
 - [ ] Opened standalone, the file renders the **dots and** the typeset label as vector graphics
 - [ ] The exported math matches on-screen (glyph paths carried over intact; no missing `<defs>`/glyphs from font caching)
 
