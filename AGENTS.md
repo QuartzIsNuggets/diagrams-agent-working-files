@@ -2,7 +2,15 @@
 
 Guidance for agents and engineering skills working in this repo.
 
-## Repository layout — read this first
+## A philosophy - important
+
+Agents want to produce. By default they are driven to produce text, be it in prompt chat or in files.
+
+Mathematics study abstractions by carefully expressing them in the most straightforward, natural and **concise** way in the language of the ambient theory, then by connecting them or composing them to form some new results. This leads to **no redundancy**: an object or result is either strictly new to the theory or expressed as composition of previous ones.
+
+Here, the ambient theory is the project. Apply this philosophy: whatever you work towards, you should be driven to produce **new things** in the sense taken from mathematics. Your criteria should be "Have I provided something new ?", and something new is either something never seen in the project, or a properly linked combination of things already in the project.
+
+## Repository layout
 
 This directory (`agents-working-files/`) is **not** the code project. It is a git submodule whose only job is to **store and version the intermediate files agents produce** while working.
 
