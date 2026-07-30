@@ -5,21 +5,18 @@
 ## Destination
 
 A working, bespoke GUI editor for the user's **HoTT proof-diagram notation** — where the
-first-class objects are *typed* (**box = type**, **dot = term**, **arrow = morphism/path**
-with a role-encoding color) — that exports clean **vector graphics**. This map charts the way
+first-class objects are *typed* (boxes, term-dots, paths and arrows, with a role-encoding
+colour — see [CONTEXT.md](../../CONTEXT.md)) — that exports clean **vector graphics**. This map charts the way
 from nothing to that editor. The first slice (MVP tech stack + minimal executable) is resolved
 below; the rest is fog for future sessions.
 
 ## Notes
 
 - **Domain:** Homotopy Type Theory (HoTT). The reference diagrams (`goal.jpg` in the repo
-  root) are the §2.6 / §2.7 path & transport lemmas for ×- and Σ-types. Visual vocabulary:
-  - **box = type / context**, **dot = term** inside it, **arrow = map**;
-  - arrow **color = role**: **black = paths**, **red = in-theory functions**,
-    **green = built-in rules** (Formal Type Theory appendix);
-  - `refl` has **no special glyph** — it's a black self-path (loop) labelled "refl" (may change);
-  - **≈** = a **homotopy**;
-  - **purple** currently marks *what a theorem proves* — a weak convention, to be redesigned.
+  root) are the §2.6 / §2.7 path & transport lemmas for ×- and Σ-types. The visual vocabulary —
+  box, term-dot, path, arrow, role-colour, `refl`, homotopy, the theorem-conclusion highlight —
+  is defined in [CONTEXT.md](../../CONTEXT.md#notation); what remains open there is
+  [ticket 04](./issues/04-notation-domain-model.md).
 - **Standing tech decision (locked):** TypeScript + SVG (DOM) + Vite + **MathJax** (SVG output
   → glyph `<path>`s). The web/SVG world gives the interactive editor + on-screen math cheaply;
   MathJax renders LaTeX labels to real paths, so they embed in the canvas and in exports with
@@ -57,8 +54,10 @@ below; the rest is fog for future sessions.
 <!-- fog toward the destination — in scope, not yet sharp enough to fully ticket -->
 
 - **Complete notation domain model** — being charted next in
-  [Notation domain model](./issues/04-notation-domain-model.md): the full arrow taxonomy &
-  role-colors, box/term semantics, `refl` self-paths, and the `≈` homotopy (between functions).
+  [Notation domain model](./issues/04-notation-domain-model.md). The vocabulary is settled and
+  written down ([CONTEXT.md](../../CONTEXT.md#notation)); what is still open is whether the
+  role-colours are the complete taxonomy, how a homotopy is anchored, and whether equalities
+  between paths are drawn at all.
 - **Theorem-conclusion highlight** — replacing the weak purple convention; ticketed
   ([Theorem-highlight redesign](./issues/05-theorem-highlight-redesign.md)), blocked on the
   domain model.
