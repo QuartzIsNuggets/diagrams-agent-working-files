@@ -5,8 +5,9 @@
 ## Destination
 
 A working, bespoke GUI editor for the user's **HoTT proof-diagram notation** — where the
-first-class objects are *typed* (boxes, term-dots, paths and arrows, with a role-encoding
-colour — see [CONTEXT.md](../../CONTEXT.md)) — that exports clean **vector graphics**. This map charts the way
+first-class objects are *typed* (boxes, term-dots, paths and arrows, each arrow carrying a
+**role** the renderer turns into ink — see [CONTEXT.md](../../CONTEXT.md)) — that exports clean
+**vector graphics**. This map charts the way
 from nothing to that editor. The first slice (MVP tech stack + minimal executable) is resolved
 below; the rest is fog for future sessions.
 
@@ -14,9 +15,13 @@ below; the rest is fog for future sessions.
 
 - **Domain:** Homotopy Type Theory (HoTT). The reference diagrams (`goal.jpg` in the repo
   root) are the §2.6 / §2.7 path & transport lemmas for ×- and Σ-types. The visual vocabulary —
-  box, term-dot, path, arrow, role-colour, `refl`, homotopy, the theorem-conclusion highlight —
-  is defined in [CONTEXT.md](../../CONTEXT.md#notation); what remains open there is
-  [ticket 04](./issues/04-notation-domain-model.md).
+  box, term-dot, anchor, kind, path, arrow, role, `refl`, equivalence, layer, conclusion — is
+  **settled** and defined in [CONTEXT.md](../../CONTEXT.md#notation)
+  ([ticket 04](./issues/04-notation-domain-model.md)). Read it before touching the model.
+- **Standing architectural decisions:** [ADR 1](../../docs/adr/0001-diagram-draws-checking-layer-interprets.md)
+  (the diagram draws, a checking layer interprets) and
+  [ADR 2](../../docs/adr/0002-geometry-is-abstract-and-derived.md) (geometry abstract, shape
+  derived). Both bind every later ticket.
 - **Standing tech decision (locked):** TypeScript + SVG (DOM) + Vite + **MathJax** (SVG output
   → glyph `<path>`s). The web/SVG world gives the interactive editor + on-screen math cheaply;
   MathJax renders LaTeX labels to real paths, so they embed in the canvas and in exports with
@@ -48,28 +53,33 @@ below; the rest is fog for future sessions.
   screen/web, raw TikZ for papers (labels re-typeset by the including document → exact math
   fidelity); PDF-direct ruled out. SVG & TikZ are two backends over one render-agnostic model;
   the LaTeX label string feeds both.
+- [Notation domain model → settled](./issues/04-notation-domain-model.md) — the diagram records
+  *kinds*, not mathematics, with a **checking layer** outside rendering
+  ([ADR 1](../../docs/adr/0001-diagram-draws-checking-layer-interprets.md)); arrows are
+  many-to-one; an **anchor** is a term-dot, path *or* arrow, and nothing attaches to a box;
+  **kind** and **role** split apart, colour becoming each backend's mapping; geometry abstract
+  and **shape derived** ([ADR 2](../../docs/adr/0002-geometry-is-abstract-and-derived.md));
+  **conclusion** a property on paths, in-theory functions and equivalences. Glossary in
+  [CONTEXT.md](../../CONTEXT.md). Corrected along the way: `≈` is an **equivalence** (`qinv`),
+  never a homotopy.
 
 ## Not yet specified
 
 <!-- fog toward the destination — in scope, not yet sharp enough to fully ticket -->
 
-- **Complete notation domain model** — being charted next in
-  [Notation domain model](./issues/04-notation-domain-model.md). The vocabulary is settled and
-  written down ([CONTEXT.md](../../CONTEXT.md#notation)); what is still open is whether the
-  role-colours are the complete taxonomy, how a homotopy is anchored, and whether equalities
-  between paths are drawn at all.
-- **Theorem-conclusion highlight** — replacing the weak purple convention; ticketed
-  ([Theorem-highlight redesign](./issues/05-theorem-highlight-redesign.md)), blocked on the
-  domain model.
-- **Interaction / UX** — drawing arrows between dots, selection / move, undo/redo, canvas
-  navigation. Not yet designed.
-- **Arrow routing** — how arrows bend / curve / avoid boxes (the diagrams use hand-drawn
-  curves and self-loops).
+- **The checking layer** — [ADR 1](../../docs/adr/0001-diagram-draws-checking-layer-interprets.md)
+  establishes the seam and defers the build. What it enforces, when it earns its place, and
+  whether it belongs to *this* destination at all are open.
+- **Interaction / UX beyond creating an edge** — selection, move, undo/redo, canvas navigation.
+  The *creating* slice has graduated to
+  [Drawing onto an anchor](./issues/09-targeting-anchors.md); the rest is not yet designed.
+- **Manual curvature & obstacle avoidance** — shape is derived for now, straight or fanned
+  ([ADR 2](../../docs/adr/0002-geometry-is-abstract-and-derived.md)), so 2.6.5's hand-drawn
+  curves render straight. Whether a hand override arrives, and whether edges should ever route
+  around boxes, is deferred.
 - **TikZ emitter (implementation)** — direction decided (SVG + TikZ, ticket 07); building the
-  model→TikZ backend (role-colors → styles, curves → Bézier control points) is future
+  model→TikZ backend (roles → styles, derived curvature → Bézier control points) is future
   execution work, deferred past the MVP.
-- **Persistence / file format** — how a diagram is saved & reopened (a serialization of the
-  domain model; blocked on it).
 - **Framework adoption** — the trigger point where plain TS stops paying its way (toolbars,
   panels, undo) and a lean reactive framework (Solid / Svelte) earns its place.
 - **Native desktop packaging** — wrapping the web app in Tauri.
@@ -80,3 +90,14 @@ below; the rest is fog for future sessions.
   ([ticket 01](./issues/01-rendering-layer.md)); returns only if the destination is redrawn.
 - **A generic commutative-diagram / non-HoTT editor** — this tool is bespoke to the user's
   typed notation; general-purpose diagramming is not a goal.
+- **Relating drawings across ∞-groupoid layers** — 2.6.5 is one theorem drawn twice, at layer 0
+  and layer 1. Both drawings are legal, but one canvas holds **one** diagram at one layer, and
+  the editor does not link the two or derive one from the other
+  ([ticket 04](./issues/04-notation-domain-model.md)). Multiple diagrams per document goes with
+  it.
+- **A semantic model / HoTT elaborator** — parsing type expressions so the editor could reject an
+  ill-typed drawing was weighed against the drawing-only model and set aside
+  ([ticket 04](./issues/04-notation-domain-model.md),
+  [ADR 1](../../docs/adr/0001-diagram-draws-checking-layer-interprets.md)); type expressions stay
+  opaque LaTeX. Distinct from the lightweight **checking layer** under *Not yet specified*, which
+  reads the recorded structure without understanding the mathematics.
