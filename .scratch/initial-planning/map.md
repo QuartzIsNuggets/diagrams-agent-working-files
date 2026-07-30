@@ -53,6 +53,13 @@ below; the rest is fog for future sessions.
   screen/web, raw TikZ for papers (labels re-typeset by the including document → exact math
   fidelity); PDF-direct ruled out. SVG & TikZ are two backends over one render-agnostic model;
   the LaTeX label string feeds both.
+- [Theorem-conclusion highlight redesign → a halo](./issues/05-theorem-highlight-redesign.md) —
+  the conclusion is marked by the element's **own geometry redrawn wide and pale behind it**, a
+  highlighter swept along it. Replaces purple's three tricks (parallel line, underline, third
+  wave) with **one rule** that fits a path, a path-between-paths, a red in-theory function and the
+  `≈` glyph alike; the element keeps its own ink, so the mark stops competing with the hue channel
+  that **role** owns. Derived, not stored ([ADR 2](../../docs/adr/0002-geometry-is-abstract-and-derived.md));
+  the wash colour stays each backend's choice.
 - [Notation domain model → settled](./issues/04-notation-domain-model.md) — the diagram records
   *kinds*, not mathematics, with a **checking layer** outside rendering
   ([ADR 1](../../docs/adr/0001-diagram-draws-checking-layer-interprets.md)); arrows are
@@ -78,7 +85,8 @@ below; the rest is fog for future sessions.
   curves render straight. Whether a hand override arrives, and whether edges should ever route
   around boxes, is deferred.
 - **TikZ emitter (implementation)** — direction decided (SVG + TikZ, ticket 07); building the
-  model→TikZ backend (roles → styles, derived curvature → Bézier control points) is future
+  model→TikZ backend (roles → styles, derived curvature → Bézier control points, the conclusion
+  halo as a `preaction={draw, line width=…, opacity=…}` casing on the same path) is future
   execution work, deferred past the MVP.
 - **Framework adoption** — the trigger point where plain TS stops paying its way (toolbars,
   panels, undo) and a lean reactive framework (Solid / Svelte) earns its place.

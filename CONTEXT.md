@@ -80,12 +80,20 @@ become term-dots — for example 2.6.5 is drawn both ways.
 
 **Conclusion**:
 The property marking an element as what the theorem proves. It belongs to a path, an in-theory
-function, or an equivalence — never to a built-in rule. The property is recorded; how it is
-drawn is a render backend's business and is being redesigned
-([ticket 05](./.scratch/initial-planning/issues/05-theorem-highlight-redesign.md)) — purple
-today, parallel to the marked path in 2.7.1, underlining it in 2.6.5, the third wave of the `≈`
-in 2.7.2.
+function, or an equivalence — never to a built-in rule. The property is recorded; how it is drawn
+is a render backend's business, and every backend draws it as a [halo](#halo)
+([ticket 05](./.scratch/initial-planning/issues/05-theorem-highlight-redesign.md)).
 _Avoid_: theorem-conclusion highlight — that named the ink, not the meaning
+
+**Halo**:
+How a [conclusion](#conclusion) is drawn: the element's own geometry redrawn wide and pale
+*behind* it, as though a highlighter had been swept along it. One rule for every carrier — a
+path, a path between two paths, an arrow and the `≈` glyph all take it unchanged — where the
+purple it replaces needed a parallel line, an underline and a third wave. It leaves the element's
+own ink alone, so the mark never competes with the hue channel [role](#role) owns, and it is
+derived from the geometry rather than stored. The wash colour is each backend's own choice; the
+form is not.
+_Avoid_: highlight, glow — the first named the old ink, the second suggests an SVG filter
 
 ## Editor
 
