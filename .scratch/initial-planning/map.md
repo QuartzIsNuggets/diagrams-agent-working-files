@@ -31,6 +31,7 @@ below; the rest is fog for future sessions.
 - **Skills to consult each session:** `/grilling` + `/domain-modeling` (default);
   `/prototype` for "how should it look / behave" questions; `/research` for external facts.
 - **Delivery: two surfaces, and Tauri is on the route** ([ticket 10](./issues/10-save-open-mechanism.md)).
+  **Surface** is now a defined term ([CONTEXT.md](../../CONTEXT.md#surface)).
   The **web** build opens, edits and exports but never writes; the **desktop app** is the only
   writer, because Firefox — the maintainer's browser — has neither the File System Access pickers
   nor PWA install. Tauri is load-bearing, not the ≈free wrapper this line used to claim, and the one
@@ -107,6 +108,18 @@ below; the rest is fog for future sessions.
   lifecycles so that Save could lie differently in each. The format's *reader* stays shared; only
   the writer is app-side. **OPFS ruled out** — invisible to user and git, and evictable.
 
+- [Getting the MVP onto Tauri → the shell, and the app as writer](../tauri-shell/spec.md) — the
+  half of Tauri that does not wait for the model. Export, not save, is the first caller: the MVP's
+  only file-emitting feature is `<a download>`, which inside a Tauri window has no browser chrome
+  behind it, so wrapping the MVP *without* rewiring Export would make the app **worse** than the tab.
+  Hence a **writer** seam promising only "put these bytes where the user chose", with export and save
+  as callers over it and a discriminated result naming what each surface can know
+  ([ADR 4](../../docs/adr/0004-export-and-save-share-a-writer.md)) — deliberately not ticket 10's
+  `persistence`, a word ADR 3 reserves for round-tripping. `pnpm dev` **becomes the Tauri window**
+  (browser loop kept as `pnpm dev:web`), which retires the habit hazard below rather than living with
+  it. Rust pinned in `mise.toml`; JSON5/TOML config so SPDX headers stay inline; no packaging, no
+  icons, placeholder identity.
+
 ## Not yet specified
 
 <!-- fog toward the destination — in scope, not yet sharp enough to fully ticket -->
@@ -139,15 +152,14 @@ below; the rest is fog for future sessions.
   execution work, deferred past the MVP.
 - **Framework adoption** — the trigger point where plain TS stops paying its way (toolbars,
   panels, undo) and a lean reactive framework (Solid / Svelte) earns its place.
-- **The Tauri shell (implementation)** — no longer a *whether*
-  ([ticket 10](./issues/10-save-open-mechanism.md)), and the build itself is execution work:
-  `isTauri()` behind a dynamic `import()`, the dialog→fs runtime-scope write path, a capabilities
-  file, and the `persistence` seam the web build stops at. What stays a question is everything
-  around it — **how the app is distributed** (deb/rpm at 2–6 MB against an AppImage at 70+ MB
-  that raises the glibc floor, or neither, if the only user builds from source), and **what
-  testing in a second engine costs** — the app renders in WebKitGTK both under `tauri dev` and when
-  shipped, while the maintainer's habitual `pnpm dev` loop is Firefox on the *web* build, so nothing
-  about the app is exercised until the Tauri window is opened.
+- **The Tauri shell** — no longer fog: specced and ticketed as
+  [the "app writes" effort](../tauri-shell/spec.md). The habit hazard this bullet used to name is
+  answered by making `pnpm dev` the Tauri window. Two questions it deliberately leaves open:
+  **how the app is distributed** (deb/rpm at 2–6 MB against an AppImage at 70+ MB that raises the
+  glibc floor, or neither, if the only user builds from source), which waits until a second machine
+  exists; and **what automated testing in WebKitGTK is worth** — `WebKitWebDriver` is installed and
+  `tauri-driver` is one `cargo install` away, but WebDriver drives the webview and a native file
+  dialog is a GTK window outside it, so the part most worth proving is the part it cannot see.
 - **What the app has that a browser tab cannot** — the niceties Tauri makes available once it is
   there and that no web build could offer: opening a `.hott.json` from the file manager by
   association, a recent-documents list holding real paths, a CLI entry point, watching the file
@@ -155,7 +167,9 @@ below; the rest is fog for future sessions.
 - **The in-memory model (implementation)** — [ADR 3](../../docs/adr/0003-a-save-records-the-diagram.md)
   forces a real model into existence, since the MVP has none (the DOM is the document). Its shape
   is decided — the schema in [ticket 08](./issues/08-persistence-format.md) — but building it, the
-  load-time validator, and the round-trip test is execution work not yet sliced.
+  load-time validator, and the round-trip test is execution work not yet sliced. Save, when it
+  comes, adds a reader and a remembered path **above** the writer seam
+  ([ADR 4](../../docs/adr/0004-export-and-save-share-a-writer.md)), not beneath it.
 
 ## Out of scope
 

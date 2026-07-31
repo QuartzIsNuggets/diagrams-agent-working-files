@@ -190,11 +190,20 @@ _Avoid_: serialize — that names the mechanism, not the promise
 Emitting a diagram as a file that leaves the editor behind. One-way: an export is never reopened,
 because the ink it emits has lost what the model holds — a role's colour cannot be read back as a
 role, a halo cannot be told from a wide pale path, and glyph outlines are not the LaTeX they were
-typeset from.
+typeset from. One-way on every [surface](#surface); how the bytes leave — handed to a browser, or
+written to a path the user chose — is the surface's business and not the export's.
 
 **Standalone**:
 The property an export must have: everything needed to render it travels with it — no page
 styling, no font reference, nothing pointing back at the document that produced it.
+
+**Surface**:
+One way the editor is delivered — the web build or the desktop app — told apart by what it may do
+with a file. Both open, edit and [export](#export); only the app **writes**, meaning it puts bytes
+at a path the user chose and can write there again. The two are not tiers of one product but
+surfaces for work of different lifetimes: the web for drawings nobody versions, the app for
+documents kept in git ([ticket 10](./.scratch/initial-planning/issues/10-save-open-mechanism.md)).
+_Avoid_: build, target, platform — each names how the program is compiled, not what it may do
 
 **Render backend**:
 One way of drawing a diagram out. Two are planned over the one diagram: an SVG renderer for
