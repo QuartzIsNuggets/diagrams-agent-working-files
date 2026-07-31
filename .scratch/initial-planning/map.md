@@ -19,9 +19,10 @@ below; the rest is fog for future sessions.
   **settled** and defined in [CONTEXT.md](../../CONTEXT.md#notation)
   ([ticket 04](./issues/04-notation-domain-model.md)). Read it before touching the model.
 - **Standing architectural decisions:** [ADR 1](../../docs/adr/0001-diagram-draws-checking-layer-interprets.md)
-  (the diagram draws, a checking layer interprets) and
+  (the diagram draws, a checking layer interprets),
   [ADR 2](../../docs/adr/0002-geometry-is-abstract-and-derived.md) (geometry abstract, shape
-  derived). Both bind every later ticket.
+  derived) and [ADR 3](../../docs/adr/0003-a-save-records-the-diagram.md) (a save records the
+  diagram; the format stores, a validator checks). All three bind every later ticket.
 - **Standing tech decision (locked):** TypeScript + SVG (DOM) + Vite + **MathJax** (SVG output
   → glyph `<path>`s). The web/SVG world gives the interactive editor + on-screen math cheaply;
   MathJax renders LaTeX labels to real paths, so they embed in the canvas and in exports with
@@ -69,6 +70,15 @@ below; the rest is fog for future sessions.
   **conclusion** a property on paths, in-theory functions and equivalences. Glossary in
   [CONTEXT.md](../../CONTEXT.md). Corrected along the way: `≈` is an **equivalence** (`qinv`),
   never a homotopy.
+- [Persistence & file format → `.hott.json`, shaped like a schema](./issues/08-persistence-format.md) —
+  a save records the **diagram**, SVG export stays one-way, so persistence forces the real model
+  into existence ([ADR 3](../../docs/adr/0003-a-save-records-the-diagram.md)). Legible
+  deterministic JSON, flat and id-keyed with one integer id space; **SQL fits but was declined**
+  because its constraints weld a checker into the file format, against ADR 1. Box extent is
+  **stored** (TikZ re-typesets, so a derived extent would differ per backend), auto-fitted on plop;
+  labels take **discrete slots** — six inside a box, or a distance-along-edge plus a
+  direction-relative side. A monotonic integer `version` with additive-changes-don't-bump, which
+  makes every change the map anticipates free.
 
 ## Not yet specified
 
@@ -83,14 +93,23 @@ below; the rest is fog for future sessions.
 - **Manual curvature & obstacle avoidance** — shape is derived for now, straight or fanned
   ([ADR 2](../../docs/adr/0002-geometry-is-abstract-and-derived.md)), so 2.6.5's hand-drawn
   curves render straight. Whether a hand override arrives, and whether edges should ever route
-  around boxes, is deferred.
+  around boxes, is deferred. Now the *only* hand-override question left: label placement was
+  settled as discrete slots ([ticket 08](./issues/08-persistence-format.md)), and any override
+  would be purely additive under the versioning policy.
 - **TikZ emitter (implementation)** — direction decided (SVG + TikZ, ticket 07); building the
   model→TikZ backend (roles → styles, derived curvature → Bézier control points, the conclusion
   halo as a `preaction={draw, line width=…, opacity=…}` casing on the same path) is future
   execution work, deferred past the MVP.
 - **Framework adoption** — the trigger point where plain TS stops paying its way (toolbars,
   panels, undo) and a lean reactive framework (Solid / Svelte) earns its place.
-- **Native desktop packaging** — wrapping the web app in Tauri.
+- **Native desktop packaging** — wrapping the web app in Tauri. **May be pulled forward onto the
+  route**: a browser tab cannot overwrite the file it opened, so if the File System Access API
+  proves too thin, Tauri becomes what makes saving work rather than a later nicety.
+  [Ticket 10](./issues/10-save-open-mechanism.md) settles it.
+- **The in-memory model (implementation)** — [ADR 3](../../docs/adr/0003-a-save-records-the-diagram.md)
+  forces a real model into existence, since the MVP has none (the DOM is the document). Its shape
+  is decided — the schema in [ticket 08](./issues/08-persistence-format.md) — but building it, the
+  load-time validator, and the round-trip test is execution work not yet sliced.
 
 ## Out of scope
 
@@ -103,6 +122,15 @@ below; the rest is fog for future sessions.
   the editor does not link the two or derive one from the other
   ([ticket 04](./issues/04-notation-domain-model.md)). Multiple diagrams per document goes with
   it.
+- **A hand-authorable textual diagram format** — weighed while choosing how legible the save file
+  should be ([ticket 08](./issues/08-persistence-format.md)) and set aside. It is a committed public
+  syntax owing a parser and real error messages, and it competes with the destination: this map
+  charts a **GUI editor** whose premise is that the drawing gesture is the interface. A legitimate
+  future product over the same model, but a fresh effort. The save file is merely *readable*, not
+  authorable.
+- **Reopening an exported file** — SVG and TikZ export is one-way
+  ([ADR 3](../../docs/adr/0003-a-save-records-the-diagram.md)); import of any foreign format goes
+  with it.
 - **A semantic model / HoTT elaborator** — parsing type expressions so the editor could reject an
   ill-typed drawing was weighed against the drawing-only model and set aside
   ([ticket 04](./issues/04-notation-domain-model.md),

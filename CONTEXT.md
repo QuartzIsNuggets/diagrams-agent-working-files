@@ -133,8 +133,17 @@ The LaTeX a label is typeset from. It is the label's origin, not the label.
 
 **Label**:
 A typeset glyph run placed on a diagram. The source is LaTeX; the label is geometry — and the
-two are not interchangeable. A placed label keeps no source today, which is why the TikZ backend
-has nothing to emit from.
+two are not interchangeable. A label belongs to the element it names and **keeps its source**, so
+the TikZ backend has something to emit from; the glyph geometry is derived and never saved.
+
+**Label slot**:
+Where a box's label sits: one of six positions inside the box — top or bottom, left-aligned,
+centred or right-aligned. A discrete choice rather than a free offset, so labels cannot drift out
+of alignment, and the box auto-sizing when first placed means its label always fits inside. A path's
+or arrow's label is placed differently: a distance along the edge and a side of it, the side taken
+relative to the edge's direction so it survives the ends moving. How far the label sits off the
+edge is fixed, and each backend's own choice.
+_Avoid_: anchor — that is a term-dot, path or arrow, and nothing else
 
 **Typesetting**:
 Turning a source into glyph geometry: outlines that travel inside an exported file, never a
@@ -145,8 +154,24 @@ capability. Which engine does it is behind a seam.
 What typesetting returns — measured in thousandths of an em, origin at the left baseline point,
 carrying a transform of its own. Placing it means wrapping it, not transforming it.
 
+**Box**:
+(extending the notation entry above) A box carries its own extent, rather than being sized to fit
+its label — the TikZ backend re-typesets labels in the including document, so a label's size is
+not knowable to the editor and a derived extent would differ between backends. The extent is
+auto-fitted when the box is first placed, and the user's from then on.
+
+**Save**:
+Recording a diagram so it can be reopened exactly. A save carries the diagram — never the drawing —
+so it stores what was recorded and not what was rendered. The counterpart to [export](#export),
+and deliberately not the same file: an export is one-way and is never reopened
+([ADR 3](./docs/adr/0003-a-save-records-the-diagram.md)).
+_Avoid_: serialize — that names the mechanism, not the promise
+
 **Export**:
-Emitting a diagram as a file that leaves the editor behind.
+Emitting a diagram as a file that leaves the editor behind. One-way: an export is never reopened,
+because the ink it emits has lost what the model holds — a role's colour cannot be read back as a
+role, a halo cannot be told from a wide pale path, and glyph outlines are not the LaTeX they were
+typeset from.
 
 **Standalone**:
 The property an export must have: everything needed to render it travels with it — no page
