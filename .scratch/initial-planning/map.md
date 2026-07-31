@@ -30,7 +30,12 @@ below; the rest is fog for future sessions.
   no `<foreignObject>`. Rust was preferred but set aside for simplicity (see ticket 01).
 - **Skills to consult each session:** `/grilling` + `/domain-modeling` (default);
   `/prototype` for "how should it look / behave" questions; `/research` for external facts.
-- **Delivery:** browser tab now; Tauri-wrappable to a native desktop window later, ≈free.
+- **Delivery: two surfaces, and Tauri is on the route** ([ticket 10](./issues/10-save-open-mechanism.md)).
+  The **web** build opens, edits and exports but never writes; the **desktop app** is the only
+  writer, because Firefox — the maintainer's browser — has neither the File System Access pickers
+  nor PWA install. Tauri is load-bearing, not the ≈free wrapper this line used to claim, and the one
+  engine it adds is **WebKitGTK** — `tauri dev` opens the app's own webview, never a browser, so dev
+  and shipped app render in the same engine.
 - **Where things live:** code project is one dir up (`../`, the `diagrams` repo); all agent
   artifacts (this map, spec, tickets) stay here in `agents-working-files` (see `AGENTS.md`).
 
@@ -91,6 +96,17 @@ below; the rest is fog for future sessions.
   direction-relative side. A monotonic integer `version` with additive-changes-don't-bump, which
   makes every change the map anticipates free.
 
+- [Save & open → the app writes, the web build doesn't](./issues/10-save-open-mechanism.md) — a
+  genuine save exists on the web (a `FileSystemHandle` is `[Serializable]`, so it survives reload
+  through IndexedDB), but **not in Firefox**, whose absent pickers and absent PWA install are
+  settled vendor positions rather than a schedule. That one fact about the *maintainer's machine*
+  promotes **Tauri from fog onto the route** — persistence is what makes it load-bearing — and
+  retires `≈free`. The two builds become surfaces for different work, split by how long a document
+  lives: **web** opens · edits · exports, for sketches nobody versions; **app** adds the only
+  writer. Feature-detecting a Chromium-only browser save was declined — it would buy two document
+  lifecycles so that Save could lie differently in each. The format's *reader* stays shared; only
+  the writer is app-side. **OPFS ruled out** — invisible to user and git, and evictable.
+
 ## Not yet specified
 
 <!-- fog toward the destination — in scope, not yet sharp enough to fully ticket -->
@@ -123,10 +139,19 @@ below; the rest is fog for future sessions.
   execution work, deferred past the MVP.
 - **Framework adoption** — the trigger point where plain TS stops paying its way (toolbars,
   panels, undo) and a lean reactive framework (Solid / Svelte) earns its place.
-- **Native desktop packaging** — wrapping the web app in Tauri. **May be pulled forward onto the
-  route**: a browser tab cannot overwrite the file it opened, so if the File System Access API
-  proves too thin, Tauri becomes what makes saving work rather than a later nicety.
-  [Ticket 10](./issues/10-save-open-mechanism.md) settles it.
+- **The Tauri shell (implementation)** — no longer a *whether*
+  ([ticket 10](./issues/10-save-open-mechanism.md)), and the build itself is execution work:
+  `isTauri()` behind a dynamic `import()`, the dialog→fs runtime-scope write path, a capabilities
+  file, and the `persistence` seam the web build stops at. What stays a question is everything
+  around it — **how the app is distributed** (deb/rpm at 2–6 MB against an AppImage at 70+ MB
+  that raises the glibc floor, or neither, if the only user builds from source), and **what
+  testing in a second engine costs** — the app renders in WebKitGTK both under `tauri dev` and when
+  shipped, while the maintainer's habitual `pnpm dev` loop is Firefox on the *web* build, so nothing
+  about the app is exercised until the Tauri window is opened.
+- **What the app has that a browser tab cannot** — the niceties Tauri makes available once it is
+  there and that no web build could offer: opening a `.hott.json` from the file manager by
+  association, a recent-documents list holding real paths, a CLI entry point, watching the file
+  on disk. None is required by persistence; each is worth its own judgement.
 - **The in-memory model (implementation)** — [ADR 3](../../docs/adr/0003-a-save-records-the-diagram.md)
   forces a real model into existence, since the MVP has none (the DOM is the document). Its shape
   is decided — the schema in [ticket 08](./issues/08-persistence-format.md) — but building it, the
@@ -149,6 +174,12 @@ below; the rest is fog for future sessions.
   charts a **GUI editor** whose premise is that the drawing gesture is the interface. A legitimate
   future product over the same model, but a fresh effort. The save file is merely *readable*, not
   authorable.
+- **A writer in the web build, by any mechanism** — File System Access behind a feature check,
+  install-as-PWA, or OPFS, each weighed and set aside
+  ([ticket 10](./issues/10-save-open-mechanism.md)). The first two would make saving depend on
+  which browser the reader happens to run, and buy a second document lifecycle to do it; OPFS is
+  invisible to both the user and git, and evictable, so it stores nothing anyone owns. The web
+  build opens, edits and exports; the app writes.
 - **Reopening an exported file** — SVG and TikZ export is one-way
   ([ADR 3](../../docs/adr/0003-a-save-records-the-diagram.md)); import of any foreign format goes
   with it.
