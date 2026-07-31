@@ -1,7 +1,7 @@
 # Save & open mechanism — and whether it pulls Tauri forward
 
 Type: research
-Status: open
+Status: claimed
 
 ## Question
 

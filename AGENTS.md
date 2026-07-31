@@ -10,6 +10,8 @@ Mathematics study abstractions by carefully expressing them in the most straight
 
 Here, the ambient theory is the project. Apply this philosophy: whatever you work towards, you should be driven to produce **new things** in the sense taken from mathematics. Your criteria should be "Have I provided something new ?", and something new is either something never seen in the project, or a properly linked combination of things already in the project.
 
+So whenever you decide to add something to a file: think at least one more time whether there really is no paragraph that already covers the topic which you can rewrite and insert your thought in.
+
 ## Repository layout
 
 This directory (`agents-working-files/`) is **not** the code project. It is a git submodule whose only job is to **store and version the intermediate files agents produce** while working.

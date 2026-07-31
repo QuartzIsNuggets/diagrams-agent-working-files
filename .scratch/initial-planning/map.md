@@ -15,7 +15,8 @@ below; the rest is fog for future sessions.
 
 - **Domain:** Homotopy Type Theory (HoTT). The reference diagrams (`goal.jpg` in the repo
   root) are the §2.6 / §2.7 path & transport lemmas for ×- and Σ-types. The visual vocabulary —
-  box, term-dot, anchor, kind, path, arrow, role, `refl`, equivalence, layer, conclusion — is
+  box, term-dot, anchor, element, kind, path, arrow, role, `refl`, equivalence, fan, level,
+  conclusion — is
   **settled** and defined in [CONTEXT.md](../../CONTEXT.md#notation)
   ([ticket 04](./issues/04-notation-domain-model.md)). Read it before touching the model.
 - **Standing architectural decisions:** [ADR 1](../../docs/adr/0001-diagram-draws-checking-layer-interprets.md)
@@ -70,6 +71,16 @@ below; the rest is fog for future sessions.
   **conclusion** a property on paths, in-theory functions and equivalences. Glossary in
   [CONTEXT.md](../../CONTEXT.md). Corrected along the way: `≈` is an **equivalence** (`qinv`),
   never a homotopy.
+- [Drawing onto an anchor → drag, with nothing to disambiguate](./issues/09-targeting-anchors.md) —
+  the nearest candidate under the pointer wins **silently**, because generalising the **fan** across
+  kinds and directions removed the crowd rather than helping the user aim into it; the pick-list and
+  click-cycling schemes answered a problem the model no longer has. Kind and role are number keys
+  (path · in-theory function · built-in rule · ≈), not modifiers. Many-to-one is ordinary
+  **shift-click accumulation**, which retires the merge-versus-target collision, so dropping onto an
+  arrow always *targets* it. An ≈ is drawn like anything else, and at most one stands between two
+  arrows. A join lands in an evenly spaced **slot** on its target (`spread`), reserved rather than
+  contended for — the fan's argument again, one dimension down. Corrected along the way: a path is
+  **directional** and takes an arrowhead, hue being what separates it from an arrow.
 - [Persistence & file format → `.hott.json`, shaped like a schema](./issues/08-persistence-format.md) —
   a save records the **diagram**, SVG export stays one-way, so persistence forces the real model
   into existence ([ADR 3](../../docs/adr/0003-a-save-records-the-diagram.md)). Legible
@@ -87,9 +98,19 @@ below; the rest is fog for future sessions.
 - **The checking layer** — [ADR 1](../../docs/adr/0001-diagram-draws-checking-layer-interprets.md)
   establishes the seam and defers the build. What it enforces, when it earns its place, and
   whether it belongs to *this* destination at all are open.
-- **Interaction / UX beyond creating an edge** — selection, move, undo/redo, canvas navigation.
-  The *creating* slice has graduated to
-  [Drawing onto an anchor](./issues/09-targeting-anchors.md); the rest is not yet designed.
+- **Interaction / UX beyond creating an edge** — move, undo/redo, canvas navigation. The *creating*
+  slice is resolved ([Drawing onto an anchor](./issues/09-targeting-anchors.md)), and it already
+  fixes the start of a **selection** model the rest must inherit: a click selects, shift holds the
+  selection open, and pressing anywhere without shift drops it. What selection is *for* beyond
+  feeding a gesture — what a selected element can then be told to do — is not yet designed.
+- **Fan ordering under an equivalence** — *which slot* an element takes in a fan, as against the
+  bullet below, which is about the *shape* a slot is drawn as. An `≈` marking the outer two of a
+  three-wide fan crosses the middle one; it would read better if the marked pair were brought
+  together and the odd one out pushed aside, making fan order derived from the equivalences over
+  the fan rather than from id order. What keeps this a question is that equivalences need not
+  admit such an order at all — `f ≈ g`, `g ≈ h` and `f ≈ h` at once leave no arrangement in which
+  every marked pair is adjacent, and wider fans multiply the conflicts. Surfaced while
+  prototyping [Drawing onto an anchor](./issues/09-targeting-anchors.md).
 - **Manual curvature & obstacle avoidance** — shape is derived for now, straight or fanned
   ([ADR 2](../../docs/adr/0002-geometry-is-abstract-and-derived.md)), so 2.6.5's hand-drawn
   curves render straight. Whether a hand override arrives, and whether edges should ever route

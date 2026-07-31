@@ -28,14 +28,23 @@ recursive — a path between two paths is ordinary, not a special case — and �
 of the theory, an arrow is as legitimate an endpoint as a dot. A box is never an anchor.
 _Avoid_: node, endpoint, vertex
 
+**Element**:
+A path or an arrow — what a diagram draws *between* anchors, and what a [kind](#kind) tells apart.
+A box or a term-dot is not one.
+_Avoid_: edge, connector, link
+
 **Kind**:
 Whether an element is a path or an arrow. Kind is not [role](#role): asserting an equality and
 mapping a term differ in kind, which is why a path needs no role.
 
 **Path**:
-An identity proof between two anchors. Drawn like an arrow, but not one — it asserts an equality
-rather than mapping anything.
-_Avoid_: equality arrow, identity arrow
+An identity proof between two anchors, and **directional**: `p : x = y` runs from `x` to `y`, and
+`p⁻¹` is a different path running back. So a path is drawn with an arrowhead, exactly as an
+[arrow](#arrow) is — that equality is symmetric is a fact about the *type*, not about the proof,
+and a diagram draws proofs. What separates the two on the page is hue rather than the head: an
+arrow always carries a [role](#role) and so is always coloured, where a path has none and stays
+black.
+_Avoid_: equality arrow, identity arrow, undirected path
 
 **Self-path**:
 A path whose two ends are the same anchor. Having no baseline to bend relative to, it carries a
@@ -68,8 +77,10 @@ The self-path at a term-dot. It has no glyph of its own: a black loop labelled `
 
 **Equivalence**:
 `≈`, marking that a back-and-forth pair of arrows are mutually inverse — `qinv` of the arrow it
-names. It attaches to exactly two arrows, symmetrically, and is never many-to-one. Those arrows
-must be opposed, but that is a [checking layer](#checking-layer) constraint, not a drawing one.
+names. It attaches to exactly two arrows, symmetrically, and is never many-to-one. At most one
+stands between any two arrows: a second would assert the very same `qinv`, so there is nothing for
+it to record. That much is a *drawing* constraint — there is no second equivalence to make — where
+the arrows having to be opposed is a [checking layer](#checking-layer) one.
 _Avoid_: homotopy — a homotopy relates two arrows sharing **both** domain and codomain, which a
 back-and-forth pair by definition does not.
 
@@ -77,6 +88,7 @@ back-and-forth pair by definition does not.
 Where a drawing sits in the ∞-groupoid. One theorem can be drawn at level 0, where a 2-path is a
 path between two paths, or at level 1, where the identity types become boxes and their proofs
 become term-dots — for example 2.6.5 is drawn both ways.
+_Avoid_: layer — that is the [checking layer](#checking-layer), a part of the program
 
 **Conclusion**:
 The property marking an element as what the theorem proves. It belongs to a path, an in-theory
@@ -100,8 +112,8 @@ _Avoid_: highlight, glow — the first named the old ink, the second suggests an
 What the program works on.
 
 **Diagram**:
-One proof drawing: its boxes, term-dots, paths, arrows and labels, independent of how it is
-rendered. It sits at a single layer, and holds no reference to any other diagram.
+One proof drawing: its boxes, term-dots, elements and labels, independent of how it is rendered.
+It sits at a single [level](#level), and holds no reference to any other diagram.
 
 **Canvas**:
 The drawing surface a diagram appears on. Today it *is* the diagram — nothing is held apart from
@@ -113,13 +125,20 @@ The abstract length a diagram is measured in — never a pixel; each render back
 scale. The y-axis points up, as in mathematics and in TikZ, so the SVG renderer flips once at
 its root and converts pointer positions back on the way in.
 
+**Fan**:
+Every element sharing the same two anchors, bowing apart so no two of them overlap. Neither
+direction nor [kind](#kind) splits a fan: a back-and-forth pair belongs to one — the lens `pair=`
+and its inverse make in 2.7.2 — and a path and an arrow between the same two anchors bend around
+each other rather than both claiming the straight line. A many-to-one arrow joins no fan, having
+no one pair of anchors to share, and neither does a [self-path](#self-path).
+
 **Curvature**:
-How a path or arrow bends, derived rather than stored: a lone edge between a pair of anchors is
-straight, several fan apart into a lens — the shape `pair=` and its inverse make in 2.7.2. No
-element carries a shape of its own, so an anchor can move with nothing to maintain.
+How an element bends, derived rather than stored: alone between its two anchors it is straight,
+and in a [fan](#fan) it bows aside by its place in that fan. No element carries a shape of its
+own, so an anchor can move with nothing to maintain.
 
 **Checking layer**:
-Where the mathematics is interpreted — layers, the opposedness of an equivalence's arrows,
+Where the mathematics is interpreted — levels, the opposedness of an equivalence's arrows,
 whether a label suits its endpoints. It reads a diagram and never draws one, so it can be bolted
 on later without disturbing what does. A diagram is drawing, not proof: nothing here may become
 something a renderer needs.
@@ -140,9 +159,9 @@ the TikZ backend has something to emit from; the glyph geometry is derived and n
 Where a box's label sits: one of six positions inside the box — top or bottom, left-aligned,
 centred or right-aligned. A discrete choice rather than a free offset, so labels cannot drift out
 of alignment, and the box auto-sizing when first placed means its label always fits inside. A path's
-or arrow's label is placed differently: a distance along the edge and a side of it, the side taken
-relative to the edge's direction so it survives the ends moving. How far the label sits off the
-edge is fixed, and each backend's own choice.
+or arrow's label is placed differently: a distance along the element and a side of it, the side
+taken relative to the element's direction so it survives the ends moving. How far the label sits
+off the element is fixed, and each backend's own choice.
 _Avoid_: anchor — that is a term-dot, path or arrow, and nothing else
 
 **Typesetting**:
