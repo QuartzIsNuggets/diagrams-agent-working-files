@@ -118,7 +118,11 @@ below; the rest is fog for future sessions.
   `persistence`, a word ADR 3 reserves for round-tripping. `pnpm dev` **becomes the Tauri window**
   (browser loop kept as `pnpm dev:web`), which retires the habit hazard below rather than living with
   it. Rust pinned in `mise.toml`; JSON5/TOML config so SPDX headers stay inline; no packaging, no
-  icons, placeholder identity.
+  icons, placeholder identity. **Reopened after its spec was satisfied**, with a fourth ticket
+  ([the export error region](../tauri-shell/issues/04-export-error-region.md)): 03 shipped a refused
+  write that reaches only the console, and an app that writes without saying when it *didn't* is this
+  effort's own premise unfinished — the silent-write argument above, one step along — rather than
+  something Save inherits.
 
 ## Not yet specified
 
