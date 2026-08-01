@@ -1,4 +1,4 @@
-# Ticket 03 — the native write, end to end
+# The app writes — the runs jsdom cannot make
 
 The jsdom suite (`src/writer.test.ts`) proves the **wiring**: the dialog is asked, its answer
 decides, and the bytes handed to `writeTextFile` are the ones the caller gave. What it cannot see is
@@ -67,8 +67,9 @@ pdffonts /tmp/diagram.pdf; pdfimages -list /tmp/diagram.pdf   # expect: no rows
 | `save-dialog.png` | The dialog Export opens: `Name: diagram.svg`, and the `SVG` filter. |
 | `diagram-rsvg.png` | `rsvg-convert`'s rendering of the written file (librsvg/cairo). |
 | `diagram-inkscape.png` | Inkscape's rendering of it. |
+| `export-error.png` | The error region, holding a refusal the filesystem really gave. |
 
-## Result (2026-08-01)
+## The native write (2026-08-01)
 
 **The dialog.** Export opened the GTK save dialog in `save-dialog.png` — pre-filled with
 `diagram.svg` from `defaultPath`, narrowed to `SVG` by the extension filter. Typing
@@ -105,3 +106,37 @@ rustc `1.97.1`, node `24.18.0`, pnpm `10.34.5`, Firefox `153.0`, `rsvg-convert 2
 Note: `diagram.svg` has a transparent background — see
 [ticket 04's Choices](../../plop-and-export/issues/04-export-svg.md) — so the rsvg render passes
 `-b white` to composite it the way a viewer with a white page would.
+
+## The refused write (2026-08-01)
+
+[Ticket 04](../issues/04-export-error-region.md) put an error region beside the Export button and
+asked for one run on top of the suite — not to prove a `<p>` renders, but to prove the message is
+**legible**: nobody had yet seen what `writeTextFile`'s rejection reads like coming out of the fs
+plugin, and a region showing a Rust debug string would pass every jsdom test while failing the point.
+
+Same rig, same clicks, one substitution: `/usr/share/diagram.svg` typed into the dialog's **Name**
+field. That directory is root-owned and mode 755, so the dialog accepted the path and the *write* is
+what got refused — which is the arrival this ticket exists for. The region said:
+
+> The export could not be written: failed to open file at path: /usr/share/diagram.svg with error:
+> Permission denied (os error 13)
+
+**Legible, and better than the ticket feared.** It expected bare *"Permission denied (os error 13)"*,
+naming neither what was denied nor to what; the plugin in fact names the path, so the region's own
+prefix supplies the only thing still missing — which operation failed. Three wrapped lines in red
+above the button, in `export-error.png`. Nothing landed at that path, then or after.
+
+This run was **driven**, like the one above. That covers everything except the word *legible*, which
+is a person's to say and not a rig's: the maintainer read the message in `export-error.png` and
+passed it.
+
+**The button did not move.** `import -window root` before and after, cropped to the button's box:
+**0 differing pixels**. The affordance is pinned by its bottom-right corner, so the message grew the
+column upward instead of shoving the button out from under the cursor.
+
+**The next write took the message down.** Exporting again to a writable path landed the file (280
+bytes, the two dots on screen) and emptied the region: 3541 pixels changed inside the message's box,
+0 inside the button's. The `written` arm's clearing is therefore not only the suite's word.
+
+Same toolchain as above, against a binary rebuilt from this ticket's frontend
+(`pnpm build && pnpm tauri build --no-bundle`).
