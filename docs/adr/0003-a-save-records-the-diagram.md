@@ -16,8 +16,12 @@ document — nothing is held apart from what is drawn. So the cheapest imaginabl
 the SVG and reopen it, inventing no format at all.
 
 Separately, once a format does exist, it has to decide how much it polices. A normalized schema
-invites integrity constraints, and several of the notation's rules — a built-in rule can never be
-a conclusion, an equivalence attaches to exactly two arrows — are expressible as ones.
+invites integrity constraints, and several of the notation's rules are expressible as ones — an
+equivalence attaches to exactly two arrows, those two arrows must be **opposed**, a built-in rule
+can never be a **conclusion**. Three different kinds of rule wearing one costume: the first is
+structural, and a type that holds a pair settles it outright; the second is a claim a drawing can
+get *wrong*; the third is not a claim a drawing could get wrong at all, there being nothing for the
+mark to mean.
 
 ## Decision
 
@@ -27,28 +31,33 @@ exported SVG or TikZ file is **one-way**: it leaves the editor behind and is nev
 
 **The format stores; a validator checks.** The file format enforces no notation rule beyond what
 it takes to resolve the file into a model — ids unique, references resolving, enums in range.
-Everything else is read by the checking layer of ADR 1, outside both storage and rendering.
+Everything else the notation asks of a drawing is read by the checking layer of ADR 1, outside
+both storage and rendering.
 
-**Invariants are made unrepresentable where a single writable place can do it**, and validated
-otherwise. A term-dot names its one box; a box does not list its dots.
+**Structural invariants are made unrepresentable where a single writable place can do it**, and
+validated otherwise. A term-dot names its one box, and a box does not list its dots; an equivalence
+holds a pair of arrows rather than a list of whatever length. None of that is about meaning — only
+about which states can be written down at all.
+
+**What could mean nothing is unrepresentable too**, for a different reason: not that one writable
+place suffices, but that there is no state to write. A **conclusion on a built-in rule** is
+meta-theoretically nonsensical rather than merely wrong, so the model has nowhere to put it, and a
+file carrying one is **loaded with the field dropped and a warning** rather than refused. Every
+rule that leaves a drawing meaning something — opposedness among them — stays where ADR 1 put it.
 
 ## Consequences
 
 A real in-memory model must now exist, which the MVP deliberately did without. A lossless
 save→reopen round-trip is the spec for it, and a sharp one: anything the round-trip loses was
-missing from the model.
+missing from the model. The trip is anchored at the model and not at the file, which is what lets
+a dropped meaningless field cost it nothing — no diagram the editor made could carry one.
 
 Rendering stays free to lose information. Colour is a backend's mapping of a **role**, and the
 **halo** is derived from a conclusion property — neither is recoverable from the ink. Most
 decisively, an SVG holds glyph outlines rather than the LaTeX **source**, so a reopened SVG could
 never be emitted as TikZ. Keeping export one-way is what protects the second backend.
 
-Saving never fails on a rule of the notation, so a half-finished or wrong drawing is always
-saveable and is told about separately. The cost is that a file can hold a drawing the checking
-layer will reject; that is the same trade ADR 1 already made, extended to storage.
-
-The rejected alternative was SQLite, which fits the shape well — a supertype table makes the
-recursive anchor reference a real foreign key. It was declined because its constraints are a
-checker welded into the file format, unable to warn instead of refuse; and because it is binary
-where the file is meant to be diffed. The schema survives as the design of the JSON, so the swap
-stays open if a diagram ever needs querying rather than loading.
+Neither saving nor opening fails on a rule of the notation, so a half-finished or wrong drawing is
+always saveable, always reopenable, and is told about separately. The cost is that a file can hold
+a drawing the checking layer will reject; that is the same trade ADR 1 already made, extended to
+storage.

@@ -134,6 +134,12 @@ cannot drift.
   arrow; and absolute has no answer at all for a vertical edge — 2.6.5 is full of them — or for a
   self-path's loop. The chrome may still *say* "above/below" for a roughly horizontal edge; that is
   a labelling choice, not what the file records.
+- **Term-dot label → a `source` and a `labelSide`, and no `labelT`.** A dot is a point: there is no
+  edge to run along, so only the side survives — and that side is **absolute**, since a dot has no
+  direction to take a side relative to. `goal.jpg` labels dots nearly everywhere (`x`, `y`, `z′`,
+  `q`, `w`, beside the dot and usually to its left), so the field is not speculative; which sides
+  the enum offers is settled where a dot can first be labelled
+  ([diagram-model ticket 05](../../diagram-model/issues/05-term-dot-labels.md)).
 
 **Vocabulary:** these six positions are **label slots**. "Anchor" was nearly overloaded for them,
 but `CONTEXT.md` reserves it for a term-dot, path, or arrow.
@@ -148,7 +154,8 @@ A single monotonic integer `version` at the root, forward-only migration, and an
   migration from *n* to *n+1*. Load runs the chain up to current.
 
 Every change the map anticipates is additive — manual curvature override, ticket 09's attachment
-position, more label freedom — so **version 1 should last**, and
+position, more label freedom — as was the term-dot's label above, an optional field a reader
+defaults away and therefore **no bump**. So **version 1 should last**, and
 [ticket 09](./09-targeting-anchors.md) does **not** block this ticket.
 
 An integer rather than SemVer: SemVer encodes compatibility across *multiple independent
@@ -172,7 +179,7 @@ is the redundancy `AGENTS.md` warns against.
 { "version": 1, "nextId": 12,
   "boxes": [ { "id": 1, "source": "A \\times B", "x": 0, "y": 0, "w": 40, "h": 24,
                "labelSlot": "top-left" } ],
-  "dots":  [ { "id": 2, "box": 1, "x": 6, "y": -8 } ],
+  "dots":  [ { "id": 2, "box": 1, "x": 6, "y": -8, "source": "x", "labelSide": "left" } ],
   "paths": [ { "id": 5, "a": 2, "b": 3, "source": "p", "labelT": 0.5, "labelSide": "left",
                "conclusion": true } ],
   "arrows": [ { "id": 7, "inputs": [2, 4], "output": 6, "role": "in-theory",

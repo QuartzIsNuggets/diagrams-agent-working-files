@@ -140,28 +140,35 @@ own, so an anchor can move with nothing to maintain.
 **Checking layer**:
 Where the mathematics is interpreted — levels, the opposedness of an equivalence's arrows,
 whether a label suits its endpoints. It reads a diagram and never draws one, so it can be bolted
-on later without disturbing what does. A diagram is drawing, not proof: nothing here may become
-something a renderer needs.
+on later without disturbing what does. It warns about what is **wrong** and never sees what would
+be **meaningless**: a mark with nothing to mean — a [conclusion](#conclusion) on a
+[built-in rule](#built-in-rule) — is not something a diagram can hold in the first place. A
+diagram is drawing, not proof: nothing here may become something a renderer needs.
 
 **Plop**:
-To place a term-dot on empty canvas by releasing the pointer there. The dot lands where the
-button comes up, not where it went down, so a press is only provisional.
+To make a mark by releasing the pointer where it goes. What is made is decided by what the release
+lands on: inside a [box](#box) it is a [term-dot](#term-dot), on empty [canvas](#canvas) it is a
+box. The release decides and the press is only provisional — a dot lands where the button comes
+up, not where it went down.
 
 **Source**:
 The LaTeX a label is typeset from. It is the label's origin, not the label.
 
 **Label**:
 A typeset glyph run placed on a diagram. The source is LaTeX; the label is geometry — and the
-two are not interchangeable. A label belongs to the element it names and **keeps its source**, so
-the TikZ backend has something to emit from; the glyph geometry is derived and never saved.
+two are not interchangeable. A label belongs to the box, [term-dot](#term-dot) or
+[element](#element) it names and **keeps its source**, so the TikZ backend has something to emit
+from; the glyph geometry is derived and never saved.
 
 **Label slot**:
 Where a box's label sits: one of six positions inside the box — top or bottom, left-aligned,
 centred or right-aligned. A discrete choice rather than a free offset, so labels cannot drift out
 of alignment, and the box auto-sizing when first placed means its label always fits inside. A path's
 or arrow's label is placed differently: a distance along the element and a side of it, the side
-taken relative to the element's direction so it survives the ends moving. How far the label sits
-off the element is fixed, and each backend's own choice.
+taken relative to the element's direction so it survives the ends moving. A term-dot's label takes
+a side and nothing else, and that side is **absolute** — a dot is a point, with no direction to
+take a side relative to. How far a label sits off the element or the dot is fixed, and each
+backend's own choice.
 _Avoid_: anchor — that is a term-dot, path or arrow, and nothing else
 
 **Typesetting**:
@@ -178,6 +185,13 @@ carrying a transform of its own. Placing it means wrapping it, not transforming 
 its label — the TikZ backend re-typesets labels in the including document, so a label's size is
 not knowable to the editor and a derived extent would differ between backends. The extent is
 auto-fitted when the box is first placed, and the user's from then on.
+
+**Term-dot**:
+(extending the notation entry above) Two dots never coincide, and the rule is the diagram's rather
+than the drawing's: it owns a **minimum separation** in [diagram units](#diagram-unit) between two
+dots' positions and refuses a placement closer than that. Each [render backend](#render-backend)
+then draws a dot small enough that two of them that far apart stay clear. The constraint is the
+model's and the size is the backend's — the same split [role](#role) already has with colour.
 
 **Save**:
 Recording a diagram so it can be reopened exactly. A save carries the diagram — never the drawing —
