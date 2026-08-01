@@ -7,7 +7,7 @@ Export is rewired to call it. Behaviour on the web surface is unchanged, byte fo
 
 **Blocked by:** None — this ticket needs no Tauri and runs entirely in the browser build.
 
-**Status:** ready-for-agent
+**Status:** resolved
 
 ## Why a writer and not a `persistence` module
 
@@ -43,15 +43,61 @@ the web implementation and [ticket 03](./03-native-writer.md) fills the other si
 
 ## Acceptance criteria
 
-- [ ] A single module exposes the writer; `export-svg.ts` no longer constructs a Blob, an anchor or
+- [x] A single module exposes the writer; `export-svg.ts` no longer constructs a Blob, an anchor or
       an object URL itself, and `serializeCanvas` is untouched
-- [ ] The result type has the three arms above, and the web implementation can only return
+- [x] The result type has the three arms above, and the web implementation can only return
       `handed-off`
-- [ ] Exporting from the browser build produces the same bytes, the same filename and the same
+- [x] Exporting from the browser build produces the same bytes, the same filename and the same
       download behaviour as before this ticket
-- [ ] jsdom tests cover surface selection and the mapping to each result arm, and every assertion is
+- [x] jsdom tests cover surface selection and the mapping to each result arm, and every assertion is
       mutation-checked — each one fails when the production line it pins is removed
-- [ ] `pnpm build`, `pnpm lint`, `pnpm format:check` and `reuse lint` clean
+- [x] `pnpm build`, `pnpm lint`, `pnpm format:check` and `reuse lint` clean
+
+`src/writer.ts` is the door, `src/web-writer.ts` the one arm behind it; `serializeCanvas` and
+`createExportButton` are untouched but for a comment. Bytes, filename and media type are pinned by
+test, and the download itself is the same lines moved: in the built bundle the click handler still
+reaches `URL.createObjectURL` and `link.click()` without yielding, in the entry chunk. No browser was
+driven — there is no Firefox WebDriver here, and nothing in the download path changed for one to
+observe.
+
+Mutation-checked by machine: thirteen mutations, each killing exactly the assertions that pin it.
+Removing `link.download`, the contents, the media type, the revoke, or `link.click()` kills its own
+test; deferring the web arm behind an `await import()` kills only "hands over before yielding".
+
+What that leaves uncovered is worth saying plainly, since the criterion above reads wider than this
+slice can be: with one arm there is no branch, so what the tests pin is the door's delegation to it
+(removing the call kills all six) and that arm's mapping to `handed-off`. Selection proper, and the
+`written` and `cancelled` arms, arrive with [ticket 03](./03-native-writer.md)'s second arm and are
+its to check.
+
+## What the seam leaves for [ticket 03](./03-native-writer.md)
+
+Export drops the writer's promise on the floor — `void writeFile({…})` — which is right while the
+only arm cannot fail: nothing in `document.createElement` or `URL.createObjectURL` throws for a file
+the type admits, so today there is no rejection to catch. The native arm has to await the dialog,
+which makes the door `async`, and `writeTextFile` throws on a real failure — so the moment 03 lands,
+that `void` swallows a failed write and the user is told nothing. Export has no error surface today;
+the label form's `.label-error` is the nearest precedent.
+
+Two words this slice made load-bearing in code — **writer** and **hand-off** — are in no glossary
+entry, and `CONTEXT.md`'s [surface](../../../CONTEXT.md#surface) says *"only the app **writes**"*
+while `writeFile` is what both surfaces now call.
+[ADR 4](../../../docs/adr/0004-export-and-save-share-a-writer.md) settled the naming deliberately,
+so this is a gap to close with `/domain-modeling`, not a rename.
+
+## Choices
+
+- **Only the native arm goes behind the dynamic `import()`; `web-writer.ts` is imported
+  statically** — a download the browser honours is one the user's gesture is still live for, and an
+  `await import()` between the click and `link.click()` spends that activation. Keeping
+  `@tauri-apps/*` out of the web chunk needs the import on that arm only. Half of that is pinnable
+  today and pinned: `writer.test.ts`'s "hands over before yielding" fails if this arm ever waits. It
+  costs [ticket 03](./03-native-writer.md) a **synchronous** surface check — `isTauri()` is
+  `!!globalThis.isTauri`, so read the global rather than awaiting the module that exports it.
+- **What a caller hands over is text, a filename and a media type** — the app arm writes with
+  `writeTextFile`, and the dialog's `defaultPath` and extension filter both come off the name, so
+  nothing else is needed twice. A binary export would add an arm to the bytes, not a field beside
+  them.
 
 ## Notes for the implementer
 
