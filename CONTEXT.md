@@ -116,9 +116,9 @@ One proof drawing: its boxes, term-dots, elements and labels, independent of how
 It sits at a single [level](#level), and holds no reference to any other diagram.
 
 **Canvas**:
-The drawing surface a diagram appears on. Today it *is* the diagram — nothing is held apart from
-what is drawn.
-_Avoid_: viewport, scene, stage
+Where a diagram is drawn. Today it *is* the diagram — nothing is held apart from what is drawn.
+_Avoid_: viewport, scene, stage, drawing surface — [surface](#surface) is how the editor is
+delivered, not where a diagram sits
 
 **Diagram unit**:
 The abstract length a diagram is measured in — never a pixel; each render backend picks its own
@@ -190,8 +190,8 @@ _Avoid_: serialize — that names the mechanism, not the promise
 Emitting a diagram as a file that leaves the editor behind. One-way: an export is never reopened,
 because the ink it emits has lost what the model holds — a role's colour cannot be read back as a
 role, a halo cannot be told from a wide pale path, and glyph outlines are not the LaTeX they were
-typeset from. One-way on every [surface](#surface); how the bytes leave — handed to a browser, or
-written to a path the user chose — is the surface's business and not the export's.
+typeset from. One-way on every [surface](#surface); how the bytes leave — [handed off](#hand-off)
+or [written](#write) — is the surface's business and not the export's.
 
 **Standalone**:
 The property an export must have: everything needed to render it travels with it — no page
@@ -199,11 +199,31 @@ styling, no font reference, nothing pointing back at the document that produced 
 
 **Surface**:
 One way the editor is delivered — the web build or the desktop app — told apart by what it may do
-with a file. Both open, edit and [export](#export); only the app **writes**, meaning it puts bytes
-at a path the user chose and can write there again. The two are not tiers of one product but
-surfaces for work of different lifetimes: the web for drawings nobody versions, the app for
-documents kept in git ([ticket 10](./.scratch/initial-planning/issues/10-save-open-mechanism.md)).
+with a file. Both open, edit and [export](#export); only the app [writes](#write), and the web
+[hands off](#hand-off) in its place. The two are not tiers of one product but surfaces for work of
+different lifetimes: the web for drawings nobody versions, the app for documents kept in git
+([ticket 10](./.scratch/initial-planning/issues/10-save-open-mechanism.md)).
 _Avoid_: build, target, platform — each names how the program is compiled, not what it may do
+
+**Write**:
+Putting bytes at a path the user chose, and being able to put them there again — the capability only
+the desktop [surface](#surface) has. It is not the [writer](#writer) named for it: both surfaces
+reach the writer, and only one of them writes.
+
+**Hand-off**:
+Giving the bytes to the browser, which saves them where it saves things. The web
+[surface](#surface)'s counterpart to a [write](#write) — not a weaker one but a different outcome:
+there is no path to report and no failure to observe, so a hand-off can be made but never confirmed.
+_Avoid_: browser save — nothing is saved that the editor could point at
+
+**Writer**:
+The one door bytes leave the editor by. It promises only *put these bytes where the user chose* —
+chosen in a dialog now, or chosen once and remembered by the caller — and nothing about finding them
+again, which is [save](#save)'s promise. What became of a file it reports as far as the surface can
+honestly say — [written](#write) to a known path, [handed off](#hand-off), or cancelled — rather
+than flattening to what both surfaces could promise. [Export](#export) and, later, save are callers
+composed over it, not variants of it ([ADR 4](./docs/adr/0004-export-and-save-share-a-writer.md)).
+_Avoid_: persistence layer — that names a promise about reopening, which an export never makes
 
 **Render backend**:
 One way of drawing a diagram out. Two are planned over the one diagram: an SVG renderer for

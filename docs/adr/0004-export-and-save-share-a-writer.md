@@ -4,7 +4,9 @@ Date: 2026-07-31
 
 ## Status
 
-Accepted. Arises from
+Accepted; amended 2026-08-01 with two paragraphs under Consequences, both asked for by
+[ticket 03](../../.scratch/tauri-shell/issues/03-native-writer.md). Nothing below is reversed.
+Arises from
 [the "app writes" spec](../../.scratch/tauri-shell/spec.md) and refines the naming in
 [ticket 10, save & open](../../.scratch/initial-planning/issues/10-save-open-mechanism.md).
 Constrained by [ADR 3](./0003-a-save-records-the-diagram.md).
@@ -51,4 +53,22 @@ The rejected alternative was ticket 10's own `persistence` naming, which has the
 already written down; it was declined for the reason above. Branching inside `export-svg.ts` and
 extracting later was also weighed, and declined because the extraction would then land inside the
 Save slice, which already carries the model.
+
+### Amended 2026-08-01
+
+**The destination is an input, not something the writer obtains.** Every write asks today, because
+the only caller is export and export has no path to hand over — but the asking is how the app arm
+comes by a destination, not what the door promises. So "a remembered path above the writer" above
+means above *and passed down through it*: Save hands its path to the writer, which then has nothing
+to ask. The alternative was a second door for writing in place, declined because it splits one
+promise in two and leaves a caller to know which half it wants.
+
+**A refused write is not a fourth arm.** The filesystem can refuse a write the user chose — and that
+arrives as a promise rejection, outside the discriminated result. The three arms say what became of
+the file; a refusal says the writer did not do what it promised, and folding a broken promise in
+among the kept ones would oblige every caller to handle a case the web surface cannot produce, which
+is the flattening this decision exists to avoid. The cost is that a rejection is easy to drop —
+ticket 02's `void writeFile(…)` dropped one — so a caller that must not drop it has to catch:
+[ticket 03](../../.scratch/tauri-shell/issues/03-native-writer.md) has export log it, and says
+plainly that Save cannot ship on a log.
 </content>
