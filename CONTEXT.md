@@ -164,11 +164,11 @@ from; the glyph geometry is derived and never saved.
 Where a box's label sits: one of six positions inside the box — top or bottom, left-aligned,
 centred or right-aligned. A discrete choice rather than a free offset, so labels cannot drift out
 of alignment, and the box auto-sizing when first placed means its label always fits inside. A path's
-or arrow's label is placed differently: a distance along the element and a side of it, the side
-taken relative to the element's direction so it survives the ends moving. A term-dot's label takes
-a side and nothing else, and that side is **absolute** — a dot is a point, with no direction to
-take a side relative to. How far a label sits off the element or the dot is fixed, and each
-backend's own choice.
+or arrow's label is placed differently: a **fraction** of the way along the element — 0 at its
+start, 1 at its end — and a side of it, both taken relative to the element rather than to the page,
+so they survive the ends moving. A term-dot's label takes a side and nothing else, and that side is
+**absolute** — a dot is a point, with no direction to take a side relative to. How far a label sits
+off the element or the dot is fixed, and each backend's own choice.
 _Avoid_: anchor — that is a term-dot, path or arrow, and nothing else
 
 **Typesetting**:

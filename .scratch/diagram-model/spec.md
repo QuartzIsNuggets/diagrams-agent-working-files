@@ -40,7 +40,9 @@ field dropped and a warning**, never refused. Save is the ticket that implements
 
 **Assumed, never decided:** the backend redraws by rebuilding, a keyed diff waiting for
 [ticket 09](../initial-planning/issues/09-targeting-anchors.md)'s dragging; one diagram unit is one
-SVG user unit for now.
+SVG user unit for now; a label's fraction along an element is the derived curve's own parameter
+rather than its arc length — symmetric fan bows leave the two indistinguishable today, and both
+render backends must read it the same way once they are not.
 
 **Numbers still unset:** the export margin, the frame of an empty diagram, the minimum separation,
 the set of sides a term-dot's label may take, and which of them it takes by default.
