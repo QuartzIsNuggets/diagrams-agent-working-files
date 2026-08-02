@@ -46,10 +46,11 @@ SVG user unit for now; a label's fraction along an element is the derived curve'
 rather than its arc length — symmetric fan bows leave the two indistinguishable today, and both
 render backends must read it the same way once they are not.
 
-**Numbers still unset:** the export margin, the frame of an empty diagram, the minimum separation,
-the clearance boxes keep — 12 units today, a placeholder no drawing has argued with
-([07](./issues/07-boxes-keep-a-clearance.md)) — and the set of sides a term-dot's label may take
-with which of them it takes by default. A box's own
+**Numbers still unset:** the export margin, the frame of an empty diagram, and the set of sides a
+term-dot's label may take with which of them it takes by default. Two more are placeholders no
+drawing has argued with rather than unset: the minimum separation between two dots, 10 units and
+what the editor already drew ([04](./issues/04-term-dots-in-the-model.md)), and the clearance boxes
+keep, 12 ([07](./issues/07-boxes-keep-a-clearance.md)). A box's own
 slot is settled — centred at the top ([02](./issues/02-the-box-gesture.md)) — and so is the room it
 gives its label inside its walls, which [03](./issues/03-boxes-on-the-canvas.md) made a constant of
 the SVG backend rather than a number the model carries.
