@@ -47,6 +47,7 @@ rather than its arc length — symmetric fan bows leave the two indistinguishabl
 render backends must read it the same way once they are not.
 
 **Numbers still unset:** the export margin, the frame of an empty diagram, the minimum separation,
-the room a box gives its label inside its walls, and the set of sides a term-dot's label may take
-with which of them it takes by default. A box's own slot is settled — centred at the top
-([02](./issues/02-the-box-gesture.md)).
+and the set of sides a term-dot's label may take with which of them it takes by default. A box's own
+slot is settled — centred at the top ([02](./issues/02-the-box-gesture.md)) — and so is the room it
+gives its label inside its walls, which [03](./issues/03-boxes-on-the-canvas.md) made a constant of
+the SVG backend rather than a number the model carries.

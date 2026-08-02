@@ -113,10 +113,16 @@ What the program works on.
 
 **Diagram**:
 One proof drawing: its boxes, term-dots, elements and labels, independent of how it is rendered.
-It sits at a single [level](#level), and holds no reference to any other diagram.
+It sits at a single [level](#level), and holds no reference to any other diagram. It is a
+**value**: what acts on one returns the next diagram and leaves the one it was handed alone, so
+holding a drawing is holding a variable rather than a store. And it owns every extent in it, which
+makes it the thing that answers where a point falls and which boxes a new one has to push aside —
+questions no laid-out page is needed to ask.
 
 **Canvas**:
-Where a diagram is drawn. Today it *is* the diagram — nothing is held apart from what is drawn.
+Where a diagram is drawn. It holds nothing of its own: a [render backend](#render-backend) draws
+the diagram into it and never reads it back, so a mark is on screen because the diagram holds it
+and not because a gesture put it there.
 _Avoid_: viewport, scene, stage, drawing surface — [surface](#surface) is how the editor is
 delivered, not where a diagram sits
 
@@ -182,8 +188,12 @@ capability. Which engine does it is behind a seam — so a source one engine wil
 gesture will do is put one there: nothing the editor cannot draw enters a diagram by being typed.
 
 **Glyph geometry**:
-What typesetting returns — measured in thousandths of an em, origin at the left baseline point,
-carrying a transform of its own. Placing it means wrapping it, not transforming it.
+What typesetting returns — outlines measured in thousandths of an em, with their origin at the
+left baseline point and a transform of their own, and the extent they take about that origin.
+Placing it means wrapping it, not transforming it. The extent travels with the outlines because
+it is what a caller needs to put a run anywhere but its origin — to centre it, or to floor a
+[box](#box) to hold it — and it cannot be read back off the outlines without a laid-out page to
+measure in.
 
 **Box**:
 (extending the notation entry above) A box carries its own extent, rather than being sized to fit
