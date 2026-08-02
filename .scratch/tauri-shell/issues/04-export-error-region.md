@@ -119,7 +119,9 @@ wrote from the same two dots (`sha256 65658533…`, 280 bytes), with the button 
 - **The `instanceof Error ? .message : String(…)` idiom is repeated from `label-form.ts`, not
   extracted** — the two sites share four tokens and nothing else: different failures, different
   framings, and a helper holding one expression would be a module that explains less than it costs.
-  Extract when a third caller wants it.
+  It waited for a third caller, and
+  [diagram-model 03](../../diagram-model/issues/03-boxes-on-the-canvas.md)'s canvas refusal region
+  was the fourth: the expression now lives once, as `messageOf` in `failure.ts`.
 - **oxlint's `max-lines` counts code, not prose** — `skipComments` and `skipBlankLines`, added in
   `.oxlintrc.json` because the export tests crossed 300 lines with a third of them comment and
   blank. The budget now fires on a file that *does* too much rather than on one that says why, which
