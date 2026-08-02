@@ -113,8 +113,10 @@ export time the label's extent depends on the paper's fonts and is not knowable 
 a derived box would be one size on screen, another in TikZ, and undefined when the emitter runs.
 One model with two backends requires the same geometry in both. It would also put the typesetting
 seam on the critical path of geometry (a MathJax point release moves every box) and make "boxes
-never overlap" unstable across reopens. **Boxes auto-size on plop** — an initial value, not an
-invariant; after that the number is the user's.
+never overlap" unstable across reopens. **Boxes auto-size on plop** — a floor rather than a fit: the
+number is the user's, and it rises whenever a later source no longer fits, never falling
+([diagram-model ticket 02](../../diagram-model/issues/02-the-box-gesture.md), which amends the
+"initial value, not an invariant" this first read).
 
 **Label placement is a small set of discrete slots, not free coordinates.** A free `(dx, dy)`
 offset was proposed and dropped: constrained slots make diagrams consistent by construction and

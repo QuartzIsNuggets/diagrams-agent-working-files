@@ -146,10 +146,12 @@ be **meaningless**: a mark with nothing to mean — a [conclusion](#conclusion) 
 diagram is drawing, not proof: nothing here may become something a renderer needs.
 
 **Plop**:
-To make a mark by releasing the pointer where it goes. What is made is decided by what the release
-lands on: inside a [box](#box) it is a [term-dot](#term-dot), on empty [canvas](#canvas) it is a
-box. The release decides and the press is only provisional — a dot lands where the button comes
-up, not where it went down.
+To make a mark by releasing the pointer where it goes. What is made is decided by where the press
+lands: inside a [box](#box) it is a [term-dot](#term-dot), on empty [canvas](#canvas) it is a box.
+The release decides only placement — a dot lands where the button comes up, not where it went down,
+and a box takes its extent from the drag. So nothing tells a click from a drag: a click is a drag of
+no size, and what is being made was settled before the pointer moved. A dot released outside every
+box is refused, a term outside a type being nothing a diagram can hold.
 
 **Source**:
 The LaTeX a label is typeset from. It is the label's origin, not the label.
@@ -162,8 +164,9 @@ from; the glyph geometry is derived and never saved.
 
 **Label slot**:
 Where a box's label sits: one of six positions inside the box — top or bottom, left-aligned,
-centred or right-aligned. A discrete choice rather than a free offset, so labels cannot drift out
-of alignment, and the box auto-sizing when first placed means its label always fits inside. A path's
+centred or right-aligned, centred at the top until the user drags it elsewhere. A discrete choice
+rather than a free offset, so labels cannot drift out of alignment, and the box's floored extent
+means its label always fits inside. A path's
 or arrow's label is placed differently: a **fraction** of the way along the element — 0 at its
 start, 1 at its end — and a side of it, both taken relative to the element rather than to the page,
 so they survive the ends moving. A term-dot's label takes a side and nothing else, and that side is
@@ -174,7 +177,9 @@ _Avoid_: anchor — that is a term-dot, path or arrow, and nothing else
 **Typesetting**:
 Turning a source into glyph geometry: outlines that travel inside an exported file, never a
 reference to a font the viewer must already have. The distinction is the whole point of the
-capability. Which engine does it is behind a seam.
+capability. Which engine does it is behind a seam — so a source one engine will not set is not a
+*wrong* source, and a diagram read from a file keeps it, drawn unlabelled and reported. What no
+gesture will do is put one there: nothing the editor cannot draw enters a diagram by being typed.
 
 **Glyph geometry**:
 What typesetting returns — measured in thousandths of an em, origin at the left baseline point,
@@ -183,8 +188,12 @@ carrying a transform of its own. Placing it means wrapping it, not transforming 
 **Box**:
 (extending the notation entry above) A box carries its own extent, rather than being sized to fit
 its label — the TikZ backend re-typesets labels in the including document, so a label's size is
-not knowable to the editor and a derived extent would differ between backends. The extent is
-auto-fitted when the box is first placed, and the user's from then on.
+not knowable to the editor and a derived extent would differ between backends. The extent is the
+user's, floored: auto-fitted when the box is first placed, raised whenever a later
+[source](#source) no longer fits, and never lowered — so room given to a box is never taken back and
+a box never ends up too small for its own label. Boxes never overlapping is then kept by **making
+room** rather than by refusing: a box needing space another holds pushes it aside, along whichever
+axis needs least, and a box so pushed pushes its own neighbours in turn.
 
 **Term-dot**:
 (extending the notation entry above) Two dots never coincide, and the rule is the diagram's rather
@@ -247,6 +256,7 @@ screen and web, a TikZ emitter for papers
 that role to ink.
 
 **Chrome**:
-The on-page controls sitting over the canvas. Chrome is never part of a diagram, so it never
-reaches an export — which is why what *is* part of one carries its own presentation instead of
-being styled from the page.
+The on-page controls sitting over the canvas, and the marks a gesture makes before it lands — the
+provisional rectangle a box is drawn in, the LaTeX input naming it, the region a refusal is reported
+in. Chrome is never part of a diagram, so it never reaches an export — which is why what *is* part
+of one carries its own presentation instead of being styled from the page.

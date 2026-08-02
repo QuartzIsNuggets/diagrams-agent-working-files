@@ -16,10 +16,13 @@ already assumes.
 TikZ emitter never typesets, it hands the source to the including document. The backend keeps what
 it has set, keyed by source, so redrawing costs nothing after the first time.
 
-A source that will not set costs only its own label. The dot still draws, the source stays in the
-diagram to be corrected, and what could not be set is reported. This matters more than it looks:
-once Save exists, a file can carry LaTeX no form ever vetted, and refusing the whole drawing would
-mean a file that cannot be opened to be repaired.
+A source that will not set costs only its own label — of a diagram *read from a file*, which is
+where [ticket 02](./02-the-box-gesture.md) put this rule and where the argument for it always
+lay: once Save exists, a file can carry LaTeX no form ever vetted, and refusing the whole drawing
+would mean a file that cannot be opened to be repaired. So a loaded dot still draws, its source
+stays in the diagram to be corrected, and what could not be set is reported. Of a *gesture*, nothing
+is added at all and the source stays in the input — no typing puts into the diagram a source this
+backend cannot draw.
 
 **Blocked by:** [04](./04-term-dots-in-the-model.md).
 

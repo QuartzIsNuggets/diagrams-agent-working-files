@@ -18,10 +18,12 @@ decisions are carried by the tickets that act on them:
 | Types hold every invariant types can hold | [01](./issues/01-diagram-schema.md) |
 | A term-dot carries a label — the gap `goal.jpg` proves | [01](./issues/01-diagram-schema.md), [05](./issues/05-term-dot-labels.md) |
 | Boxes join the effort; a term outside a type is not representable | [02](./issues/02-the-box-gesture.md), [03](./issues/03-boxes-on-the-canvas.md) |
+| The press decides what a gesture makes; the release decides where | [02](./issues/02-the-box-gesture.md) |
+| A box's floor is permanent, and boxes make room rather than refuse | [02](./issues/02-the-box-gesture.md) |
 | The diagram is a value; transitions return the next one | [03](./issues/03-boxes-on-the-canvas.md) |
 | The diagram hit-tests, owning every extent | [03](./issues/03-boxes-on-the-canvas.md) |
-| The backend owns typesetting and its cache; no injected port | [05](./issues/05-term-dot-labels.md) |
-| A source that will not set costs only its own label | [05](./issues/05-term-dot-labels.md) |
+| The backend owns typesetting and its cache; no injected port | [02](./issues/02-the-box-gesture.md), [05](./issues/05-term-dot-labels.md) |
+| A source the editor cannot draw is kept when read, never made by a gesture | [02](./issues/02-the-box-gesture.md), [05](./issues/05-term-dot-labels.md) |
 | The model owns a minimum separation; backends own ink | [04](./issues/04-term-dots-in-the-model.md) |
 | Tests are replaced at the new interfaces, not layered over the old | [03](./issues/03-boxes-on-the-canvas.md), [04](./issues/04-term-dots-in-the-model.md) |
 | The export renders from the model | [06](./issues/06-export-renders-from-the-model.md) |
@@ -45,4 +47,6 @@ rather than its arc length — symmetric fan bows leave the two indistinguishabl
 render backends must read it the same way once they are not.
 
 **Numbers still unset:** the export margin, the frame of an empty diagram, the minimum separation,
-the set of sides a term-dot's label may take, and which of them it takes by default.
+the room a box gives its label inside its walls, and the set of sides a term-dot's label may take
+with which of them it takes by default. A box's own slot is settled — centred at the top
+([02](./issues/02-the-box-gesture.md)).
