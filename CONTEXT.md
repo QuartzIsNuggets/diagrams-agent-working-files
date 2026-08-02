@@ -203,7 +203,13 @@ user's, floored: auto-fitted when the box is first placed, raised whenever a lat
 [source](#source) no longer fits, and never lowered — so room given to a box is never taken back and
 a box never ends up too small for its own label. Boxes never overlapping is then kept by **making
 room** rather than by refusing: a box needing space another holds pushes it aside, along whichever
-axis needs least, and a box so pushed pushes its own neighbours in turn.
+axis needs least, and a box so pushed pushes its own neighbours in turn. The space a box needs is
+its extent and a **clearance** around it, so boxes stand apart rather than merely not overlapping —
+two walls flush against each other read as one figure with a line through it, and the notation has
+nothing to mean by a shared edge. That clearance is a length in [diagram units](#diagram-unit) and
+the model's own, exactly as a [term-dot](#term-dot)'s minimum separation is: how much air a drawing
+keeps between its types is the same claim on every backend, where a wall's thickness is each
+backend's to choose.
 
 **Term-dot**:
 (extending the notation entry above) Two dots never coincide, and the rule is the diagram's rather
