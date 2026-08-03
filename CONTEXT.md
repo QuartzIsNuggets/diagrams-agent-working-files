@@ -166,10 +166,14 @@ The LaTeX a label is typeset from. It is the label's origin, not the label.
 A typeset glyph run placed on a diagram. The source is LaTeX; the label is geometry — and the
 two are not interchangeable. A label belongs to the box, [term-dot](#term-dot) or
 [element](#element) it names and **keeps its source**, so the TikZ backend has something to emit
-from; the glyph geometry is derived and never saved. A term-dot's label is the one that is
-**optional** — a term can stand unnamed, and the gesture that plops one asks for a name it may be
-given up on — where a box *is* its type expression and an [element](#element) asserts nothing
-without one.
+from; the glyph geometry is derived and never saved. The **required** labels are the ones whose mark
+*is* its label: a [box](#box) is its type expression, and a [built-in rule](#built-in-rule) is the
+rule it names — an unnamed one is not a `pr₁` that lost its name but no rule at all. Every other
+label is **optional**. A term can stand unnamed, and the gesture that plops one asks for a name it
+may be given up on; a [path](#path), [self-path](#self-path) included, asserts its equality without
+being named, which is why most of the black in `goal.jpg` is bare; and an
+[in-theory function](#in-theory-function) may go unnamed too, though no drawing yet does. An
+[equivalence](#equivalence) is not named at all, having a glyph of its own and nothing else to say.
 
 **Label slot**:
 Where a box's label sits: one of six positions inside the box — top or bottom, left-aligned,
@@ -278,6 +282,34 @@ that role to ink.
 
 **Chrome**:
 The on-page controls sitting over the canvas, and the marks a gesture makes before it lands — the
-provisional rectangle a box is drawn in, the LaTeX input naming it, the region a refusal is reported
-in. Chrome is never part of a diagram, so it never reaches an export — which is why what *is* part
-of one carries its own presentation instead of being styled from the page.
+provisional rectangle a box is drawn in, the [naming bar](#naming-bar) that asks what it is called,
+the region a refusal is reported in. Chrome is never part of a diagram, so it never reaches an
+export — which is why what *is* part of one carries its own presentation instead of being styled
+from the page. Where a piece of it sits follows from what it acts on: chrome that names a **mark**
+goes to that mark and is there only while the question is open, where chrome acting on the
+**diagram** — the export control — has no mark to go to and keeps its corner. So an empty corner
+says nothing is being named, rather than saying the editor has no controls.
+
+**Naming bar**:
+The one place a [source](#source) is typed: chrome summoned at the mark a gesture is naming, and
+nowhere at all the rest of the time — a bar idling in a corner is a standing invitation to type
+LaTeX at nothing, where every source belongs to some mark. One is open at a time, so a second
+question can never throw away a typed source, and while one is open nothing else acts on the
+diagram: the canvas begins no gesture, and the drawing cannot be [exported](#export) half-made. It
+carries a tail aimed at its own mark, position alone having stopped telling two close marks apart
+once there is no corner it visibly travelled from.
+
+It closes on the source it was given, or on the question being given up on, and on nothing else —
+in particular a source the backend will not set closes nothing. The bar stays at the mark holding
+that source and saying why it will not set, so a refusal is corrected in place rather than by making
+the mark over again. That is the one thing it reports; a gesture that placed nothing, and a
+[save](#save) whose labels this backend cannot draw, are different questions and are answered away
+from the mark.
+
+Giving up has two forms, and only one of them works everywhere. **Escape** is asked for, and gives
+up on any naming. A **press elsewhere** is incidental, and gives up only where the label is an
+optional one — the press then starting the next gesture, since nothing was lost. Where the mark *is*
+its label ([box](#box), [built-in rule](#built-in-rule)) the press is refused and the bar says so by
+moving: an incidental click is no way to destroy a mark that cannot exist unnamed.
+_Avoid_: LaTeX bar, typeset bar — the first names what is typed rather than what is being done, and
+the second claims [typesetting](#typesetting), which happens behind a seam the bar never crosses
