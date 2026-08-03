@@ -166,7 +166,10 @@ The LaTeX a label is typeset from. It is the label's origin, not the label.
 A typeset glyph run placed on a diagram. The source is LaTeX; the label is geometry — and the
 two are not interchangeable. A label belongs to the box, [term-dot](#term-dot) or
 [element](#element) it names and **keeps its source**, so the TikZ backend has something to emit
-from; the glyph geometry is derived and never saved.
+from; the glyph geometry is derived and never saved. A term-dot's label is the one that is
+**optional** — a term can stand unnamed, and the gesture that plops one asks for a name it may be
+given up on — where a box *is* its type expression and an [element](#element) asserts nothing
+without one.
 
 **Label slot**:
 Where a box's label sits: one of six positions inside the box — top or bottom, left-aligned,
@@ -176,8 +179,10 @@ means its label always fits inside. A path's
 or arrow's label is placed differently: a **fraction** of the way along the element — 0 at its
 start, 1 at its end — and a side of it, both taken relative to the element rather than to the page,
 so they survive the ends moving. A term-dot's label takes a side and nothing else, and that side is
-**absolute** — a dot is a point, with no direction to take a side relative to. How far a label sits
-off the element or the dot is fixed, and each backend's own choice.
+**absolute** — a dot is a point, with no direction to take a side relative to. Four of them, and
+above the dot until the user moves it: `goal.jpg` sets a term's name to its left almost throughout,
+which is the lane a path arrives on. How far a label sits off the element or the dot is fixed, and each backend's own choice
+— measured from the dot's *edge*, so it does not move when a backend draws more ink.
 _Avoid_: anchor — that is a term-dot, path or arrow, and nothing else
 
 **Typesetting**:
