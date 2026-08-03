@@ -34,12 +34,13 @@ label was optional and that an [element](../../CONTEXT.md#element) asserts nothi
 whether the mark **is** its label, which is what [05](./issues/05-a-press-elsewhere-cancels-or-is-refused.md)
 reads and what keeps that ticket free of a list of kinds.
 
-## Numbers still unset
+## Numbers no ticket sets
 
 How far the bar stands clear of its mark, the tail's size, and the tail's minimum inset from the
-bar's corners — all three are the SVG surface's own, in the way the room a term-dot's label keeps
-off its dot already is. What the bar's refusal of an incidental press looks like is unset in the
-same way: [05](./issues/05-a-press-elsewhere-cancels-or-is-refused.md) asks only that the bar move.
+bar's corners were left to whoever built [04](./issues/04-the-bar-points-at-its-mark.md), and are
+the surface's own there in the way the room a term-dot's label keeps off its dot already is. What
+the bar's refusal of an incidental press looks like is left the same way:
+[05](./issues/05-a-press-elsewhere-cancels-or-is-refused.md) asks only that the bar move.
 
 **Assumed, never decided:** where focus goes when a bar closes. Nothing on the canvas takes it
 today, and no gesture yet needs it to.
