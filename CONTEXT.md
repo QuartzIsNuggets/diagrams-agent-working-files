@@ -157,7 +157,7 @@ lands: inside a [box](#box) it is a [term-dot](#term-dot), on empty [canvas](#ca
 The release decides only placement — a dot lands where the button comes up, not where it went down,
 and a box takes its extent from the drag. So nothing tells a click from a drag: a click is a drag of
 no size, and what is being made was settled before the pointer moved. A dot released outside every
-box is refused, a term outside a type being nothing a diagram can hold.
+box is [refused](#refusal), a term outside a type being nothing a diagram can hold.
 
 **Source**:
 The LaTeX a label is typeset from. It is the label's origin, not the label.
@@ -301,16 +301,43 @@ carries a tail aimed at its own mark, position alone having stopped telling two 
 once there is no corner it visibly travelled from.
 
 It closes on the source it was given, or on the question being given up on, and on nothing else —
-in particular a source the backend will not set closes nothing. The bar stays at the mark holding
-that source and saying why it will not set, so a refusal is corrected in place rather than by making
-the mark over again. That is the one thing it reports; a gesture that placed nothing, and a
-[save](#save) whose labels this backend cannot draw, are different questions and are answered away
-from the mark.
+in particular a source the backend will not set closes nothing. The bar [balks](#balk) and stays at
+the mark, holding that source and saying why it will not set, so a refusal is corrected in place
+rather than by making the mark over again. That and the press it will not take are the whole of what
+it reports, and it says one of them at a time — the last one it was asked. A gesture that placed
+nothing, and a [save](#save) whose labels this backend cannot draw, are different questions and are
+answered away from the mark.
 
 Giving up has two forms, and only one of them works everywhere. **Escape** is asked for, and gives
 up on any naming. A **press elsewhere** is incidental, and gives up only where the label is an
 optional one — the press then starting the next gesture, since nothing was lost. Where the mark *is*
-its label ([box](#box), [built-in rule](#built-in-rule)) the press is refused and the bar says so by
-moving: an incidental click is no way to destroy a mark that cannot exist unnamed.
+its label ([box](#box), [built-in rule](#built-in-rule)) the press is refused: an incidental click is
+no way to destroy a mark that cannot exist unnamed, so the bar [balks](#balk) and says why, naming
+the exit it *will* take — the user having just tried the one it will not, and a refusal that is a
+dead end being no answer at all. It says the one sentence to every required naming: what makes a
+label required is that the mark is it, which is the same fact whatever the mark, and the mark itself
+is on the page under the bar to be looked at.
 _Avoid_: LaTeX bar, typeset bar — the first names what is typed rather than what is being done, and
 the second claims [typesetting](#typesetting), which happens behind a seam the bar never crosses
+
+**Refusal**:
+The editor's answer to something attempted — a [plop](#plop) the diagram will not take, a
+[source](#source) the backend will not set, a press that would destroy a mark which cannot stand
+unnamed, a [write](#write) the filesystem would not make. What tells it from a **report** is that
+somebody just acted: a diagram opened carrying sources this backend cannot set is reported, nothing
+having been attempted for the editor to answer. So a refusal is *announced* — it happened, now, and
+whoever caused it is about to act again — where a report is only stated. Neither is the
+[checking layer](#checking-layer)'s warning, which is about the mathematics being wrong rather than
+about the editor declining to do something.
+_Avoid_: error, rejection — the first names any bad news, a report nobody asked for included
+
+**Balk**:
+How chrome that stays asking announces a [refusal](#refusal): it does not go, and says so by acting
+rather than only by writing. It belongs to chrome that survives its own refusal — the
+[naming bar](#naming-bar) is the only such today, both its refusals leaving the question open —
+because acting is what tells a second refusal from a first when the words are the same both times.
+The region a refused [plop](#plop) is reported in has no such repeat to tell apart, its gesture being
+over, so it stays still. Balking is what the editor does; how it is drawn is the page's own — a
+swing, or a coloured edge for a reader who wants no motion, one balk drawn two ways, the same split
+[role](#role) keeps with colour.
+_Avoid_: shake, swing, flash — each names one drawing of it
