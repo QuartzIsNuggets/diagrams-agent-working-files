@@ -156,8 +156,9 @@ To make a mark by releasing the pointer where it goes. What is made is decided b
 lands: inside a [box](#box) it is a [term-dot](#term-dot), on empty [canvas](#canvas) it is a box.
 The release decides only placement — a dot lands where the button comes up, not where it went down,
 and a box takes its extent from the drag. So nothing tells a click from a drag: a click is a drag of
-no size, and what is being made was settled before the pointer moved. A dot released outside every
-box is [refused](#refusal), a term outside a type being nothing a diagram can hold.
+no size, and what is being made was settled before the pointer moved. A dot released where no room
+is left for one is [refused](#refusal) — outside every box, a term outside a type being nothing a
+diagram can hold, or too near a wall or a dot already placed.
 
 **Source**:
 The LaTeX a label is typeset from. It is the label's origin, not the label.
@@ -216,16 +217,17 @@ axis needs least, and a box so pushed pushes its own neighbours in turn. The spa
 its extent and a **clearance** around it, so boxes stand apart rather than merely not overlapping —
 two walls flush against each other read as one figure with a line through it, and the notation has
 nothing to mean by a shared edge. That clearance is a length in [diagram units](#diagram-unit) and
-the model's own, exactly as a [term-dot](#term-dot)'s minimum separation is: how much air a drawing
+the model's own, exactly as the room a [term-dot](#term-dot) keeps is: how much air a drawing
 keeps between its types is the same claim on every backend, where a wall's thickness is each
 backend's to choose.
 
 **Term-dot**:
-(extending the notation entry above) Two dots never coincide, and the rule is the diagram's rather
-than the drawing's: it owns a **minimum separation** in [diagram units](#diagram-unit) between two
-dots' positions and refuses a placement closer than that. Each [render backend](#render-backend)
-then draws a dot small enough that two of them that far apart stay clear. The constraint is the
-model's and the size is the backend's — the same split [role](#role) already has with colour.
+(extending the notation entry above) A dot keeps **room** about its place, a length in
+[diagram units](#diagram-unit), and a placement putting anything inside that room is refused —
+another dot's room, or the outside of the box, so two dots never coincide and no dot straddles a
+wall. Each [render backend](#render-backend) then draws a dot no larger than that room. The
+constraint is the model's and the size is the backend's — the same split [role](#role) already has
+with colour.
 
 **Save**:
 Recording a diagram so it can be reopened exactly. A save carries the diagram — never the drawing —

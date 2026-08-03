@@ -47,9 +47,10 @@ rather than its arc length — symmetric fan bows leave the two indistinguishabl
 render backends must read it the same way once they are not.
 
 **Numbers still unset:** the export margin and the frame of an empty diagram. Two more are
-placeholders no drawing has argued with rather than unset: the minimum separation between two dots,
-10 units and what the editor already drew ([04](./issues/04-term-dots-in-the-model.md)), and the
-clearance boxes keep, 12 ([07](./issues/07-boxes-keep-a-clearance.md)). The sides a term-dot's label
+placeholders no drawing has argued with rather than unset: the room a dot keeps about its place,
+5 units and half the separation the editor already drew
+([04](./issues/04-term-dots-in-the-model.md)), and the clearance boxes keep, 12
+([07](./issues/07-boxes-keep-a-clearance.md)). The sides a term-dot's label
 may take are settled — four, and above it by default
 ([05](./issues/05-term-dot-labels.md)) — and so is the room it keeps off the dot, which is the
 SVG backend's constant rather than a number the model carries. A box's own
