@@ -22,16 +22,51 @@ that looks exactly as live as ever while absorbing presses says nothing about wh
 
 **Blocked by:** [03](./03-the-bar-is-summoned-at-the-mark.md).
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] Pressing elsewhere while naming a term-dot gives up on the name and begins the next gesture in
+- [x] Pressing elsewhere while naming a term-dot gives up on the name and begins the next gesture in
       the same press
-- [ ] The dot given up on stays where it was, unnamed
-- [ ] Pressing elsewhere while naming a box is refused: the bar moves to say so, keeps the source,
+- [x] The dot given up on stays where it was, unnamed
+- [x] Pressing elsewhere while naming a box is refused: the bar moves to say so, keeps the source,
       keeps the question open, and no gesture begins
-- [ ] Which happens is derived from whether the mark can stand unnamed, so a kind that becomes
+- [x] Which happens is derived from whether the mark can stand unnamed, so a kind that becomes
       drawable later is covered without the rule being extended
-- [ ] Escape gives up on either, and a box given up on is never made
-- [ ] No press during a naming is absorbed in silence
+- [x] Escape gives up on either, and a box given up on is never made
+- [x] No press during a naming is absorbed in silence
 
 ## Choices
+
+- **The naming is written on the question, not read off the mark's kind** — `askForSource` takes a
+  `Naming` beside the point it hangs at, `required` or `optional`, and the bar reads that and nothing
+  else about what is being named. The word is the model's, the glossary already telling required
+  labels from optional ones, so a gesture that becomes drawable states which its mark is in one
+  argument and every rule turning on the answer covers it untouched. Move it onto a mark itself if
+  one ever exists before its name does — a box does not, which is the whole reason the fact travels
+  with the asking.
+- **The shell stopped keeping its own "a bar is asking"** — there is one bar and it is the bar that
+  knows, and a press now ends a naming *and* begins a gesture in the same breath, so a flag beside it
+  would have been stale for exactly as long as it took the displaced naming to come back. The shell
+  asks the bar instead, and a press it may not go on with is the bar's `no` rather than the shell's.
+  What that admits is that a question outlives the editor that asked it, the bar being the page's:
+  two editors would share one, and the tests give up on whatever the last one left open before the
+  next begins. Scope the question to an editor when a page ever holds two.
+- **A gesture count, so a naming a press displaced ends nothing** — the press that gives up on one
+  starts a gesture, and the naming comes back afterwards to an editor already drawing that gesture:
+  ending it would take down the rectangle the bar is now asking about and empty a region the new
+  gesture just wrote. `named` reads the count it began on, which is the identity check the bar makes
+  on its own form. It goes if a gesture is ever a value the shell holds — that value would be the
+  identity.
+- **The refusal is a class the stylesheet swings, taken off as the swing ends** — an animation is
+  something that happened rather than a state the bar is in, so nothing has to remember to clear it
+  and the look stays in the stylesheet with the rest of the bar's. A press landing mid-swing adds a
+  class already there and changes nothing, the bar being mid-refusal at that moment anyway. Restart
+  it on every press if the swing is ever slowed enough for that to read as absorbing one.
+- **A reader who wants no motion is answered by another animation, never by none** — the same class,
+  running the refusal's colour over the input's edge instead of swinging the bar, because the class
+  comes off when an animation under it ends: switching the animation off would leave it on for good
+  and every press after would be swallowed in the silence this ticket is against. That the bar hears
+  an animation ending on its input is what the arrangement rests on, so it is pinned by a test.
+- **A press elsewhere hands back what became of it, not permission** — `pressElsewhere` answers
+  `goes-on` or `refused`, where a boolean read at the call site as a question about the press rather
+  than as the act it is: asking gives up on a naming or sets the bar swinging, and a caller that
+  ignored the answer would have ended one either way.

@@ -295,7 +295,8 @@ The one place a [source](#source) is typed: chrome summoned at the mark a gestur
 nowhere at all the rest of the time — a bar idling in a corner is a standing invitation to type
 LaTeX at nothing, where every source belongs to some mark. One is open at a time, so a second
 question can never throw away a typed source, and while one is open nothing else acts on the
-diagram: the canvas begins no gesture, and the drawing cannot be [exported](#export) half-made. It
+diagram behind it: the canvas begins no gesture but the one a press gave the naming up for, and the
+drawing cannot be [exported](#export) half-made. It
 carries a tail aimed at its own mark, position alone having stopped telling two close marks apart
 once there is no corner it visibly travelled from.
 
