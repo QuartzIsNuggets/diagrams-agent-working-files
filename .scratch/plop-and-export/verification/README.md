@@ -3,43 +3,24 @@
 The jsdom suite (`src/export-svg.test.ts`) can prove the exported file's *structure*: correct
 namespace, own `viewBox`, glyph paths carried over, nothing referencing anything outside it. What
 it cannot prove is that a real SVG renderer — one that has never heard of this page, its
-stylesheet or its fonts — draws the file the way the screen does. That is the risk ticket 04
-exists to retire, so it is checked against actual renderers here.
+stylesheet or its fonts — draws the file the way the screen does. That was the risk ticket 04
+existed to retire, and it was checked against actual renderers here.
 
-Everything in this directory is reproducible from the two sources in it.
+## Superseded
 
-## Re-running
-
-From the **code project root** (`../` from the submodule, i.e. `~/…/diagrams`):
-
-```sh
-# 1. Export a canvas of five dots and three typeset labels through the
-#    production modules, straight into diagram.svg.
-pnpm vitest run --config agents-working-files/.scratch/plop-and-export/verification/vitest.config.ts
-
-# 2. Open that file with two independent renderers that share nothing with the app.
-cd agents-working-files/.scratch/plop-and-export/verification
-rsvg-convert -b white -o diagram-rsvg.png diagram.svg
-inkscape --export-type=png --export-filename=diagram-inkscape.png diagram.svg
-
-# 3. Confirm it is vector all the way down: no font is embedded and no bitmap
-#    appears, so every mark in it is path geometry.
-rsvg-convert -f pdf -o /tmp/diagram.pdf diagram.svg
-pdffonts /tmp/diagram.pdf        # expect: no rows
-pdfimages -list /tmp/diagram.pdf # expect: no rows
-```
-
-`export-fidelity.check.ts` is a `.check.ts`, not a `.test.ts`: it writes an artifact rather than
-asserting anything, so it is deliberately outside the project's suite and needs the config beside
-it. No production config knows it exists.
+The harness that produced this is gone: it built its canvas through `enablePlopping` and
+`enableLabelPlacing`, and an export was `serializeCanvas`, none of which the diagram-model effort
+left standing. The check is re-made — against a file the screen never drew, which is
+[ticket 06](../../diagram-model/issues/06-export-renders-from-the-model.md)'s whole point — by
+[`diagram-model/verification/export-fidelity.md`](../../diagram-model/verification/export-fidelity.md),
+which is the recipe to run. What is kept here is the dated result below and the three artifacts it
+is about.
 
 ## What is in here
 
 | File | What it is |
 | --- | --- |
-| `export-fidelity.check.ts` | Builds the canvas through `enablePlopping` / `enableLabelPlacing` and writes `serializeCanvas`'s output. The only hand-written input. |
-| `vitest.config.ts` | Runs the above, and nothing else. |
-| `diagram.svg` | The exported file — the thing under test. |
+| `diagram.svg` | The exported file — the thing that was under test. |
 | `diagram-rsvg.png` | `rsvg-convert`'s rendering of it (librsvg/cairo). |
 | `diagram-inkscape.png` | Inkscape's rendering of it. |
 

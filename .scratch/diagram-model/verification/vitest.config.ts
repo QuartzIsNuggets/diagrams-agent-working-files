@@ -10,6 +10,6 @@ export default defineConfig({
   root: fileURLToPath(new URL("../../../../", import.meta.url)),
   test: {
     environment: "jsdom",
-    include: ["agents-working-files/.scratch/plop-and-export/verification/*.check.ts"],
+    include: ["agents-working-files/.scratch/diagram-model/verification/*.check.ts"],
   },
 });

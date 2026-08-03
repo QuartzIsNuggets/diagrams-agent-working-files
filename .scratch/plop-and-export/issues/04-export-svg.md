@@ -38,9 +38,10 @@ the criteria are: the filename is asserted to end in `.svg`, not to be `diagram.
 revoke is asserted to be *deferred*, not to be deferred by any particular number of milliseconds.
 
 **Criteria 4–5, against real renderers.** These are the ones jsdom cannot speak to, so they are
-checked outside it and the check is committed and re-runnable —
-[`verification/`](../verification/README.md) holds the harness, the exported file, and both
-renderings. A canvas of five dots and three labels (`\Sigma_{(x:A)} P(x)`,
+checked outside it —
+[`verification/`](../verification/README.md) holds the exported file and both renderings, the
+harness having since been rewritten by diagram-model's ticket 06. A canvas of five dots and three
+labels (`\Sigma_{(x:A)} P(x)`,
 `\int_0^\infty e^{-x^2}\,dx = \frac{\sqrt{\pi}}{2}`, `f : \mathbb{N} \to \mathbb{R}`) is exported
 through the production path, and the resulting file is opened by two independent renderers that
 share nothing with the app: `rsvg-convert` (librsvg/cairo) and Inkscape both drew the dots and
