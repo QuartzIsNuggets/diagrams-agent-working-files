@@ -25,7 +25,7 @@ Arrived at by grilling, 2026-08-03. What the bar *is* lives in the glossary
 **Nothing advertises Enter or Escape, and that is a decision rather than an omission.** It shows up
 in every ticket as an absence and is argued in none: the bar cannot be reached without typing into
 it, so the hands are already on both exits, and this editor has one user who knows its contract.
-Discoverability is not a goal here, which is why the line under the input carries a refusal and
+Discoverability is not a goal here, which is why the line over the input carries a refusal and
 nothing else — a resting hint would have been the button back under another name.
 
 **The drawing corrected the glossary.** [Label](../../CONTEXT.md#label) held that only a term-dot's
