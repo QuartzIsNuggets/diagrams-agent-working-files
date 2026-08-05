@@ -26,22 +26,36 @@ them would have to cross that seam the way a box's floor does. Left until a draw
 
 **Blocked by:** None — can start immediately.
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] A dot released too near a wall to fit inside the box is refused, and the refusal says so
-- [ ] The refusal is its own reason beside the one for a dot too close to another dot: containment
+- [x] A dot released too near a wall to fit inside the box is refused, and the refusal says so
+- [x] The refusal is its own reason beside the one for a dot too close to another dot: containment
       and disjointness are two rules, and the shell words each
-- [ ] The model owns the room a dot keeps about its place, in
+- [x] The model owns the room a dot keeps about its place, in
       [diagram units](../../../CONTEXT.md#diagram-unit), and both rules read off that one number —
       neither a separation nor a wall distance is carried beside it
-- [ ] A release exactly a room inside a wall lands, as a release exactly two rooms from another dot
+- [x] A release exactly a room inside a wall lands, as a release exactly two rooms from another dot
       does: touching is clear, on both rules alike
-- [ ] The [render backend](../../../CONTEXT.md#render-backend) draws a dot no larger than its room,
+- [x] The [render backend](../../../CONTEXT.md#render-backend) draws a dot no larger than its room,
       taken from the model's number and not halved on the way
-- [ ] What [04](./04-term-dots-in-the-model.md) promised is unchanged: the same releases refused for
+- [x] What [04](./04-term-dots-in-the-model.md) promised is unchanged: the same releases refused for
       the same dots, and the model still names no size
-- [ ] Tested purely — no DOM, no faked layout — with each rule asserted against the room rather than
+- [x] Tested purely — no DOM, no faked layout — with each rule asserted against the room rather than
       against the number it currently holds, and the wall band tested at a corner as well as a side
+
+`DOT_SEPARATION` became `DOT_ROOM`, 10 became 5, and `addDot` grew a second guard. Disjointness is
+`roomsOverlap`, one line; containment turned out to be a question the model already asked, so
+`boxAt`'s predicate became `within(box, at, room)` and the two now differ by the room they pass —
+a point being a room of nothing. `DOT_RADIUS` is now `DOT_ROOM` rather than half of something,
+which is the `/ 2` the ticket came for. `Refusal` gained `too-near-a-wall` and `REFUSALS` the
+sentence for it.
+
+Nothing about the drawing changed, as promised: the ticket-06 export harness rebuilt
+`verification/diagram.svg` byte for byte, a dot's ink being 5 units of radius before and after.
+
+A corner turned out not to be the case it looks like. A dot's room is round, so keeping it inside
+a rectangle is exactly the two axis comparisons and a corner cuts off nothing further — the test is
+there because the ticket asked for it, and it asserts that a release touching *both* walls lands.
 
 ## What this amends
 
@@ -52,3 +66,12 @@ them would have to cross that seam the way a box's floor does. Left until a draw
   numbers still unset. Nothing further is owed them.
 
 ## Choices
+
+- **The model's wall is the extent line, so a dot may touch the wall's ink** — the SVG backend
+  strokes a wall astride that line, and a dot exactly a room in therefore meets the inner half of
+  it. Inking the model's containment exactly would mean drawing a dot at `DOT_ROOM - BOX_STROKE / 2`
+  — a backend correcting the model's number again, which is the `/ 2` this ticket came to remove.
+  Give the wall a room of its own in the model if a drawing ever reads badly for it.
+
+_The order the two rules are asked in was a fork too, and is settled in `addDot`'s own comment
+rather than here: the code is where "swap them if…" has to be read._
