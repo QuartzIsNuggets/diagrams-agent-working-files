@@ -54,20 +54,31 @@ Nothing a user can see changes.
 — not in substance, which is untouched by it, but because both restructure the same backend and
 sequencing them is cheaper than merging them.
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] What a source has been set to lives in one module, behind three doors that each name a
+- [x] What a source has been set to lives in one module, behind three doors that each name a
       different question
-- [ ] Nothing reaches past those doors — the drawing asks for what it may draw rather than reading
+- [x] Nothing reaches past those doors — the drawing asks for what it may draw rather than reading
       what is remembered
-- [ ] Asking for a source retries one that refused; filling in a diagram's sources replays it and
+- [x] Asking for a source retries one that refused; filling in a diagram's sources replays it and
       names it. Neither rule is left for a caller to remember
-- [ ] The backend still owns the one store, and the shell learns nothing of it
-- [ ] The store's bookkeeping is tested through its own doors against a faked engine, with no canvas
+- [x] The backend still owns the one store, and the shell learns nothing of it
+- [x] The store's bookkeeping is tested through its own doors against a faked engine, with no canvas
       and no diagram
-- [ ] The backend's suite keeps every claim about ink and about its own compositions, and no longer
+- [x] The backend's suite keeps every claim about ink and about its own compositions, and no longer
       counts engine calls
-- [ ] `CONTEXT.md` defines **Set**, and [Typesetting](../../../CONTEXT.md#typesetting) points at it
-- [ ] No visible change: the same marks, the same refusals, the same file out
+- [x] `CONTEXT.md` defines **Set**, and [Typesetting](../../../CONTEXT.md#typesetting) points at it
+- [x] No visible change: the same marks, the same refusals, the same file out — the marks, the
+      refusals and the serialized document each being a claim the suite already made, and all 251
+      still standing
 
 ## Choices
+
+- **The code is named for the mechanism, the glossary for the promise** — `createLabelStore` is this
+  ticket's own door name, and a store is fairly what keeps what **Set** promises; so the `_Avoid_`
+  line scopes itself to naming *what a source has come to* rather than banning the word the module is
+  built on, and the module header declares its word. Rename both together, or not at all.
+- **`Unset` moves to the store and the backend re-exports it** — it is what the filling door hands
+  back, so it is the store's word; passing it through leaves the shell importing the one name from
+  the one place it already did. Import it from the store directly the day the shell is told there is
+  a store.

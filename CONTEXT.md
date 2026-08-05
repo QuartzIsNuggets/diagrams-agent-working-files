@@ -213,6 +213,7 @@ reference to a font the viewer must already have. The distinction is the whole p
 capability. Which engine does it is behind a seam — so a source one engine will not set is not a
 *wrong* source, and a diagram read from a file keeps it, drawn unlabelled and reported. What no
 gesture will do is put one there: nothing the editor cannot draw enters a diagram by being typed.
+Typesetting is the act; what a source has come to once it is done is [set](#set).
 
 **Glyph geometry**:
 What typesetting returns — outlines measured in thousandths of an em, with their origin at the
@@ -221,6 +222,20 @@ Placing it means wrapping it, not transforming it. The extent travels with the o
 it is what a caller needs to put a run anywhere but its origin — to centre it, or to floor a
 [box](#box) to hold it — and it cannot be read back off the outlines without a laid-out page to
 measure in.
+
+**Set**:
+What a [source](#source) has come to: the [glyph geometry](#glyph-geometry) it was
+[typeset](#typesetting) into, or the refusal there was instead, remembered for as long as the editor
+runs. The refusal is kept as the refusal, so whoever asks next is told exactly what the first caller
+was. Two acts read it and they differ — **asking retries, drawing replays**. Someone re-submitting a
+source at the [naming bar](#naming-bar) is asking for exactly that, and a boot the engine got wrong
+once must not leave that source unsettable for the session; drawing asks nothing and takes what is
+remembered, or every frame would retry every source that will not set and report it again. Each
+[render backend](#render-backend) owns what it has set, and knows it by source alone — never by the
+mark the source came off.
+_Avoid_: cache, store — as a word for what a source has come to. Both name the mechanism that
+remembers it, which the module keeping one may fairly be called after; what no name may leave vague
+is which of the two acts a caller is making
 
 **Box**:
 (extending the notation entry above) A box carries its own extent, rather than being sized to fit
