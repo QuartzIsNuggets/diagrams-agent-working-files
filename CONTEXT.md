@@ -152,9 +152,15 @@ be **meaningless**: a mark with nothing to mean — a [conclusion](#conclusion) 
 diagram is drawing, not proof: nothing here may become something a renderer needs.
 
 **Gesture**:
-The arc a pointer makes on the [canvas](#canvas): a press, the drag it may become, and the release
-that ends it. Nothing else changes a [diagram](#diagram) — what one makes is a [plop](#plop), and
-what it leaves on screen before it lands is [chrome](#chrome). It is no
+The arc a pointer makes on the [canvas](#canvas): a press, the drag it may become, the release that
+ends it, and the naming that release asks for. The arc runs to the end of that question, not to the
+button coming up — the mark it left standing is what the question is about, so the gesture that put
+that mark up is what takes it down, once the naming settles either way. **One runs at a time**, the
+[naming bar](#naming-bar) being what keeps a press from starting a second — so a naming a press
+displaced comes back late, to a canvas the gesture that displaced it is drawing into, and ends
+nothing there. Nothing else
+changes a [diagram](#diagram) — what one makes is a [plop](#plop), and what it leaves on screen
+meanwhile is [chrome](#chrome). It is no
 [render backend](#render-backend)'s: it is told where the pointer is in [diagram units](#diagram-unit)
 and handed a way to show how far the drag has got, knowing nothing of the flip, the scale or the ink
 those are drawn with — which is why the backend that emits a file, having no pointer to follow, has
@@ -294,7 +300,7 @@ screen and web, a TikZ emitter for papers
 that role to ink.
 
 **Chrome**:
-The on-page controls sitting over the canvas, and the marks a gesture makes before it lands — the
+The on-page controls sitting over the canvas, and the marks a gesture makes while it runs — the
 provisional rectangle a box is drawn in, the [naming bar](#naming-bar) that asks what it is called,
 the region a refusal is reported in. Chrome is never part of a diagram, so it never reaches an
 export — which is why what *is* part of one carries its own presentation instead of being styled
