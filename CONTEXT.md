@@ -151,9 +151,20 @@ be **meaningless**: a mark with nothing to mean — a [conclusion](#conclusion) 
 [built-in rule](#built-in-rule) — is not something a diagram can hold in the first place. A
 diagram is drawing, not proof: nothing here may become something a renderer needs.
 
+**Gesture**:
+The arc a pointer makes on the [canvas](#canvas): a press, the drag it may become, and the release
+that ends it. Nothing else changes a [diagram](#diagram) — what one makes is a [plop](#plop), and
+what it leaves on screen before it lands is [chrome](#chrome). It is no
+[render backend](#render-backend)'s: it is told where the pointer is in [diagram units](#diagram-unit)
+and handed a way to show how far the drag has got, knowing nothing of the flip, the scale or the ink
+those are drawn with — which is why the backend that emits a file, having no pointer to follow, has
+none of this either. While one runs the pointer is followed wherever it goes, a drag having to be
+let go of anywhere.
+
 **Plop**:
-To make a mark by releasing the pointer where it goes. What is made is decided by where the press
-lands: inside a [box](#box) it is a [term-dot](#term-dot), on empty [canvas](#canvas) it is a box.
+To make a mark by releasing the pointer where it goes — what a [gesture](#gesture) comes to. What is
+made is decided by where the press lands: inside a [box](#box) it is a [term-dot](#term-dot), on
+empty [canvas](#canvas) it is a box.
 The release decides only placement — a dot lands where the button comes up, not where it went down,
 and a box takes its extent from the drag. So nothing tells a click from a drag: a click is a drag of
 no size, and what is being made was settled before the pointer moved. A dot released where no room

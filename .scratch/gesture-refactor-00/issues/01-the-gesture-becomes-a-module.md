@@ -54,17 +54,36 @@ makes that a gap worth closing. A gesture is the arc; what one *makes* is a plop
 
 **Blocked by:** None — can start immediately.
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] Press–drag–release lives in a module of its own, and that module imports nothing from the
+- [x] Press–drag–release lives in a module of its own, and that module imports nothing from the
       render backend
-- [ ] It is told where a pointer is and what to show — the flip, the scale and the ink stay behind
+- [x] It is told where a pointer is and what to show — the flip, the scale and the ink stay behind
       the backend's interface
-- [ ] The window is watched only while a drag is in flight, and nothing about which press draws, or
+- [x] The window is watched only while a drag is in flight, and nothing about which press draws, or
       whose release a gesture is, changes
-- [ ] The backend composes over it, and the shell's call sites are untouched
-- [ ] The gesture is tested through its own interface, with no canvas and no layout stub
-- [ ] The backend's suite keeps the crossing and the provisional rectangle's ink
-- [ ] `CONTEXT.md` defines **Gesture**, and [Plop](../../../CONTEXT.md#plop) points at it
+- [x] The backend composes over it, and the shell's call sites are untouched
+- [x] The gesture is tested through its own interface, with no canvas and no layout stub
+- [x] The backend's suite keeps the crossing and the provisional rectangle's ink
+- [x] `CONTEXT.md` defines **Gesture**, and [Plop](../../../CONTEXT.md#plop) points at it
 
 ## Choices
+
+- **`show` is called at every step whatever the gesture shows, `undefined` meaning *nothing to
+  show*** — the shape left the `undefined` arm open, and calling only for a rectangle would leave it
+  unreachable. So the press's answer is the module's to keep and the caller is told either way. The
+  other reading, *take down what is showing*, would have the gesture retracting a mark it never made:
+  one showing no rectangle has never drawn one, and what a landed gesture leaves standing is
+  `clearChrome`'s. Give it that meaning the day a gesture has a mark to take back mid-flight.
+- **`preventDefault` on the press moved with the press** — suppressing the UA's text selection is a
+  fact about a press being a drag rather than about ink, and leaving it behind would cost the backend
+  a second `pointerdown` listener racing this one for the same event. Move it back the day a caller
+  wants a press that selects text.
+- **`Started` left the backend's interface rather than being re-exported** — it is the gesture's
+  word, and the backend re-exporting it would say a caller has to know a backend to name what a press
+  answers. Nothing moved: `editor.ts` names it nowhere, answering in literals.
+- **One in-flight gesture, kept in a variable, rather than a closure per press** — the listeners
+  could have closed over the press instead, with no shared state; but then two primary presses with
+  no release between them would leave the first pair attached for good, where one variable keeps
+  exactly the *last* press's gesture, as before. Key by `pointerId` the day a gesture per pointer is
+  wanted.
