@@ -36,15 +36,27 @@ so rather than left standing contradicted.
 feature. This needs nothing 01 builds and would work against the settling that exists today; it is
 sequenced after it because both rewrite the same door.
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] A diagram exports fully labelled whether or not anything settled it first
-- [ ] The precondition is gone from the prose, not restated in it
-- [ ] Drawing to the screen stays synchronous and still draws whatever is set, the rest arriving as
+- [x] A diagram exports fully labelled whether or not anything settled it first
+- [x] The precondition is gone from the prose, not restated in it
+- [x] Drawing to the screen stays synchronous and still draws whatever is set, the rest arriving as
       it does
-- [ ] The export says nothing new about sources that will not set — the file matches the screen
-- [ ] The [hand-off](../../../CONTEXT.md#hand-off) still rides the click that asked for it, and the
+- [x] The export says nothing new about sources that will not set — the file matches the screen
+- [x] The [hand-off](../../../CONTEXT.md#hand-off) still rides the click that asked for it, and the
       writer's account of why is rewritten to match what now happens
-- [ ] Both suites stop settling a diagram by hand before serializing one
+- [x] Both suites stop settling a diagram by hand before serializing one
 
 ## Choices
+
+- **The settling went into `drawDocument`, not into `serializeDiagram`** — at the backend's document
+  door the precondition stops existing for everyone who asks for a document, where one module up it
+  would only have been discharged by the one caller and left standing in the backend's prose. Move it
+  out the day a render backend has a document door with no store behind it.
+- **One `.catch` still covers the whole press** — a settling hands back what would not set as data
+  rather than rejecting, so the rejection worth wording for is still the write. A drawing that throws
+  now lands in that same message instead of escaping the handler as it used to, which is the better
+  of the two. Split the catch the day the document door can fail on its own.
+- **The fidelity harness asserts on the file rather than settling first** — it kept a loud failure
+  when a fixture source will not set, which its hand-settling used to give it and which an export
+  deliberately no longer reports. Drop the two counts if the fixture ever stops being a fixed one.

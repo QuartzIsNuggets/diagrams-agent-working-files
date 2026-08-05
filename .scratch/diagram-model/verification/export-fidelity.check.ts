@@ -10,7 +10,6 @@ import { expect, it } from "vitest";
 import type { Diagram, DotSide, Point } from "../../../../src/diagram";
 import { addBox, addDot, EMPTY_DIAGRAM, labelDot } from "../../../../src/diagram";
 import { serializeDiagram } from "../../../../src/export-svg";
-import { setLabelsOf } from "../../../../src/render-svg";
 
 // Written next to this file. Vitest is run from the project root (see the doc).
 const OUT = "agents-working-files/.scratch/diagram-model/verification/diagram.svg";
@@ -56,9 +55,17 @@ it("exports a diagram of boxes, dots and typeset labels to diagram.svg", async (
     BOXES.reduce<Diagram>((sofar, box) => addBox(sofar, box), EMPTY_DIAGRAM),
   );
 
-  // The backend draws from runs it has already set, which is the one thing an
-  // export needs of the world outside the model.
-  expect(await setLabelsOf(built)).toEqual([]);
+  // Handed over exactly as the model holds it: the export sets its own labels,
+  // so this harness owes the diagram nothing before asking for a file — which
+  // is the other half of what is being checked, a diagram no gesture built
+  // still coming out named.
+  const file = await serializeDiagram(built);
 
-  writeFileSync(OUT, serializeDiagram(built));
+  // Asserted before it is written, because an export names no source it could
+  // not set: one this fixture got wrong would otherwise reach the artifact as a
+  // mark quietly missing its label, for a human to notice or not.
+  expect(file.match(/<g class="box-label"/gu)).toHaveLength(BOXES.length);
+  expect(file.match(/<g class="dot-label"/gu)).toHaveLength(DOTS.length);
+
+  writeFileSync(OUT, file);
 }, 60000);
