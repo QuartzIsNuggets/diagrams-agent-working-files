@@ -34,12 +34,14 @@ What the answer has to settle beyond the file it lands in:
   [Diagram](../../../CONTEXT.md#diagram) entry says it is *"the thing that answers where a point
   falls"*. If the answer moves, that sentence is amended in place rather than annotated — and the
   gesture that asks *what is under the pointer* has a new thing to ask.
-- **Where a memo lives, given a diagram is a value.** [Ticket 01](./01-what-a-shaft-is.md)'s pass
-  memoises, and a value has nowhere to hang a memo. Per redraw, per module, or per caller — and
-  whether that makes the derivation a function or an object.
+- **Where the sweep's result lives, given a diagram is a value.**
+  [Ticket 01](./01-what-a-shaft-is.md)'s pass is one forward walk filling a map, so there is no memo
+  to place — but the map it fills has nowhere to hang on a value either. Per redraw, per module, or
+  per caller, and whether that makes the derivation a function or an object.
 - **What the backend is handed.** A shaft per element, or a whole drawn diagram; whether the
-  backend asks for one element's geometry or is given the lot; and how much of the
-  *trimmed-versus-untrimmed* split from [ticket 01](./01-what-a-shaft-is.md) is the backend's.
+  backend asks for one element's geometry or is given the lot. The trim is no longer part of this:
+  [ticket 01](./01-what-a-shaft-is.md) made the shared shaft untrimmed and left keeping a head clear
+  of a dot's room wholly to the backend.
 - **Whether the answer earns an ADR.** [ADR 2](../../../docs/adr/0002-geometry-is-abstract-and-derived.md)
   established that shape is derived and said nothing about who derives it; this is the same class of
   decision as [ADR 2](../../../docs/adr/0002-geometry-is-abstract-and-derived.md) and

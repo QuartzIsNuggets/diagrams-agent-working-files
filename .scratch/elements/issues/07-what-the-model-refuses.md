@@ -27,11 +27,11 @@ The cases:
   [fan](../../../CONTEXT.md#fan) is for, and `p` and `p⁻¹` are two different proofs. Confirm there
   is no duplicate rule, so no later reader invents one.
 - **A cycle.** Two elements each landing on the other — `p` attaching to `q` while `q` attaches to
-  `p`. [Ticket 01](./01-what-a-shaft-is.md) has to guard against it because a resolution pass would
-  not terminate; the question here is whether the *drawing* is meaningless, and so unmakeable, or
-  merely strange and left to draw. The two answers are worth their own weight: make it unmakeable
-  and ticket 01's guard becomes a bug detector rather than a fallback to a shape that disagrees with
-  what is drawn. This is the one case that genuinely blocks on ticket 01.
+  `p`. Neither refused nor made unmakeable, being unreachable: an element only ever anchors onto
+  anchors that already exist and nothing re-anchors one afterwards, so its anchor ids are strictly
+  smaller than its own and the relation points backwards in time.
+  [What a shaft is](./01-what-a-shaft-is.md) rests its resolution pass on exactly that and carries no
+  guard. Name it here as not refused, and say why, so no later reader invents a rule for it.
 - **An element onto an anchor it cannot reach**, if such a thing exists — an element inside a box it
   is not in, an arrow across [levels](../../../CONTEXT.md#level). Most of this smells like the
   checking layer's; the ticket's job is to say which of it is and to stop there.

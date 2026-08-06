@@ -42,9 +42,10 @@ field dropped and a warning**, never refused. Save is the ticket that implements
 
 **Assumed, never decided:** the backend redraws by rebuilding, a keyed diff waiting for
 [ticket 09](../initial-planning/issues/09-targeting-anchors.md)'s dragging; one diagram unit is one
-SVG user unit for now; a label's fraction along an element is the derived curve's own parameter
-rather than its arc length — symmetric fan bows leave the two indistinguishable today, and both
-render backends must read it the same way once they are not.
+SVG user unit for now. A label's fraction along an element was assumed here to be the derived
+curve's own parameter rather than its arc length, symmetric fan bows leaving the two
+indistinguishable; [What a shaft is](../elements/issues/01-what-a-shaft-is.md) settled it, that
+parameter being a cubic Bézier's own and giving both backends the point and the tangent exactly.
 
 **Numbers still unset:** the export margin and the frame of an empty diagram. Two more are
 placeholders no drawing has argued with rather than unset: the room a dot keeps about its place,

@@ -31,13 +31,21 @@ shaft is put**, which is the whole of what `Curvature` means now that no element
   stored, and no gesture sets them; a drag that starts and ends on one anchor has to supply both.
   Open: what a `refl` at a term-dot gets by default, and whether the drag's own shape says anything
   (the release point is somewhere, and the gesture knows where the pointer went) or whether the
-  defaults are fixed and hand-adjusting them is the later effort this map rules out of scope.
+  defaults are fixed and hand-adjusting them is the later effort this map rules out of scope. Open
+  too, and belonging here because it is a number about how a loop looks: the **splay angle** — how
+  wide a loop opens. It is a constant of the derivation rather than a stored field, so every loop is
+  self-similar and `loopSize`, which [ticket 01](./01-what-a-shaft-is.md) fixed as how far the loop
+  reaches from its anchor, scales one whole shape.
 
 Each of these is small; they ride together because they are the same act — turning *which anchors*
 into *where the ink goes* — and because splitting them would have three sessions each re-deriving
 [ticket 01](./01-what-a-shaft-is.md)'s pass.
 
-Two rules bind every answer. **The numbers are the model's or the backend's, never loosely both**:
+Three rules bind every answer. **Every number stated is a visible one** — where the ink lands, never
+how the arithmetic reaches it: [ticket 01](./01-what-a-shaft-is.md) fixed a loop by the distance it
+reaches rather than by its control points, and a fan bow is fixed the same way, by how far its apex
+sits aside, with the control points derived. **The numbers are the model's or the backend's, never
+loosely both**:
 how far apart a drawing holds two elements between the same anchors is the same claim on screen and
 in TikZ, the way `BOX_CLEARANCE` and `DOT_ROOM` are, where a stroke's weight is not — say which each
 number is, as [`DOT_ROOM`](../../../CONTEXT.md#term-dot) already does. And **nothing here may be

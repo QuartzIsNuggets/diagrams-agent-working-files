@@ -143,6 +143,16 @@ How an element bends, derived rather than stored: alone between its two anchors 
 and in a [fan](#fan) it bows aside by its place in that fan. No element carries a shape of its
 own, so an anchor can move with nothing to maintain.
 
+**Shaft**:
+The one curve an element is measured and landed on — the run an arrival attaches to, a `labelT` is
+read along, a pointer is tested against and a backend strokes. The legs of a many-to-one arrow are
+not part of it: a shaft runs [junction](#junction) to output, which is the one run every
+[arrow](#arrow) has exactly one of. It reaches anchor to anchor and stops nowhere short; keeping an
+arrowhead clear of the room a [term-dot](#term-dot) keeps is ink, and each backend's own affair.
+That there is only one — never a drawn shaft beside a landed-on one — is what keeps a drawing from
+disagreeing with itself.
+_Avoid_: stroke, line, spline — a shaft is what is derived, not what is painted
+
 **Checking layer**:
 Where the mathematics is interpreted — levels, the opposedness of an equivalence's arrows,
 whether a label suits its endpoints. It reads a diagram and never draws one, so it can be bolted

@@ -21,10 +21,12 @@ it resolves is what that spec would otherwise have to invent.
   [Drawing onto an anchor](../initial-planning/issues/09-targeting-anchors.md): drag from anchor to
   anchor, the nearest candidate winning silently; number keys `1`–`3` choosing kind and role;
   many-to-one by shift-click accumulation; an arrival landing in an evenly spaced `spread` slot.
-  Nothing here re-opens that. Two constraints it handed the renderer bind
-  [ticket 01](./issues/01-what-a-shaft-is.md): resolve an arrival against the **drawn** shaft, in
-  one memoised pass with a cycle guard; and a fan slot must ignore direction, or an opposed pair
-  lands on one line.
+  Nothing here re-opens that. Two constraints it handed the renderer survive it: an arrival resolves
+  against the shaft its target is actually drawn along and never an approximation of one, which
+  [What a shaft is](./issues/01-what-a-shaft-is.md) holds with a single untrimmed value and a
+  forward sweep, needing neither the memo nor the cycle guard that ticket foresaw; and a fan slot
+  must ignore direction, or an opposed pair lands on one line, which binds
+  [ticket 02](./issues/02-fan-slots-arrival-slots-and-the-junction.md).
 - **Location decides, mode qualifies, and the mode persists.** A press on empty canvas is still a
   box and a press inside one still a [term-dot](../../CONTEXT.md#term-dot), whatever the mode —
   [Plop](../../CONTEXT.md#plop)'s rule is untouched. The mode says only *which* element a press on
@@ -34,11 +36,12 @@ it resolves is what that spec would otherwise have to invent.
   `labelSide` and the self-path `Loop` pair are in `../../../src/diagram.ts` and have been since
   [the schema](../diagram-model/issues/01-diagram-schema.md) — typed on paper, constructed by
   nothing. This effort does not design the model; it builds what makes those rows.
-- **The prototype is the working answer to much of tickets 01 and 02.** Branch
-  `prototype/targeting-anchors`, commit `c7f08bc`, in the code project:
-  `src/prototype-targeting-anchors/geometry.ts` resolves shafts recursively and derives fan, spread
-  and junction; `render.ts` carries the ink. Read it before grilling either ticket — it is a draft
-  to be argued with, not a decision.
+- **The prototype is the working answer to much of [ticket 02](./issues/02-fan-slots-arrival-slots-and-the-junction.md).**
+  Branch `prototype/targeting-anchors`, commit `c7f08bc`, in the code project:
+  `src/prototype-targeting-anchors/geometry.ts` derives fan, spread and junction; `render.ts` carries
+  the ink. Read it before grilling that ticket — it is a draft to be argued with, not a decision. Its
+  sampled polylines and its recursive pass are superseded by
+  [What a shaft is](./issues/01-what-a-shaft-is.md).
 - **The ink is settled and is not map material.** The spec adopts the prototype's element ink
   as-is — role hues `#c0392b` (in-theory) and `#2e7d32` (built-in), the `M0 0 L10 5 L0 10 z` head at
   `markerWidth 7`, shaft weight `1.6`, junction dot `r 2.5` — measured against the `DOT_RADIUS 5`
@@ -54,17 +57,15 @@ it resolves is what that spec would otherwise have to invent.
 
 <!-- index — one line per resolved ticket; zoom the link for detail -->
 
+- [What a shaft is, and how one is resolved](./issues/01-what-a-shaft-is.md) — a cubic Bézier,
+  untrimmed and shared by every consumer, answering point-and-tangent at `labelT` read as the
+  curve's own parameter, nearest point, and its own extent; resolved by one forward sweep in id
+  order, an element's anchors always being older than it.
+
 ## Not yet specified
 
 <!-- fog toward the destination — in scope, not yet sharp enough to fully ticket -->
 
-- **Whether a redraw can still afford to rebuild.** The SVG backend rebuilds the whole drawing on
-  every redraw, and [the diagram model](../diagram-model/spec.md) recorded a keyed diff as waiting
-  for something that has to survive a frame. Recursive shaft resolution is the first thing that
-  makes a redraw cost more than the marks on screen — every element resolves the elements it stands
-  on — so the question is whether one memoised pass per redraw is enough, or whether the pass has to
-  outlive the frame. It cannot be phrased until [ticket 01](./issues/01-what-a-shaft-is.md) says
-  what a pass is.
 - **What the [checking layer](../../CONTEXT.md#checking-layer) would say about an element.** A label
   unsuited to its endpoints, an arrow whose inputs make no sense at its
   [level](../../CONTEXT.md#level) — the wrong drawings, as against the meaningless ones
@@ -90,6 +91,12 @@ it resolves is what that spec would otherwise have to invent.
   What lets a user change them afterwards is a move interaction, and goes with the bullet above.
 - **The TikZ emitter.** Deferred past the MVP on the initial-planning map. It is the second consumer
   every ticket here is designed against, and it builds nothing.
+- **Whether a redraw can still afford to rebuild.** Charted as fog on the premise that recursive
+  shaft resolution would be the first thing making a redraw cost more than the marks on screen.
+  [What a shaft is](./issues/01-what-a-shaft-is.md) removed the premise — the resolution is one
+  linear sweep — leaving only the keyed diff itself, which
+  [the diagram model](../diagram-model/spec.md) records as waiting on dragging, a move interaction
+  already out of scope above.
 - **[Fan](../../CONTEXT.md#fan) ordering under an equivalence** — which slot an element takes when
   an `≈` marks two of a wide fan. Fog on the [initial-planning map](../initial-planning/map.md),
   and out of reach here for the same reason the equivalence is.
