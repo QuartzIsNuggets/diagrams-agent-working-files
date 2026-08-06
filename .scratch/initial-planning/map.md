@@ -132,10 +132,13 @@ below; the rest is fog for future sessions.
   establishes the seam and defers the build. What it enforces, when it earns its place, and
   whether it belongs to *this* destination at all are open.
 - **Interaction / UX beyond creating an edge** — move, undo/redo, canvas navigation. The *creating*
-  slice is resolved ([Drawing onto an anchor](./issues/09-targeting-anchors.md)), and it already
-  fixes the start of a **selection** model the rest must inherit: a click selects, shift holds the
-  selection open, and pressing anywhere without shift drops it. What selection is *for* beyond
-  feeding a gesture — what a selected element can then be told to do — is not yet designed.
+  slice is resolved ([Drawing onto an anchor](./issues/09-targeting-anchors.md)) and is now being
+  built: it is charted as [the elements map](../elements/map.md), which carries what drawing a path
+  or an arrow still waits on — what a shaft is, where derived shape lives, what a selection is, what
+  the model refuses. That ticket already fixes the start of a **selection** model the rest must
+  inherit: a click selects, shift holds the selection open, and pressing anywhere without shift
+  drops it. What selection is *for* beyond feeding a gesture — what a selected element can then be
+  told to do — is not yet designed, and stays out of scope there too.
 - **Fan ordering under an equivalence** — *which slot* an element takes in a fan, as against the
   bullet below, which is about the *shape* a slot is drawn as. An `≈` marking the outer two of a
   three-wide fan crosses the middle one; it would read better if the marked pair were brought

@@ -1,0 +1,43 @@
+# What the model refuses an element
+
+Type: grilling
+Status: open
+Blocked by: 01
+
+## Question
+
+`addDot` refuses three ways and `addBox` refuses none — it makes room instead. **What do `addPath`
+and `addArrow` do?** The split the model already keeps is the one to answer within: it **refuses the
+meaningless and makes room where it can**, and leaves what a drawing can get *wrong* representable
+for the [checking layer](../../../CONTEXT.md#checking-layer)
+([ADR 1](../../../docs/adr/0001-diagram-draws-checking-layer-interprets.md)). Some of what follows
+may not be a refusal at all but something the *types* already make unwritable, which is the better
+answer wherever a single writable place can hold the rule.
+
+The cases:
+
+- **A drag released on nothing.** The gesture found no anchor under the release. Is that a
+  [refusal](../../../CONTEXT.md#refusal) with wording of its own, or does the gesture simply not
+  land — nothing having been attempted, so nothing to answer for? A box drawn on empty canvas is
+  what the same release means in a different place, which is the awkward part.
+- **An arrow whose output is among its inputs**, and a path whose two anchors are the same. The
+  second is a [self-path](../../../CONTEXT.md#self-path) and is legal — `refl` is one. The first is
+  the same shape and is not obviously anything. Say what it is.
+- **A second element between the same two anchors.** Legal and expected: that is what a
+  [fan](../../../CONTEXT.md#fan) is for, and `p` and `p⁻¹` are two different proofs. Confirm there
+  is no duplicate rule, so no later reader invents one.
+- **A cycle.** Two elements each landing on the other — `p` attaching to `q` while `q` attaches to
+  `p`. [Ticket 01](./01-what-a-shaft-is.md) has to guard against it because a resolution pass would
+  not terminate; the question here is whether the *drawing* is meaningless, and so unmakeable, or
+  merely strange and left to draw. The two answers are worth their own weight: make it unmakeable
+  and ticket 01's guard becomes a bug detector rather than a fallback to a shape that disagrees with
+  what is drawn. This is the one case that genuinely blocks on ticket 01.
+- **An element onto an anchor it cannot reach**, if such a thing exists — an element inside a box it
+  is not in, an arrow across [levels](../../../CONTEXT.md#level). Most of this smells like the
+  checking layer's; the ticket's job is to say which of it is and to stop there.
+
+Whatever is refused joins `Refusal` in the model as a reason and not a sentence, the wording living
+in the shell beside the three that are there. Whatever is not refused is named here anyway, so that
+the spec records the decision rather than the silence.
+
+Resolve with `/grilling` and `/domain-modeling`.
