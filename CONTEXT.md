@@ -132,11 +132,14 @@ scale. The y-axis points up, as in mathematics and in TikZ, so the SVG renderer 
 its root and converts pointer positions back on the way in.
 
 **Fan**:
-Every element sharing the same two anchors, bowing apart so no two of them overlap. Neither
-direction nor [kind](#kind) splits a fan: a back-and-forth pair belongs to one — the lens `pair=`
-and its inverse make in 2.7.2 — and a path and an arrow between the same two anchors bend around
-each other rather than both claiming the straight line. A many-to-one arrow joins no fan, having
-no one pair of anchors to share, and neither does a [self-path](#self-path).
+Every element whose [shaft](#shaft) runs between the same two points, bowing apart so no two of them
+overlap. Neither direction nor [kind](#kind) splits a fan: a back-and-forth pair belongs to one — the
+lens `pair=` and its inverse make in 2.7.2 — and a path and an arrow between the same two anchors
+bend around each other rather than both claiming the straight line. A many-to-one arrow belongs by
+its shaft like anything else: sharing inputs and output puts two of them on one
+[junction](#junction), so their shafts fan from it while their legs, which really are the same
+approach, stay straight and shared. A [self-path](#self-path) is the one exception, its own stored
+direction being what holds two of them apart.
 
 **Curvature**:
 How an element bends, derived rather than stored: alone between its two anchors it is straight,

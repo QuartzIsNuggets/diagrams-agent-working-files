@@ -36,17 +36,19 @@ it resolves is what that spec would otherwise have to invent.
   `labelSide` and the self-path `Loop` pair are in `../../../src/diagram.ts` and have been since
   [the schema](../diagram-model/issues/01-diagram-schema.md) — typed on paper, constructed by
   nothing. This effort does not design the model; it builds what makes those rows.
-- **The prototype is the working answer to much of [ticket 02](./issues/02-fan-slots-arrival-slots-and-the-junction.md).**
-  Branch `prototype/targeting-anchors`, commit `c7f08bc`, in the code project:
-  `src/prototype-targeting-anchors/geometry.ts` derives fan, spread and junction; `render.ts` carries
-  the ink. Read it before grilling that ticket — it is a draft to be argued with, not a decision. Its
-  sampled polylines and its recursive pass are superseded by
-  [What a shaft is](./issues/01-what-a-shaft-is.md).
-- **The ink is settled and is not map material.** The spec adopts the prototype's element ink
-  as-is — role hues `#c0392b` (in-theory) and `#2e7d32` (built-in), the `M0 0 L10 5 L0 10 z` head at
-  `markerWidth 7`, shaft weight `1.6`, junction dot `r 2.5` — measured against the `DOT_RADIUS 5`
-  both drawings share. That the [role](../../CONTEXT.md#role)'s ink is the backend's and the
-  meaning the model's is unchanged.
+- **The prototype's geometry is spent; only its ink survives.** Branch `prototype/targeting-anchors`,
+  commit `c7f08bc`, in the code project: `src/prototype-targeting-anchors/geometry.ts` fell to
+  [ticket 01](./issues/01-what-a-shaft-is.md), which replaced its sampled polylines and recursive
+  pass, and to [ticket 02](./issues/02-fan-slots-arrival-slots-and-the-junction.md), which replaced
+  its fan, spread and junction. `render.ts` is what is still worth reading.
+- **The ink is settled and is not map material.** The spec adopts the prototype's element ink with
+  one correction — role hues `#c0392b` (in-theory) and `#2e7d32` (built-in), the
+  `M0 0 L10 5 L0 10 z` head at `markerWidth 7`, shaft weight `1.6`, junction dot `r 2.5`, measured
+  against the `DOT_RADIUS 5` both drawings share, but a [path](../../CONTEXT.md#path) carries that
+  same head rather than the prototype's headless shaft and end ticks, its direction being the whole
+  of what separates `p` from `p⁻¹` on the page. A departing end that lands mid-shaft therefore reads
+  no differently from a crossing, which is accepted. That the [role](../../CONTEXT.md#role)'s ink is
+  the backend's and the meaning the model's is unchanged.
 - **Skills to consult each session:** `/grilling` + `/domain-modeling` by default; `/prototype` for
   [ticket 05](./issues/05-how-the-mode-is-shown.md), which is the one question about how something
   looks.
@@ -61,6 +63,12 @@ it resolves is what that spec would otherwise have to invent.
   untrimmed and shared by every consumer, answering point-and-tangent at `labelT` read as the
   curve's own parameter, nearest point, and its own extent; resolved by one forward sweep in id
   order, an element's anchors always being older than it.
+- [Fan slots, arrival slots, and the junction](./issues/02-fan-slots-arrival-slots-and-the-junction.md)
+  — a fan steps a fixed 26 aside per slot, signed by the group's anchor order and grouped by the two
+  points a shaft runs between, which puts many-to-one arrows in one too; arrivals take the
+  `(i+1)/(n+1)` partition of the whole shaft, one slot per point an element needs on it, a drag ghost
+  previewed by giving it the id it is about to get; a shaft is 55% of its approach with straight
+  legs; and a loop splays 50° at a default reach of 30, pointing wherever the drag last did.
 
 ## Not yet specified
 
