@@ -48,7 +48,7 @@ _Avoid_: equality arrow, identity arrow, undirected path
 
 **Self-path**:
 A path whose two ends are the same anchor. Having no baseline to bend relative to, it carries a
-direction and size of its own — the single exception to derived curvature.
+direction and size of its own — the single exception to derived [shape](#shape).
 
 **Arrow**:
 A function carrying anchors to an anchor. Many-to-one: *n* inputs and exactly one output, held
@@ -115,9 +115,11 @@ What the program works on.
 One proof drawing: its boxes, term-dots, elements and labels, independent of how it is rendered.
 It sits at a single [level](#level), and holds no reference to any other diagram. It is a
 **value**: what acts on one returns the next diagram and leaves the one it was handed alone, so
-holding a drawing is holding a variable rather than a store. And it owns every extent in it, which
-makes it the thing that answers where a point falls and which boxes a new one has to push aside —
-questions no laid-out page is needed to ask.
+holding a drawing is holding a variable rather than a store. And it owns every extent it records,
+which makes it the thing that answers which box a point falls in and which boxes a new one has to
+push aside — questions no laid-out page is needed to ask. What is under the pointer is the wider
+question, an [element](#element)'s [shaft](#shaft) being derived rather than recorded, and it is
+answered where [shape](#shape) is — still with no page to read.
 
 **Canvas**:
 Where a diagram is drawn. It holds nothing of its own: a [render backend](#render-backend) draws
@@ -141,10 +143,17 @@ its shaft like anything else: sharing inputs and output puts two of them on one
 approach, stay straight and shared. A [self-path](#self-path) is the one exception, its own stored
 direction being what holds two of them apart.
 
-**Curvature**:
-How an element bends, derived rather than stored: alone between its two anchors it is straight,
-and in a [fan](#fan) it bows aside by its place in that fan. No element carries a shape of its
+**Shape**:
+Where an [element](#element)'s ink lands, derived from the anchors and never recorded: alone
+between its two anchors it is straight, in a [fan](#fan) it bows aside by its place in that fan,
+and a many-to-one [arrow](#arrow) has its [junction](#junction) and its legs worked out the same
+way. One derivation serves every [render backend](#render-backend) and the pointer alike
+([shaft](#shaft)), so it is also what answers what is under the pointer. It sits above the
+[diagram](#diagram), which records none of it, and below every backend, which chooses what ink lands
+there and nothing about where
+([ADR 6](./docs/adr/0006-shape-is-derived-above-the-diagram.md)). No element carries a shape of its
 own, so an anchor can move with nothing to maintain.
+_Avoid_: curvature — the old name covered only how far an element bends, which is one part of it
 
 **Shaft**:
 The one curve an element is measured and landed on — the run an arrival attaches to, a `labelT` is

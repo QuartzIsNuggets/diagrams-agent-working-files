@@ -69,6 +69,12 @@ it resolves is what that spec would otherwise have to invent.
   `(i+1)/(n+1)` partition of the whole shaft, one slot per point an element needs on it, a drag ghost
   previewed by giving it the id it is about to get; a shaft is 55% of its approach with straight
   legs; and a loop splays 50° at a default reach of 30, pointing wherever the drag last did.
+- [Where derived shape lives](./issues/03-where-derived-shape-lives.md) — a module above the model,
+  `shape.ts`, on the rule that a derivation lives in the model exactly when a model rule depends on
+  it; `resolve(diagram)` is pure and holds nothing, a backend takes a diagram and resolves it
+  itself, `boxAt` stays behind while the anchor hit-test moves up, and the pointer's own reach is
+  the layer's number rather than the model's or a backend's. Written down as
+  [ADR 6](../../docs/adr/0006-shape-is-derived-above-the-diagram.md).
 
 ## Not yet specified
 
