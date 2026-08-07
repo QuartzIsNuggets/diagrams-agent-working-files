@@ -22,7 +22,18 @@ The cases:
   what the same release means in a different place, which is the awkward part.
 - **An arrow whose output is among its inputs**, and a path whose two anchors are the same. The
   second is a [self-path](../../../CONTEXT.md#self-path) and is legal — `refl` is one. The first is
-  the same shape and is not obviously anything. Say what it is.
+  **not** the same shape, which this ticket first assumed and
+  [ticket 04](./04-what-a-selection-is.md) disproved twice over. It is reachable by an
+  ordinary-looking drag: shift-click `a`, shift-click `b`, then drag `c` → `a` commits inputs
+  `(a, b, c)` onto output `a`, three distinct anchors and nothing in the gesture to mark it out, the
+  collision being with a [selection](../../../CONTEXT.md#selection) built three clicks earlier. And
+  the drawing it makes is one the notation already has by name: a function carrying `a` and `b` to
+  `a` is the first projection, and `pr₁` is the very example
+  [Label](../../../CONTEXT.md#label) gives of a [built-in rule](../../../CONTEXT.md#built-in-rule).
+  So say what it is knowing that — under
+  [ADR 1](../../../docs/adr/0001-diagram-draws-checking-layer-interprets.md)'s split it looks like
+  neither the meaningless nor the wrong, and *not refused* has a reason better than nobody having
+  thought of one.
 - **A second element between the same two anchors.** Legal and expected: that is what a
   [fan](../../../CONTEXT.md#fan) is for, and `p` and `p⁻¹` are two different proofs. Confirm there
   is no duplicate rule, so no later reader invents one.

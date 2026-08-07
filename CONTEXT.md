@@ -182,7 +182,10 @@ that mark up is what takes it down, once the naming settles either way. **One ru
 displaced comes back late, to a canvas the gesture that displaced it is drawing into, and ends
 nothing there. Nothing else
 changes a [diagram](#diagram) — what one makes is a [plop](#plop), and what it leaves on screen
-meanwhile is [chrome](#chrome). It is no
+meanwhile is [chrome](#chrome). What it **comes to** is wider than what it makes: a press on an
+[anchor](#anchor) may come to a [selection](#selection) instead, changing no diagram at all, and a
+gesture that comes to nothing — released on nothing, [refused](#refusal), or a required naming given
+up on — leaves the selection exactly as it found it. It is no
 [render backend](#render-backend)'s: it is told where the pointer is in [diagram units](#diagram-unit)
 and handed a way to show how far the drag has got, knowing nothing of the flip, the scale or the ink
 those are drawn with — which is why the backend that emits a file, having no pointer to follow, has
@@ -192,12 +195,41 @@ let go of anywhere.
 **Plop**:
 To make a mark by releasing the pointer where it goes — what a [gesture](#gesture) comes to. What is
 made is decided by where the press lands: inside a [box](#box) it is a [term-dot](#term-dot), on
-empty [canvas](#canvas) it is a box.
-The release decides only placement — a dot lands where the button comes up, not where it went down,
-and a box takes its extent from the drag. So nothing tells a click from a drag: a click is a drag of
-no size, and what is being made was settled before the pointer moved. A dot released where no room
+empty [canvas](#canvas) it is a box, and on an [anchor](#anchor) it is the element the mode is
+armed with.
+Where there is no anchor the release decides only placement — a dot lands where the button comes up,
+not where it went down, and a box takes its extent from the drag — so nothing there tells a click
+from a drag: a click is a drag of no size, and what is being made was settled before the pointer
+moved. On an anchor the release decides one thing more, **whether** anything is made at all: a
+pointer that never went clear of that anchor's own reach has made a [selection](#selection) and no
+mark, where one that went clear and came back has made a [self-path](#self-path). That is the only
+threshold on the canvas, and it is not a new length — it is the reach the pointer already grabs by,
+which is also what the loop takes its direction from. A dot released where no room
 is left for one is [refused](#refusal) — outside every box, a term outside a type being nothing a
 diagram can hold, or too near a wall or a dot already placed.
+
+**Selection**:
+The [anchors](#anchor) a later [gesture](#gesture) will draw from — the one thing in the editor that
+stands *between* gestures rather than during one. It is **ordered**, and the order is the drawing's:
+an [arrow](#arrow) carries its inputs in the order they were picked, and `Σ-intro` on `(a, b)` is not
+the drawing `(b, a)`. That is why the badges it stands as are numbered. They are the only place the
+order is ever legible — a [junction](#junction) sits on the approach from the inputs' centroid, which
+is order-blind, and the legs run straight to it, so no ink afterwards records what the order was. It
+holds anchors alone, a [box](#box) never being one, and it is no part of a [diagram](#diagram),
+being nothing a [save](#save) records.
+
+Only a gesture that **comes to** something changes it, so a gesture that comes to nothing costs
+nothing. A press on an anchor touches it not at all and the release decides: an unshifted click
+replaces it with the anchor clicked, a shifted click adds or drops that anchor, and a
+[plop](#plop) spends it as its sources — when the mark enters the diagram, which for a required
+naming is after the [naming bar](#naming-bar) settles rather than at the release. **Shift** is the
+whole of what carries it through a plop; without it a plop drops it. A press where there is no anchor
+is the one exception, cancelling it and starting its gesture as a single act, shift or not. What it
+is spent on is the mode's affair: an arrow merges its sources at a junction, where a
+[path](#path) cannot and is made once per source. Escape clears it, and never lets go of a drag —
+a drag is let go of by releasing.
+_Avoid_: set — the glossary spends that word on what a [source](#source) has come to, and a
+selection is ordered besides
 
 **Source**:
 The LaTeX a label is typeset from. It is the label's origin, not the label.
@@ -337,12 +369,14 @@ screen and web, a TikZ emitter for papers
 that role to ink.
 
 **Chrome**:
-The on-page controls sitting over the canvas, and the marks a gesture makes while it runs — the
-provisional rectangle a box is drawn in, the [naming bar](#naming-bar) that asks what it is called,
-the region a refusal is reported in. Chrome is never part of a diagram, so it never reaches an
+The on-page controls sitting over the canvas, and the marks the editor makes that a diagram does not
+hold — the provisional rectangle a box is drawn in, the [naming bar](#naming-bar) that asks what it
+is called, the badges a [selection](#selection) stands as, the region a refusal is reported in.
+Chrome is never part of a diagram, so it never reaches an
 export — which is why what *is* part of one carries its own presentation instead of being styled
 from the page. Where a piece of it sits follows from what it acts on: chrome that names a **mark**
-goes to that mark and is there only while the question is open, where chrome acting on the
+goes to that mark and stands for as long as what it is about does — a naming bar until its question
+settles, a badge until the selection is spent — where chrome acting on the
 **diagram** — the export control — has no mark to go to and keeps its corner. So an empty corner
 says nothing is being named, rather than saying the editor has no controls.
 
@@ -352,7 +386,9 @@ nowhere at all the rest of the time — a bar idling in a corner is a standing i
 LaTeX at nothing, where every source belongs to some mark. One is open at a time, so a second
 question can never throw away a typed source, and while one is open nothing else acts on the
 diagram behind it: the canvas begins no gesture but the one a press gave the naming up for, and the
-drawing cannot be [exported](#export) half-made. It
+drawing cannot be [exported](#export) half-made. The canvas is as deaf as it is still — the bar owns
+the keyboard while it asks, so Escape gives up on the naming rather than clearing a
+[selection](#selection), and the keys that arm a mode are digits typed into a source. It
 carries a tail aimed at its own mark, position alone having stopped telling two close marks apart
 once there is no corner it visibly travelled from.
 

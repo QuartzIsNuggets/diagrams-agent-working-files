@@ -21,7 +21,12 @@ it resolves is what that spec would otherwise have to invent.
   [Drawing onto an anchor](../initial-planning/issues/09-targeting-anchors.md): drag from anchor to
   anchor, the nearest candidate winning silently; number keys `1`–`3` choosing kind and role;
   many-to-one by shift-click accumulation; an arrival landing in an evenly spaced `spread` slot.
-  Nothing here re-opens that. Two constraints it handed the renderer survive it: an arrival resolves
+  Nothing here re-opens that — though one press it left doubly claimed had to be settled, the bare
+  click on an anchor that [ticket 02](./issues/02-fan-slots-arrival-slots-and-the-junction.md) had
+  also spent on a `refl`: it is the [selection](./issues/04-what-a-selection-is.md)'s, and a loop
+  needs a drag clear of its anchor and back, so two click-made loops can no longer coincide and
+  `loopDirection`'s default of 0 survives only for a `Loop` no gesture made. Two constraints it
+  handed the renderer survive it: an arrival resolves
   against the shaft its target is actually drawn along and never an approximation of one, which
   [What a shaft is](./issues/01-what-a-shaft-is.md) holds with a single untrimmed value and a
   forward sweep, needing neither the memo nor the cycle guard that ticket foresaw; and a fan slot
@@ -31,7 +36,10 @@ it resolves is what that spec would otherwise have to invent.
   box and a press inside one still a [term-dot](../../CONTEXT.md#term-dot), whatever the mode —
   [Plop](../../CONTEXT.md#plop)'s rule is untouched. The mode says only *which* element a press on
   an [anchor](../../CONTEXT.md#anchor) draws, it survives the gesture that spends it, and a piece of
-  chrome shows it ([ticket 05](./issues/05-how-the-mode-is-shown.md)).
+  chrome shows it ([ticket 05](./issues/05-how-the-mode-is-shown.md)). Its keys go deaf while a
+  [naming bar](../../CONTEXT.md#naming-bar) asks, along with Escape and everything else the canvas
+  listens for — the bar is as deaf as it is still
+  ([ticket 04](./issues/04-what-a-selection-is.md)).
 - **The model already types all of it.** `Path`, `Arrow`, `Equivalence`, `AnchorId`, `labelT` /
   `labelSide` and the self-path `Loop` pair are in `../../../src/diagram.ts` and have been since
   [the schema](../diagram-model/issues/01-diagram-schema.md) — typed on paper, constructed by
@@ -69,6 +77,14 @@ it resolves is what that spec would otherwise have to invent.
   `(i+1)/(n+1)` partition of the whole shaft, one slot per point an element needs on it, a drag ghost
   previewed by giving it the id it is about to get; a shaft is 55% of its approach with straight
   legs; and a loop splays 50° at a default reach of 30, pointing wherever the drag last did.
+- [What a selection is](./issues/04-what-a-selection-is.md) — the ordered anchors a later gesture
+  draws from, a [Selection](../../CONTEXT.md#selection) in the glossary and a value in `selection.ts`
+  held on `Shell`; **only a gesture that comes to something changes one**, so a failed gesture costs
+  nothing and the spend rides with the assignment that puts the mark in the diagram, never with
+  `lands`. A bare click on an anchor selects and a loop needs a drag clear of that anchor's own
+  reach and back, which is the canvas's only threshold and no new number; sources are the selection
+  plus the drag's start, the target is the release, and the mode says whether they merge; Escape
+  clears it and the canvas is as deaf as it is still while a bar asks.
 - [Where derived shape lives](./issues/03-where-derived-shape-lives.md) — a module above the model,
   `shape.ts`, on the rule that a derivation lives in the model exactly when a model rule depends on
   it; `resolve(diagram)` is pure and holds nothing, a backend takes a diagram and resolves it

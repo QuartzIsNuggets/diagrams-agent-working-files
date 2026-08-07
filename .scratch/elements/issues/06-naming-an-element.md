@@ -34,6 +34,14 @@ curve rather than a point:
   [`NEW_BOX_SLOT`](../../../CONTEXT.md#label-slot) and `NEW_DOT_SIDE` already are for the marks that
   have them — and whether a many-to-one arrow's `labelT`, which the model says runs along the output
   segment from the junction, changes the answer.
+- **One release, several namings.** [Ticket 04](./04-what-a-selection-is.md) made a
+  [path](../../../CONTEXT.md#path) in path mode once *per source*, a path being `{ a, b }` and unable
+  to merge them as an arrow does — so shift-click `a`, shift-click `b`, shift-drag `c` → `d` draws
+  three paths from one release. A path's label is optional, so three bars in a row is one answer and
+  plainly a bad one. Say whether the namings are asked in turn, asked once and applied to each, or not
+  asked at all, the paths standing unnamed for a later naming gesture to reach — which would be the
+  first mark in the editor that can be named after the gesture that made it, and is a door this map
+  has not opened.
 - **What a press elsewhere does.** Settled in principle by the
   [naming bar](../../../CONTEXT.md#naming-bar) — it gives up on an optional naming and starts the
   next gesture, and is refused for a required one — so this is a matter of the built-in rule
