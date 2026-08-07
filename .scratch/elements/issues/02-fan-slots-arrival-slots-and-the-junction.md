@@ -149,7 +149,9 @@ and then still. And it is exactly what the release will do, so the release moves
 ### The junction
 
 **An arrow's shaft is 55% of its approach**, the approach running from the inputs' centroid to the
-output; the junction is where that leaves it. Stated from the drawn end deliberately: the fraction
+output; the junction is where that leaves it. The approach is straight only while the output is
+**not** among the inputs — where it is, it bows, and by how much is
+[ticket 08](./08-how-a-many-to-one-arrow-curves.md)'s. Stated from the drawn end deliberately: the fraction
 `JUNCTION_T 0.45` the prototype carries is measured *from the centroid*, and nothing is drawn at the
 centroid, so a user cannot see what it is a fraction of. The shaft is the drawn run — it carries the
 label and the head — and it is the thing to state.
@@ -160,7 +162,10 @@ to a segment. That is the same trade the arrival slot takes — an output sittin
 is a crowded drawing, and a second constant would not rescue it anyway, since what is missing at
 coincidence is a *direction* and not a length. At exact coincidence the junction flips from one side
 to the other as the output crosses; both pictures are equally right, so there is nothing to prefer
-and nothing worth building to pick.
+and nothing worth building to pick. That holds for an output which merely *sits* at its inputs'
+centroid — a position the user can drag out of. An output which **is** its inputs stores a direction
+instead ([ticket 07](./07-what-the-model-refuses.md)) and loops on it
+([ticket 08](./08-how-a-many-to-one-arrow-curves.md)), there being nothing to drag.
 
 **Legs are straight** — cubics with their controls on the chord. A fork reads as a fork when its
 legs are straight and as three converging elements when they are not, and legs are the one part of

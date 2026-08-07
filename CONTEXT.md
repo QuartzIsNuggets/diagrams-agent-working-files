@@ -48,7 +48,10 @@ _Avoid_: equality arrow, identity arrow, undirected path
 
 **Self-path**:
 A path whose two ends are the same anchor. Having no baseline to bend relative to, it carries a
-direction and size of its own — the single exception to derived [shape](#shape).
+direction and size of its own — the exception to derived [shape](#shape), and shared with the one
+other element in the same position: an [arrow](#arrow) whose every input is its output, whose
+[junction](#junction) coincides with that output for the same reason. So what stores a bend is not
+the kind of element but the [shaft](#shaft) having one end rather than two.
 
 **Arrow**:
 A function carrying anchors to an anchor. Many-to-one: *n* inputs and exactly one output, held
@@ -140,8 +143,9 @@ lens `pair=` and its inverse make in 2.7.2 — and a path and an arrow between t
 bend around each other rather than both claiming the straight line. A many-to-one arrow belongs by
 its shaft like anything else: sharing inputs and output puts two of them on one
 [junction](#junction), so their shafts fan from it while their legs, which really are the same
-approach, stay straight and shared. A [self-path](#self-path) is the one exception, its own stored
-direction being what holds two of them apart.
+approach, stay straight and shared. An element whose shaft has one end rather than two is the
+exception — a [self-path](#self-path), or an arrow whose every input is its output — its own stored
+direction being what holds two of them apart, there being no pair of points to fan between.
 
 **Shape**:
 Where an [element](#element)'s ink lands, derived from the anchors and never recorded: alone

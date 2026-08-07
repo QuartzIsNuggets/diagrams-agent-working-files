@@ -36,8 +36,10 @@ function of the anchor pair, the edge's index among the parallel edges sharing t
 many there are: a lone edge is straight, several fan apart into a lens. A many-to-one arrow's
 junction is likewise derived and has no identity.
 
-The one exception is the **self-path**, whose ends coincide and which therefore has no baseline
-to bend relative to. It carries a direction and size of its own.
+The exception is an element whose **shaft has one end rather than two**, and which therefore has
+no baseline to bend relative to. It carries a direction and size of its own. Two elements are in
+that position: the **self-path**, whose ends coincide, and the **arrow whose every input is its
+output**, whose junction coincides with that output for the same reason.
 
 ## Consequences
 

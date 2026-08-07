@@ -36,10 +36,12 @@ it resolves is what that spec would otherwise have to invent.
   ([Mode](../../CONTEXT.md#mode)) — location decides and the mode only qualifies, it persists, and
   the chip that says so is [ticket 05](./issues/05-how-the-mode-is-shown.md)'s. Nothing here reopens
   it; what the spec owes it is a field on `Shell` and a corner.
-- **The model already types all of it.** `Path`, `Arrow`, `Equivalence`, `AnchorId`, `labelT` /
+- **The model types all of it but one field.** `Path`, `Arrow`, `Equivalence`, `AnchorId`, `labelT` /
   `labelSide` and the self-path `Loop` pair are in `../../../src/diagram.ts` and have been since
   [the schema](../diagram-model/issues/01-diagram-schema.md) — typed on paper, constructed by
-  nothing. This effort does not design the model; it builds what makes those rows.
+  nothing. This effort designs no more of the model than
+  [ticket 07](./issues/07-what-the-model-refuses.md) found missing — the `Loop` pair on `Arrow`, for
+  the one element whose shaft has a single end — and otherwise builds what makes those rows.
 - **The prototype's geometry is spent; only its ink survives.** Branch `prototype/targeting-anchors`,
   commit `c7f08bc`, in the code project: `src/prototype-targeting-anchors/geometry.ts` fell to
   [ticket 01](./issues/01-what-a-shaft-is.md), which replaced its sampled polylines and recursive
@@ -53,9 +55,10 @@ it resolves is what that spec would otherwise have to invent.
   of what separates `p` from `p⁻¹` on the page. A departing end that lands mid-shaft therefore reads
   no differently from a crossing, which is accepted. That the [role](../../CONTEXT.md#role)'s ink is
   the backend's and the meaning the model's is unchanged.
-- **Skills to consult each session:** `/grilling` + `/domain-modeling`. The one question about how
-  something looks was [ticket 05](./issues/05-how-the-mode-is-shown.md)'s, and it is answered, so
-  `/prototype` has no remaining consumer on this map.
+- **Skills to consult each session:** `/grilling` + `/domain-modeling`, and `/prototype` where a
+  figure has to be looked at — [ticket 05](./issues/05-how-the-mode-is-shown.md) spent it on how the
+  mode is shown, and [ticket 08](./issues/08-how-a-many-to-one-arrow-curves.md) has the one question
+  left that a drawing answers better than an argument.
 - **Where things live:** read and change code three directories up (`../../../`, the `diagrams`
   repo); every agent artifact stays here.
 
@@ -107,16 +110,30 @@ it resolves is what that spec would otherwise have to invent.
   mode can make several, so the plural case is always an optional label and no required naming is
   ever skipped.
 
+- [What the model refuses an element](./issues/07-what-the-model-refuses.md) — **nothing**, and not
+  for want of a rule: `addDot` weighs *places* and the model owns places, where
+  [ADR 6](../../docs/adr/0006-shape-is-derived-above-the-diagram.md) left an element with none and a
+  [box](../../CONTEXT.md#box)'s type is LaTeX the model never parses, so both seams put it on the far
+  side. A release on nothing simply does not land, a cycle is unreachable, a duplicate element is
+  what a [fan](../../CONTEXT.md#fan) is for, [levels](../../CONTEXT.md#level) are unwritable and a
+  cross-box path is the [checking layer](../../CONTEXT.md#checking-layer)'s. What it does owe: an
+  output which **is** its inputs draws nothing today, so `Arrow` gains the `Loop` pair and
+  [ticket 08](./issues/08-how-a-many-to-one-arrow-curves.md) draws it; the gesture **dedupes** its
+  sources, multiplicity being a feature left out whole rather than capped at two; and the pair is
+  written by creation from an *aim*, never by a caller, so an incoherent bend has nowhere to be
+  written rather than being refused.
+
 ## Not yet specified
 
 <!-- fog toward the destination — in scope, not yet sharp enough to fully ticket -->
 
 - **What the [checking layer](../../CONTEXT.md#checking-layer) would say about an element.** A label
-  unsuited to its endpoints, an arrow whose inputs make no sense at its
-  [level](../../CONTEXT.md#level) — the wrong drawings, as against the meaningless ones
-  [ticket 07](./issues/07-what-the-model-refuses.md) makes unrepresentable. Whether any of it
-  belongs to this destination at all is open; the seam is
-  [ADR 1](../../docs/adr/0001-diagram-draws-checking-layer-interprets.md)'s and is not in question.
+  unsuited to its endpoints, a [path](../../CONTEXT.md#path) between dots in two different boxes, a
+  drawing at no coherent [level](../../CONTEXT.md#level) — the wrong drawings, which
+  [ticket 07](./issues/07-what-the-model-refuses.md) hands here rather than refusing, the model being
+  unable to read a type or hold a level. Whether any of it belongs to this destination at all is
+  open; the seam is [ADR 1](../../docs/adr/0001-diagram-draws-checking-layer-interprets.md)'s and is
+  not in question.
 
 ## Out of scope
 
@@ -131,6 +148,13 @@ it resolves is what that spec would otherwise have to invent.
 - **Moving, deleting or undoing an element**, and anything a selection could be told to *do*. This
   effort needs a selection only to feed a gesture ([ticket 04](./issues/04-what-a-selection-is.md));
   the rest is the initial-planning map's own fog, *Interaction / UX beyond creating an edge*.
+- **Giving an [arrow](../../CONTEXT.md#arrow) the same input twice.** `addArrow` holds it and it is
+  ordinary — `g a a = a` — but the gesture [dedupes](./issues/07-what-the-model-refuses.md), because
+  the selection plus one drag start reaches multiplicity two and no further, and a ceiling nobody
+  chose reads as a bug. Saying it needs a gesture of its own, and gestures are
+  [ticket 09](../initial-planning/issues/09-targeting-anchors.md)'s, which this map does not reopen —
+  the same boundary it already inherits for renaming, below. Its drawing goes with it: two legs on
+  one chord read as one input, which is a defect only once a drawing can be made.
 - **Naming a mark after the gesture that made it.** What
   [ticket 06](./issues/06-naming-an-element.md) leaves an unnamed [path](../../CONTEXT.md#path) with
   no way back to — but not an element-shaped gap: `labelDot` is called from inside the gesture that
