@@ -231,6 +231,18 @@ a drag is let go of by releasing.
 _Avoid_: set — the glossary spends that word on what a [source](#source) has come to, and a
 selection is ordered besides
 
+**Mode**:
+Which [element](#element) a press on an [anchor](#anchor) draws — a [path](#path), an
+[in-theory function](#in-theory-function) or a [built-in rule](#built-in-rule), armed by the keys
+`1`, `2` and `3`. **Location decides and the mode only qualifies**: a press on empty
+[canvas](#canvas) is still a [box](#box) and one inside a box still a [term-dot](#term-dot),
+whatever is armed, so the mode is consulted on an anchor and nowhere else. It **persists** past the
+[gesture](#gesture) that spends it, which is what makes it the editor's first standing state a user
+can be wrong about, and why the [chrome](#chrome) saying which is armed is never silent. It starts
+at a path. While a [naming bar](#naming-bar) asks, its keys are digits typed into a
+[source](#source), the canvas being as deaf as it is still.
+_Avoid_: tool — that names a thing picked up and put down, where a mode is only ever swapped
+
 **Source**:
 The LaTeX a label is typeset from. It is the label's origin, not the label.
 
@@ -371,14 +383,21 @@ that role to ink.
 **Chrome**:
 The on-page controls sitting over the canvas, and the marks the editor makes that a diagram does not
 hold — the provisional rectangle a box is drawn in, the [naming bar](#naming-bar) that asks what it
-is called, the badges a [selection](#selection) stands as, the region a refusal is reported in.
+is called, the badges a [selection](#selection) stands as, the chip saying which [mode](#mode) is
+armed, the region a refusal is reported in.
 Chrome is never part of a diagram, so it never reaches an
 export — which is why what *is* part of one carries its own presentation instead of being styled
-from the page. Where a piece of it sits follows from what it acts on: chrome that names a **mark**
-goes to that mark and stands for as long as what it is about does — a naming bar until its question
-settles, a badge until the selection is spent — where chrome acting on the
-**diagram** — the export control — has no mark to go to and keeps its corner. So an empty corner
+from the page. Where a piece of it sits follows from **whether it has a mark to go to**: chrome that
+has one goes to it and stands for as long as what it is about does — a naming bar until its question
+settles, a badge until the selection is spent — where chrome that has none keeps a corner. Two
+things arrive at a corner by that clause and by different roads: the export control, whose subject
+is the whole diagram, and the mode chip, whose subject is a mark the next [gesture](#gesture) has
+not made yet. So an empty corner
 says nothing is being named, rather than saying the editor has no controls.
+
+A mark is placed in diagram units and a corner in page units, which decides the medium as well as
+the position: a badge is SVG in the canvas's own chrome layer, the chip and the export control are
+HTML over it.
 
 **Naming bar**:
 The one place a [source](#source) is typed: chrome summoned at the mark a gesture is naming, and

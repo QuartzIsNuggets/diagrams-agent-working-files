@@ -32,14 +32,10 @@ it resolves is what that spec would otherwise have to invent.
   forward sweep, needing neither the memo nor the cycle guard that ticket foresaw; and a fan slot
   must ignore direction, or an opposed pair lands on one line, which binds
   [ticket 02](./issues/02-fan-slots-arrival-slots-and-the-junction.md).
-- **Location decides, mode qualifies, and the mode persists.** A press on empty canvas is still a
-  box and a press inside one still a [term-dot](../../CONTEXT.md#term-dot), whatever the mode —
-  [Plop](../../CONTEXT.md#plop)'s rule is untouched. The mode says only *which* element a press on
-  an [anchor](../../CONTEXT.md#anchor) draws, it survives the gesture that spends it, and a piece of
-  chrome shows it ([ticket 05](./issues/05-how-the-mode-is-shown.md)). Its keys go deaf while a
-  [naming bar](../../CONTEXT.md#naming-bar) asks, along with Escape and everything else the canvas
-  listens for — the bar is as deaf as it is still
-  ([ticket 04](./issues/04-what-a-selection-is.md)).
+- **The mode is settled, ink and all**, and is the glossary's
+  ([Mode](../../CONTEXT.md#mode)) — location decides and the mode only qualifies, it persists, and
+  the chip that says so is [ticket 05](./issues/05-how-the-mode-is-shown.md)'s. Nothing here reopens
+  it; what the spec owes it is a field on `Shell` and a corner.
 - **The model already types all of it.** `Path`, `Arrow`, `Equivalence`, `AnchorId`, `labelT` /
   `labelSide` and the self-path `Loop` pair are in `../../../src/diagram.ts` and have been since
   [the schema](../diagram-model/issues/01-diagram-schema.md) — typed on paper, constructed by
@@ -57,9 +53,9 @@ it resolves is what that spec would otherwise have to invent.
   of what separates `p` from `p⁻¹` on the page. A departing end that lands mid-shaft therefore reads
   no differently from a crossing, which is accepted. That the [role](../../CONTEXT.md#role)'s ink is
   the backend's and the meaning the model's is unchanged.
-- **Skills to consult each session:** `/grilling` + `/domain-modeling` by default; `/prototype` for
-  [ticket 05](./issues/05-how-the-mode-is-shown.md), which is the one question about how something
-  looks.
+- **Skills to consult each session:** `/grilling` + `/domain-modeling`. The one question about how
+  something looks was [ticket 05](./issues/05-how-the-mode-is-shown.md)'s, and it is answered, so
+  `/prototype` has no remaining consumer on this map.
 - **Where things live:** read and change code three directories up (`../../../`, the `diagrams`
   repo); every agent artifact stays here.
 
@@ -85,6 +81,13 @@ it resolves is what that spec would otherwise have to invent.
   reach and back, which is the canvas's only threshold and no new number; sources are the selection
   plus the drag's start, the target is the release, and the mode says whether they merge; Escape
   clears it and the canvas is as deaf as it is still while a bar asks.
+- [How the mode is shown](./issues/05-how-the-mode-is-shown.md) — a chip in a corner of its own,
+  never silent, saying the three keys and then the ink and then the name (*path*, *function*,
+  *rule*, short because the hue beside them carries what they drop); no third
+  [Chrome](../../CONTEXT.md#chrome) case is owed, the corner clause resting on **having no mark**
+  rather than on acting on the diagram, which the export control and the chip reach by different
+  roads. The chip and the selection's badges deliberately share no place, so the two standing states
+  are told apart by where they are.
 - [Where derived shape lives](./issues/03-where-derived-shape-lives.md) — a module above the model,
   `shape.ts`, on the rule that a derivation lives in the model exactly when a model rule depends on
   it; `resolve(diagram)` is pure and holds nothing, a backend takes a diagram and resolves it
