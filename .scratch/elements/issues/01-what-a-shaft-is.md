@@ -120,7 +120,10 @@ stated as such; if a loader ever admits a diagram from outside, upholding it is 
 not the pass's.
 
 **A self-path is a cubic with both ends on its anchor**, its controls splayed either side of
-`loopDirection`. `loopSize` is **how far the loop reaches from that anchor** — the distance to the
+`loopDirection` — the first at `loopDirection + splay` and the second at `loopDirection − splay`, an
+ordering [ticket 06](./06-naming-an-element.md) makes load-bearing: it is what puts the curve's left
+at its midpoint outside the loop rather than back on the anchor, which is the side a new element's
+label defaults to. `loopSize` is **how far the loop reaches from that anchor** — the distance to the
 far tip, which is genuinely the farthest point of the curve for any splay under about 50°. The splay
 is a fixed constant of the derivation rather than a stored field, so loops are self-similar and
 `loopSize` scales one whole; the control reach is derived from it. The two readings are exactly

@@ -94,6 +94,18 @@ it resolves is what that spec would otherwise have to invent.
   itself, `boxAt` stays behind while the anchor hit-test moves up, and the pointer's own reach is
   the layer's number rather than the model's or a backend's. Written down as
   [ADR 6](../../docs/adr/0006-shape-is-derived-above-the-diagram.md).
+- [Naming an element](./issues/06-naming-an-element.md) — the two namings already in the editor are
+  the two an element needs: a [path](../../CONTEXT.md#path) and an
+  [in-theory function](../../CONTEXT.md#in-theory-function) take the dot's and go down before the
+  bar asks, a [built-in rule](../../CONTEXT.md#built-in-rule) takes the box's and is never made until
+  the source comes back, its ghost standing meanwhile — forced by *deleting an element* being out of
+  scope, and free because ticket 02's provisional id already gives an unmade element a real shaft. A
+  new label sits at `0.5` and to the **left**, which is a coin-toss on a straight element and not on
+  a loop, whose midpoint tangent leaves one side outside and the other on the anchor. The bar goes to
+  `at(0.5)` with the side ignored, on the rule that reconciles the box and the dot: **a point on the
+  mark, never an offset off it**. And a release making several marks asks nothing at all — only path
+  mode can make several, so the plural case is always an optional label and no required naming is
+  ever skipped.
 
 ## Not yet specified
 
@@ -119,6 +131,12 @@ it resolves is what that spec would otherwise have to invent.
 - **Moving, deleting or undoing an element**, and anything a selection could be told to *do*. This
   effort needs a selection only to feed a gesture ([ticket 04](./issues/04-what-a-selection-is.md));
   the rest is the initial-planning map's own fog, *Interaction / UX beyond creating an edge*.
+- **Naming a mark after the gesture that made it.** What
+  [ticket 06](./issues/06-naming-an-element.md) leaves an unnamed [path](../../CONTEXT.md#path) with
+  no way back to — but not an element-shaped gap: `labelDot` is called from inside the gesture that
+  placed the dot and from nowhere else, and `addBox` likewise, so **nothing in this editor can be
+  renamed**. This map inherits that boundary rather than drawing it, and a naming gesture that
+  reaches an existing mark goes with the bullet below.
 - **Hand-adjusting a self-path's loop.** The model stores `loopDirection` and `loopSize` and
   [ticket 02](./issues/02-fan-slots-arrival-slots-and-the-junction.md) gives a new one its defaults.
   What lets a user change them afterwards is a move interaction, and goes with the bullet above.

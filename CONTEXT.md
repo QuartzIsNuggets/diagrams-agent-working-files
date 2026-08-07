@@ -266,7 +266,10 @@ rather than a free offset, so labels cannot drift out of alignment, and the box'
 means its label always fits inside. A path's
 or arrow's label is placed differently: a **fraction** of the way along the element — 0 at its
 start, 1 at its end — and a side of it, both taken relative to the element rather than to the page,
-so they survive the ends moving. A term-dot's label takes a side and nothing else, and that side is
+so they survive the ends moving. A new one takes the midpoint and the left until the user moves it,
+and the side is arbitrary only for a straight element: a [self-path](#self-path)'s label at its
+midpoint has the open air past the loop's tip on one side and its own anchor on the other, so left is
+fixed as the one outside the loop. A term-dot's label takes a side and nothing else, and that side is
 **absolute** — a dot is a point, with no direction to take a side relative to. Four of them, and
 above the dot until the user moves it: `goal.jpg` sets a term's name to its left almost throughout,
 which is the lane a path arrives on. How far a label sits off the element or the dot is fixed, and each backend's own choice
@@ -400,9 +403,13 @@ the position: a badge is SVG in the canvas's own chrome layer, the chip and the 
 HTML over it.
 
 **Naming bar**:
-The one place a [source](#source) is typed: chrome summoned at the mark a gesture is naming, and
-nowhere at all the rest of the time — a bar idling in a corner is a standing invitation to type
-LaTeX at nothing, where every source belongs to some mark. One is open at a time, so a second
+The one place a [source](#source) is typed: chrome summoned at a point on the mark a gesture is
+naming, and nowhere at all the rest of the time — a bar idling in a corner is a standing invitation
+to type LaTeX at nothing, where every source belongs to some mark. **On** the mark and never at an
+offset off it: a [box](#box)'s [slot](#label-slot) is a place on the box and the bar goes there, where
+a [term-dot](#term-dot)'s label stands off its dot by a distance that is a backend's own and the bar
+goes to the dot instead. An [element](#element) is the first mark with both, `labelT` picking a point
+on the shaft and `labelSide` displacing off it, so the bar takes the first and ignores the second. One is open at a time, so a second
 question can never throw away a typed source, and while one is open nothing else acts on the
 diagram behind it: the canvas begins no gesture but the one a press gave the naming up for, and the
 drawing cannot be [exported](#export) half-made. The canvas is as deaf as it is still — the bar owns
